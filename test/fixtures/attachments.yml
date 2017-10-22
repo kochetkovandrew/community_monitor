@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  kind: MyString
+  vk_id: 1
+  original: MyString
+
+two:
+  kind: MyString
+  vk_id: 1
+  original: MyString

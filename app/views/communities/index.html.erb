@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h4>Список отслеживаемых сообществ</h4>
+
+<table id="listing_communities">
+  <thead>
+    <tr>
+      <th>Screen name</th>
+      <th>Vk</th>
+      <th>Name</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @communities.each do |community| %>
+      <tr>
+        <td><%= community.screen_name %></td>
+        <td><%= community.vk_id %></td>
+        <td><%= community.name %></td>
+        <td><%= link_to 'Show', community %>
+          <%= link_to 'Edit', edit_community_path(community) %>
+          <%= link_to 'Destroy', community, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Community', new_community_path %>

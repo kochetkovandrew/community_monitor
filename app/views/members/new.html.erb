@@ -1,0 +1,9 @@
+<%= form_for(@member) do |f| %>
+  <div class="field">
+    <%= f.label :screen_name %><br>
+    <%= f.text_field :screen_name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
