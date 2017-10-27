@@ -1,8 +1,8 @@
-<h4>Community Diff</h4>
+<h4>Изменения в сообществе на <%= @community_member_history.created_at %></h4>
 
 <p id="notice"><%= notice %></p>
 
-<p>Added:</p>
+<p>Добавлены:</p>
 
 <table class="table table-striped table-condensed">
   <thead>
@@ -15,7 +15,7 @@
   <% end %>
 </table>
 
-<p>Removed:</p>
+<p>Удалены:</p>
 
 <table class="table table-striped table-condensed">
   <thead>
@@ -29,5 +29,5 @@
 </table>
 
 <div style="clear: both;">
-  <%= link_to 'Back', @community_member_history.community %>
+  <%= link_to 'Назад', @community_member_history.community %>
 </div>

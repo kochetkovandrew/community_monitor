@@ -1,4 +1,4 @@
-<h4>Community Information</h4>
+<h4>Информация о сообществе</h4>
 
 <p id="notice"><%= notice %></p>
 
@@ -9,7 +9,7 @@
       <th>&nbsp;</th>
     </thead>
     <tr>
-      <td>Screen name:</td>
+      <td>Короткое имя:</td>
       <td><%= @community.screen_name %></td>
     </tr>
     <tr>
@@ -17,7 +17,7 @@
       <td><%= @community.vk_id %></td>
     </tr>
     <tr>
-      <td>Name:</td>
+      <td>Название:</td>
       <td><%= @community.name %></td>
     </tr>
   </table>
@@ -26,8 +26,8 @@
 <div style="width: 49%; float: right;">
   <table class="table table-striped">
     <thead>
-      <th>Time</th>
-      <th>Count</th>
+      <th>Время (UTC)</th>
+      <th>Участников</th>
       <th>&nbsp;</th>
     </thead>
     <% @community.community_member_histories.order('created_at desc').limit(10).each do |history| %>
@@ -36,13 +36,13 @@
           <%= history.created_at %>
         </td>
         <td><%= history.members_count %></td>
-        <td><%= link_to 'Diff', controller: :community_member_histories, action: :diff, id: history.id %></td>
+        <td><%= link_to 'Изменения', controller: :community_member_histories, action: :diff, id: history.id %></td>
       </tr>
     <% end %>
   </table>
 </div>
 
 <div style="clear: both;">
-  <%= link_to 'Edit', edit_community_path(@community) %> |
-  <%= link_to 'Back', communities_path %>
+  <!-- <%= link_to 'Редактировать', edit_community_path(@community) %> | -->
+  <%= link_to 'Назад', communities_path %>
 </div>

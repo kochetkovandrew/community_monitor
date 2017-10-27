@@ -1,5 +1,4 @@
 task :search => :environment do
-  Date
   vk = VkontakteApi::Client.new Settings.vk.user_access_token
   res = vk.users.search(school: 7862, sex: 1, fields: [:first_name, :last_name, :last_seen], count: 1000, sort: 1)
   sep = Time.new(2017,9,1)
