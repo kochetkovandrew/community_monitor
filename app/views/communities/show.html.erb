@@ -28,6 +28,7 @@
     <thead>
       <th>Time</th>
       <th>Count</th>
+      <th>&nbsp;</th>
     </thead>
     <% @community.community_member_histories.order('created_at desc').limit(10).each do |history| %>
       <tr>
@@ -35,6 +36,7 @@
           <%= history.created_at %>
         </td>
         <td><%= history.members_count %></td>
+        <td><%= link_to 'Diff', controller: :community_member_histories, action: :diff, id: history.id %></td>
       </tr>
     <% end %>
   </table>

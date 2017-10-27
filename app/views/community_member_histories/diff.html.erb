@@ -1,0 +1,33 @@
+<h4>Community Diff</h4>
+
+<p id="notice"><%= notice %></p>
+
+<p>Added:</p>
+
+<table class="table table-striped table-condensed">
+  <thead>
+  <th>&nbsp;</th>
+  </thead>
+  <% @diff['added'].each do |vk_id| %>
+  <tr>
+    <td><%= link_to vk_id, 'https://vk.com/id' + vk_id.to_s %></td>
+  </tr>
+  <% end %>
+</table>
+
+<p>Removed:</p>
+
+<table class="table table-striped table-condensed">
+  <thead>
+  <th>&nbsp;</th>
+  </thead>
+  <% @diff['removed'].each do |vk_id| %>
+      <tr>
+        <td><%= link_to vk_id, 'https://vk.com/id' + vk_id.to_s %></td>
+      </tr>
+  <% end %>
+</table>
+
+<div style="clear: both;">
+  <%= link_to 'Back', @community_member_history.community %>
+</div>

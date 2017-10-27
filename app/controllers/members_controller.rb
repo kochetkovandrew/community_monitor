@@ -2,6 +2,7 @@ class MembersController < ApplicationController
   before_action :set_member, only: [:show, :edit, :update, :destroy]
 
   before_action :authenticate_user!
+  before_action { |f| f.require_permission! 'Admin' }
 
   def index
     @members = Member.all
@@ -40,7 +41,7 @@ class MembersController < ApplicationController
   end
 
   def destroy
-    @member.destroy
+    # @member.destroy
     respond_to do |format|
       format.html { redirect_to members_url, notice: 'Person was successfully destroyed.' }
       format.json { head :no_content }

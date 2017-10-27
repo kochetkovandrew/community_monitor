@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
   devise_for :users
+
   resources :communities
   resources :members
 
-  get 'community_member_histories/:community_id' => 'community_member_histories#show'
+  get 'users/profile' => 'users#profile'
+  get 'community_member_histories/:id/diff' => 'community_member_histories#diff'
+  get 'community_member_histories/:id' => 'community_member_histories#show'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

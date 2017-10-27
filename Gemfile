@@ -38,6 +38,8 @@ gem 'jquery-ui-themes'
 gem 'jquery-datatables-rails', '~> 3.4.0'
 gem 'select2-rails'
 
+gem 'settingslogic'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

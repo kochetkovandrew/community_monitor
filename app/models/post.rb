@@ -1,5 +1,6 @@
 class Post < ActiveRecord::Base
 
+  belongs_to :community
 
   def self.new_or_create_from_wall(wall_item, source)
     post = Post.where(source).where(relative_id: wall_item[:id]).first

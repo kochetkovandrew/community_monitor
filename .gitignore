@@ -13,4 +13,5 @@
 /tmp
 /config/initializers/vkontakte.rb
 /config/database.yml
+/config/settings.yml
 /.idea
