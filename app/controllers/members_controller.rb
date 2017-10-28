@@ -17,9 +17,10 @@ class MembersController < ApplicationController
 
   def create
     @member = Member.new(member_params)
+    @member.set_from_vk
     respond_to do |format|
       if @member.save
-        format.html { redirect_to @member, notice: 'Person was successfully added.' }
+        format.html { redirect_to members_url, notice: 'Person was successfully added.' }
         format.json { render :show, status: :created, location: members_url }
       else
         format.html { render :new }

@@ -10,4 +10,5 @@ class User < ActiveRecord::Base
             inclusion: { in: [Settings.sign_up_code] }
   has_many :permission_users
   has_many :permissions, through: :permission_users
+
 end
