@@ -6,6 +6,9 @@
   <thead>
   <tr>
     <th>Screen name</th>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>VK ID</th>
     <th>&nbsp;</th>
   </tr>
   </thead>
@@ -14,6 +17,9 @@
   <% @members.each do |member| %>
       <tr>
         <td><%= member.screen_name %></td>
+        <td><%= member.first_name %></td>
+        <td><%= member.last_name %></td>
+        <td><%= member.vk_id %></td>
         <td><%= link_to 'Show', member %>
           <!--
           <%= link_to 'Edit', edit_member_path(member) %>
