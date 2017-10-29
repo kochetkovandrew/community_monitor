@@ -1,6 +1,7 @@
 class Member < ActiveRecord::Base
   has_many :community_members
   has_many :communities, :through => :community_members
+  has_many :posts
 
   def set_from_vk
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
