@@ -33,3 +33,10 @@
 
 
 <%= link_to 'Новая персона', new_member_path %>
+
+<p>
+  <%= form_for(@member, url: {controller: :members, action: :check}) do |f| %>
+    <%= f.text_field :screen_name %>
+    <%= submit_tag 'Проверить' %>
+  <% end %>
+</p>

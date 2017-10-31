@@ -6,6 +6,7 @@ class MembersController < ApplicationController
 
   def index
     @members = Member.all
+    @member = Member.new
   end
 
   def new
@@ -46,6 +47,28 @@ class MembersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to members_url, notice: 'Person was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def show
+    @member = Member.find(params[:id])
+  end
+
+  def check
+    @member = Member.new(member_params)
+    @member.set_from_vk
+    friend_arr = JSON::parse(@member.raw_friends)
+    friend_ids = friend_arr.collect{|friend| friend['id']}
+    @friend_hash = friend_arr.collect{|friend| [friend['id'], friend]}.to_h
+    p @friend_hash
+    @friends_in_communities = []
+    Community.all.each do |community|
+      cmh = community.community_member_histories.order('created_at desc').first
+      community_members = JSON::parse cmh.members
+      intersection = (community_members & friend_ids)
+      if !intersection.empty?
+        @friends_in_communities.push({community: community, friends: intersection})
+      end
     end
   end
 

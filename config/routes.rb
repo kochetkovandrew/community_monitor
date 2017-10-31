@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   resources :members
 
   get 'users/profile' => 'users#profile'
+  post 'members/check' => 'members#check'
+
   get 'community_member_histories/:id/diff' => 'community_member_histories#diff'
   get 'community_member_histories/:id' => 'community_member_histories#show'
 

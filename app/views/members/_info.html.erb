@@ -1,0 +1,14 @@
+<table class="table table-condensed">
+  <tr>
+    <td>Имя</td>
+    <td><%= @member.first_name %></td>
+  </tr>
+  <tr>
+    <td>Фамилия</td>
+    <td><%= @member.last_name %></td>
+  </tr>
+  <tr>
+    <td>Страничка</td>
+    <td><%= link_to @member.screen_name, 'https://vk.com/' + @member.screen_name %></td>
+  </tr>
+</table>
