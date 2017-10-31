@@ -52,24 +52,17 @@ class MembersController < ApplicationController
 
   def show
     @member = Member.find(params[:id])
+    res = @member.friends_in_communities
+    @friend_hash = res[:friend_hash]
+    @friends_in_communities = res[:friends_in_communities]
   end
 
   def check
     @member = Member.new(member_params)
     @member.set_from_vk
-    friend_arr = JSON::parse(@member.raw_friends)
-    friend_ids = friend_arr.collect{|friend| friend['id']}
-    @friend_hash = friend_arr.collect{|friend| [friend['id'], friend]}.to_h
-    p @friend_hash
-    @friends_in_communities = []
-    Community.all.each do |community|
-      cmh = community.community_member_histories.order('created_at desc').first
-      community_members = JSON::parse cmh.members
-      intersection = (community_members & friend_ids)
-      if !intersection.empty?
-        @friends_in_communities.push({community: community, friends: intersection})
-      end
-    end
+    res = @member.friends_in_communities
+    @friend_hash = res[:friend_hash]
+    @friends_in_communities = res[:friends_in_communities]
   end
 
   private
