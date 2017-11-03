@@ -56,10 +56,12 @@ class Member < ActiveRecord::Base
     friends_in_communities_arr = []
     Community.all.each do |community|
       cmh = community.community_member_histories.order('created_at desc').first
-      community_members = JSON::parse cmh.members
-      intersection = (community_members & friend_ids)
-      if !intersection.empty?
-        friends_in_communities_arr.push({community: community, friends: intersection})
+      if (!cmh.nil?)
+        community_members = JSON::parse cmh.members
+        intersection = (community_members & friend_ids)
+        if !intersection.empty?
+          friends_in_communities_arr.push({community: community, friends: intersection})
+        end
       end
     end
     return {friend_hash: friend_hash, friends_in_communities: friends_in_communities_arr}
