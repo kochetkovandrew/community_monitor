@@ -6,21 +6,23 @@ class Array
       print '='
     end
     elem_count = self.count
-    handled_count = 0
-    puts ''
-    self.each do |elem|
+    if elem_count > 0
+      handled_count = 0
+      puts ''
+      self.each do |elem|
+        curr_p = (handled_count * full_p) / elem_count
+        for j in 1..(curr_p - prev_p)
+          print '+'
+        end
+        prev_p = curr_p
+        handled_count += 1
+        yield elem
+      end
       curr_p = (handled_count * full_p) / elem_count
       for j in 1..(curr_p - prev_p)
         print '+'
       end
-      prev_p = curr_p
-      handled_count += 1
-      yield elem
+      puts ''
     end
-    curr_p = (handled_count * full_p) / elem_count
-    for j in 1..(curr_p - prev_p)
-      print '+'
-    end
-    puts ''
   end
 end
