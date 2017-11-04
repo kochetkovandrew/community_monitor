@@ -9,7 +9,7 @@ task :get_comment_likes, [:screen_name] => :environment do |t, args|
       order('created_at asc').all
   vk = VkontakteApi::Client.new Settings.vk.user_access_token
   step_size = 1000
-  comments.each do |comment|
+  comments.each_show_progress do |comment|
     begin
       rest = 1
       step = 0
