@@ -129,7 +129,7 @@ GEM
       rack (>= 1.2, < 3)
     oj (3.3.8)
     orm_adapter (0.5.0)
-    pg (0.21.0)
+    pg (0.20.0)
     rack (1.6.8)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -237,7 +237,7 @@ DEPENDENCIES
   jquery-ui-rails
   jquery-ui-themes
   less-rails
-  pg
+  pg (= 0.20)
   rails (= 4.2.5)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
