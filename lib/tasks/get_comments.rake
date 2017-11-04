@@ -23,6 +23,9 @@ task :get_comments => :environment do
           vk_id: comment_hash[:id],
           post_id: post.id,
           raw: comment_hash.to_json,
+          user_vk_id: comment_hash[:from_id],
+          created_at: Time.at(comment_hash[:date]),
+          likes_count: comment_hash[:likes][:count],
         )
       end
       post.handled = true
