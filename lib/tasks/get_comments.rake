@@ -1,8 +1,26 @@
 task :get_comments => :environment do
-  posts = Post.where('not handled').all
+  posts = Post.where('community_id is not null').where('not handled').all
   vk = VkontakteApi::Client.new Settings.vk.user_access_token
+  #
+  full_p = 100
+  prev_p = 0
+  for j in 1..full_p
+    print '='
+  end
+  posts_count = posts.count
+  handled_count = 0
+  puts ''
+  #
   step_size = 100
   posts.each do |post|
+    #
+    curr_p = (handled_count * full_p) / posts_count
+    for j in 1..(curr_p - prev_p)
+      print '+'
+    end
+    prev_p = curr_p
+    handled_count += 1
+    #
     begin
       rest = 1
       step = 0
@@ -32,5 +50,6 @@ task :get_comments => :environment do
       raise 'Something wend wrong'
     end
   end
+  puts ''
 end
 
