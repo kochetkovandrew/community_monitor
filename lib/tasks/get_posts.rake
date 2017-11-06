@@ -20,6 +20,7 @@ task :get_posts, [:screen_name] => :environment do |t, args|
         community_id: community.nil? ? nil : community.id,
         member_id: member.nil? ? nil : member.id,
         raw: post_hash.to_json,
+        created_at: Time.at(post_hash[:date]),
       )
     end
     if step == 0

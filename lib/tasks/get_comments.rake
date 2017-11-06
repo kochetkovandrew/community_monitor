@@ -1,5 +1,5 @@
 task :get_comments => :environment do
-  posts = Post.where('community_id is not null').where('not handled').all
+  posts = Post.where('community_id is not null').where('created_at >= ?', '2017-02-01').where('not handled').all
   vk = VkontakteApi::Client.new Settings.vk.user_access_token
   step_size = 100
   posts.each_show_progress do |post|
