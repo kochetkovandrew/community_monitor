@@ -49,8 +49,43 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def set_followers_from_vk(vk = nil)
+    vk ||= VkontakteApi::Client.new Settings.vk.user_access_token
+    all_friends = []
+    success = true
+    begin
+      rest = 1
+      step = 0
+      step_size = 1000
+      while rest > 0
+        friends = vk.users.get_followers(user_id: self.vk_id, fields: [:nickname, :domain, :sex, :bdate, :city, :country, :timezone, :photo_50, :photo_100, :photo_200_orig, :has_mobile, :contacts, :education, :online, :relation, :last_seen, :status, :universities], count: step_size, offset: step*step_size)
+        all_friends += friends[:items]
+        if step == 0
+          rest = friends[:count] - step_size
+        else
+          rest -= step_size
+        end
+        step += 1
+        sleep 0.35
+      end
+    rescue
+     success = false
+    end
+    if success
+      self.raw_followers = all_friends.to_json
+    end
+  end
+
+  def get_followers
+    if !self.raw_followers.nil? && (self.raw_followers != '')
+      JSON::parse self.raw_followers
+    else
+      []
+    end
+  end
+
   def friends_in_communities
-    friend_arr = JSON::parse(self.raw_friends)
+    friend_arr = JSON::parse(self.raw_friends) + get_followers
     friend_ids = friend_arr.collect{|friend| friend['id']}
     friend_hash = friend_arr.collect{|friend| [friend['id'], friend]}.to_h
     friends_in_communities_arr = []

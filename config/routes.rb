@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   get 'users/profile' => 'users#profile'
   post 'members/check' => 'members#check'
+  get 'akinshina' => 'test#test'
 
   get 'community_member_histories/:id/diff' => 'community_member_histories#diff'
   get 'community_member_histories/:id' => 'community_member_histories#show'
