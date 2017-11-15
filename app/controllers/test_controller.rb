@@ -1,5 +1,7 @@
 class TestController < ApplicationController
+
   def test
-    redirect_to 'https://vk.com/wall-69659144_109941'
+    redirect_to 'https://vk.com/album4048980_249184697'
   end
+
 end
