@@ -47,6 +47,7 @@ class Member < ActiveRecord::Base
     if success
       self.raw_friends = all_friends.to_json
     end
+    set_followers_from_vk(vk)
   end
 
   def set_followers_from_vk(vk = nil)
