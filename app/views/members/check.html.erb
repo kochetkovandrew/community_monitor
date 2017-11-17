@@ -1,6 +1,7 @@
 <h4>Предварительная информация о персоне</h4>
 
 <%= render 'info' %>
+<%= render 'friends_in_communities' %>
 
 <p>
   <%= form_for(@member, url: {controller: :members, action: :check}) do |f| %>

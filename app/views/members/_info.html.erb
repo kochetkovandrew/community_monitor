@@ -11,27 +11,9 @@
     <td>Страничка</td>
     <td><%= link_to @member.screen_name, 'https://vk.com/' + @member.screen_name %></td>
   </tr>
+  <tr>
+    <td></td>
+    <td><%= link_to('Упоминания', 'https://vk.com/feed?obj=' + @member.vk_id.to_s + '&q=&section=mentions') %></td>
+  </tr>
 </table>
 
-<h4>Друзья в сообществах</h4>
-
-<table class="table table-condensed">
-  <% @friends_in_communities.each do |community_friends| %>
-      <% community_friends[:friends].each do |friend_id| %>
-          <tr>
-            <td>
-              <%= community_friends[:community].name %>
-            </td>
-            <td>
-              <%= link_to @friend_hash[friend_id]['domain'], 'https://vk.com/' + @friend_hash[friend_id]['domain'] %>
-            </td>
-            <td>
-              <%= @friend_hash[friend_id]['first_name'] %>
-            </td>
-            <td>
-              <%= @friend_hash[friend_id]['last_name'] %>
-            </td>
-          </tr>
-      <% end %>
-  <% end %>
-</table>

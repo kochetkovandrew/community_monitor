@@ -4,3 +4,4 @@
 
 jQuery ->
   $('table#listing_members').dataTable()
+  $('table.friends_info').dataTable()

@@ -1,0 +1,36 @@
+<h4>Друзья</h4>
+<table class="friends_info">
+  <thead>
+    <tr>
+      <th>Имя</th>
+      <th>Город</th>
+      <th>Дата рождения</th>
+      <th>Последнее посещение</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @friends.each do |friend| %>
+      <tr>
+        <%= render partial: 'friend_info', locals: {friend: friend} %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<h4>Подписчики</h4>
+<table class="friends_info">
+  <thead>
+  <tr>
+    <th>Имя</th>
+    <th>Город</th>
+    <th>Дата рождения</th>
+    <th>Последнее посещение</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @followers.each do |friend| %>
+      <tr>
+        <%= render partial: 'friend_info', locals: {friend: friend} %>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

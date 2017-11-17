@@ -1,3 +1,7 @@
 <h4>Информация о персоне</h4>
 
 <%= render 'info' %>
+
+<%= link_to 'Все друзья', {controller: :members, action: :friends, id: @member.id} %>
+
+<%= render 'friends_in_communities' %>

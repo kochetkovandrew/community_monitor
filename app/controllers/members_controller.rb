@@ -57,6 +57,12 @@ class MembersController < ApplicationController
     @friends_in_communities = res[:friends_in_communities]
   end
 
+  def friends
+    @member = Member.find(params[:id])
+    @friends = JSON::parse(@member.raw_friends)
+    @followers = @member.get_followers
+  end
+
   def check
     @member = Member.new(member_params)
     @member.set_from_vk

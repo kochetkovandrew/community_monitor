@@ -1,0 +1,22 @@
+<h4>Друзья в сообществах</h4>
+
+<table class="table table-condensed">
+  <% @friends_in_communities.each do |community_friends| %>
+      <% community_friends[:friends].each do |friend_id| %>
+          <tr>
+            <td>
+              <%= community_friends[:community].name %>
+            </td>
+            <td>
+              <%= link_to @friend_hash[friend_id]['domain'], 'https://vk.com/' + @friend_hash[friend_id]['domain'] %>
+            </td>
+            <td>
+              <%= @friend_hash[friend_id]['first_name'] %>
+            </td>
+            <td>
+              <%= @friend_hash[friend_id]['last_name'] %>
+            </td>
+          </tr>
+      <% end %>
+  <% end %>
+</table>
