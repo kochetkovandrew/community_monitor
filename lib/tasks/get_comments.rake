@@ -8,7 +8,7 @@ task :get_comments => :environment do
       step = 0
       all_comments = []
       while rest > 0
-        comments = vk.wall.get_comments(owner_id: -(post.community.vk_id), post_id: post.vk_id, count: step_size, offset: step*step_size, need_likes: 1)
+        comments = vk_lock { vk.wall.get_comments(owner_id: -(post.community.vk_id), post_id: post.vk_id, count: step_size, offset: step*step_size, need_likes: 1) }
         all_comments += comments[:items]
         if step == 0
           rest = comments[:count] - step_size

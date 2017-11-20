@@ -7,7 +7,7 @@ task :get_members, [:vk_id] => :environment do |t, args|
     step_size = 1000
     all_members = []
     while rest > 0
-      members = vk.groups.get_members(group_id: group_id, count: step_size, offset: step*step_size)
+      members = vk_lock { vk.groups.get_members(group_id: group_id, count: step_size, offset: step*step_size) }
       all_members += members[:items]
       if step == 0
         rest = members[:count] - step_size

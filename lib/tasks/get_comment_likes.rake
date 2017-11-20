@@ -15,7 +15,7 @@ task :get_comment_likes, [:screen_name] => :environment do |t, args|
       step = 0
       all_likes = []
       while rest > 0
-        likes = vk.likes.get_list(type: 'comment', owner_id: -(community.vk_id), item_id: comment.vk_id, count: step_size, offset: step*step_size)
+        likes = vk_lock { vk.likes.get_list(type: 'comment', owner_id: -(community.vk_id), item_id: comment.vk_id, count: step_size, offset: step*step_size) }
         all_likes += likes[:items]
         if step == 0
           rest = likes[:count] - step_size

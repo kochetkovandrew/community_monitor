@@ -13,7 +13,7 @@ task :get_posts, [:screen_name] => :environment do |t, args|
   step = 0
   all_posts = []
   while rest > 0
-    posts = vk.wall.get(owner_id: (community.nil? ? member.vk_id : -community.vk_id), count: step_size, offset: step*step_size, extended: 1)
+    posts = vk_lock { vk.wall.get(owner_id: (community.nil? ? member.vk_id : -community.vk_id), count: step_size, offset: step*step_size, extended: 1) }
     posts[:items].each do |post_hash|
       post = Post.create(
         vk_id: post_hash[:id],
@@ -29,6 +29,5 @@ task :get_posts, [:screen_name] => :environment do |t, args|
       rest -= step_size
     end
     step += 1
-    sleep 0.35
   end
 end

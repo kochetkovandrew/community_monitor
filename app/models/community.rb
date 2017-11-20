@@ -9,7 +9,7 @@ class Community < ActiveRecord::Base
   def set_vk_data
     self.vk_id = nil
     vk = VkontakteApi::Client.new
-    groups = vk.groups.get_by_id(group_id: self.screen_name, fields: [:id])
+    groups = vk_lock { vk.groups.get_by_id(group_id: self.screen_name, fields: [:id]) }
     self.vk_id = groups[0][:id]
     self.name = groups[0][:name]
   rescue
@@ -19,7 +19,7 @@ class Community < ActiveRecord::Base
     posts = []
     vk = VkontakteApi::Client.new
     group_id = -(self.vk_id)
-    wall = vk.wall.get(owner_id: group_id, count: count, offset: offset, extended: 1)
+    wall = vk_lock { vk.wall.get(owner_id: group_id, count: count, offset: offset, extended: 1) }
     posts_count = wall[:count]
     # puts wall.to_yaml
     wall[:items].each do |wall_item|
