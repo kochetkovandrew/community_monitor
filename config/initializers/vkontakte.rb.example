@@ -1,3 +1,13 @@
+def vk_lock
+  File.open(Rails.root.join('applog', 'vk.lock'), File::RDWR|File::CREAT, 0644) do |f|
+    f.flock(File::LOCK_EX)
+    res = yield
+    sleep 0.35
+    f.flock(File::LOCK_UN)
+    return res
+  end
+end
+
 VkontakteApi.configure do |config|
   # параметры, необходимые для авторизации средствами vkontakte_api
   # (не нужны при использовании сторонней авторизации)
