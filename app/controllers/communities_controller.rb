@@ -8,6 +8,8 @@ class CommunitiesController < ApplicationController
   # GET /communities
   # GET /communities.json
   def index
+    history_ids = CommunityMemberHistory.select('community_id, max(id) as max_id').group('community_id').collect{|cmh| cmh.max_id}
+    @histories_hash = Hash[*(CommunityMemberHistory.where(id: history_ids).all.collect{|cmh| [cmh.community_id, cmh]}.flatten)]
     @communities = Community.all
   end
 

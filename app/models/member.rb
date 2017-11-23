@@ -11,8 +11,8 @@ class Member < ActiveRecord::Base
     self.raw = raw_user.to_json
     self.vk_id = raw_user[:id]
     self.sex = raw_user[:sex]
-    self.last_seen_at = ((!raw_user[:last_seen].nil? && raw_user[:last_seen][:time].nil?) ? Time.at(raw_user[:last_seen][:time]) : nil)
-    self.last_seen_platform =
+    self.last_seen_at = ((!raw_user[:last_seen].nil? && !raw_user[:last_seen][:time].nil?) ? Time.at(raw_user[:last_seen][:time]) : nil)
+    self.last_seen_platform = (!raw_user[:last_seen].nil? ? raw_user[:last_seen][:platform] : nil)
     self.city_id = (!raw_user[:city].nil? ? raw_user[:city][:id] : nil)
     self.city_title = (!raw_user[:city].nil? ? raw_user[:city][:title] : nil)
     self.country_id = (!raw_user[:country].nil? ? raw_user[:country][:id] : nil)

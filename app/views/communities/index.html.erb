@@ -8,6 +8,8 @@
       <th>Короткое имя</th>
       <th>VK ID</th>
       <th>Название</th>
+      <th>Участников</th>
+      <th>Прирост</th>
       <th>&nbsp;</th>
     </tr>
   </thead>
@@ -18,6 +20,19 @@
         <td><%= link_to community.screen_name, 'https://vk.com/' + community.screen_name %></td>
         <td><%= community.vk_id %></td>
         <td><%= community.name %></td>
+        <td>
+          <% if !@histories_hash[community.id].nil? %>
+            <%= @histories_hash[community.id].members_count %>
+          <% end %>
+        </td>
+        <td>
+          <% if !@histories_hash[community.id].nil? %>
+            <% if !@histories_hash[community.id].diff.nil? %>
+              <% diff = JSON::parse(@histories_hash[community.id].diff) %>
+              <%= diff['added'].count - diff['removed'].count %>
+            <% end %>
+          <% end %>
+        </td>
         <td><%= link_to 'Show', community %>
           <!--
           <%= link_to 'Edit', edit_community_path(community) %>
