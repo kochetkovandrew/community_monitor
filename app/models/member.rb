@@ -2,6 +2,7 @@ class Member < ActiveRecord::Base
   has_many :community_members
   has_many :communities, :through => :community_members
   has_many :posts
+  has_many :post_comments, primary_key: :vk_id, foreign_key: :user_vk_id
 
   validates :vk_id, uniqueness: true
 
