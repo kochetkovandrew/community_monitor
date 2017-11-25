@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :communities
   get 'members/:id/friends' => 'members#friends'
+  get 'members/:id/comments' => 'members#comments'
   resources :members
 
   get 'users/profile' => 'users#profile'

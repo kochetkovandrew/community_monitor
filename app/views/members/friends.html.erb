@@ -3,5 +3,7 @@
 <%= render 'info' %>
 
 <%= link_to 'Друзья в сообществах', @member %>
+<%= link_to 'Комментарии', {controller: :members, action: :comments, id: @member.id} %>
+
 
 <%= render 'friends' %>

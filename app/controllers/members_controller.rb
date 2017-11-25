@@ -71,6 +71,10 @@ class MembersController < ApplicationController
     @friends_in_communities = res[:friends_in_communities]
   end
 
+  def comments
+    @member = Member.find(params[:id])
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_member
