@@ -8,7 +8,7 @@
     <p>
     <% if !comment.post.nil? %>
       <% user_id = (comment.post.community.nil? ? comment.post.member.vk_id : -comment.post.community.vk_id) %>
-      <%= link_to 'Ссылка', ('https://vk.com/wall' + user_id.to_s + '_' + comment.post.vk_id.to_s + '?w=wall' + user_id.to_s + '_' + comment.post.vk_id.to_s + '_r' + comment.vk_id.to_s) %>
+      <%= link_to 'Ссылка', ('https://vk.com/wall' + user_id.to_s + '_' + comment.post.vk_id.to_s + '?w=wall' + user_id.to_s + '_' + comment.post.vk_id.to_s + '_r' + comment.vk_id.to_s) %><br/>
     <% end %>
       <%= data['text'] %>
     </p>

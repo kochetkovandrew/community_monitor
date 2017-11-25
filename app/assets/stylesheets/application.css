@@ -26,3 +26,15 @@ div.main {
     margin-left: 10px;
     margin-right: 10px;
 }
+
+/* @import 'bootstrap';
+@import 'bootstrap-sprockets'; */
+
+a {
+    color: #2e6e9e !important;
+    transition: background-color 0.5s ease;
+}
+
+a:hover {
+    background-color: #333333;
+}
