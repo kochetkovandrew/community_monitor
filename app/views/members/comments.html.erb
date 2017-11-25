@@ -6,10 +6,20 @@
 <% @member.post_comments.order(:created_at).each do |comment| %>
     <% data = JSON::parse comment.raw %>
     <p>
-    <% if !comment.post.nil? %>
-      <% user_id = (comment.post.community.nil? ? comment.post.member.vk_id : -comment.post.community.vk_id) %>
-      <%= link_to 'Ссылка', ('https://vk.com/wall' + user_id.to_s + '_' + comment.post.vk_id.to_s + '?w=wall' + user_id.to_s + '_' + comment.post.vk_id.to_s + '_r' + comment.vk_id.to_s) %><br/>
-    <% end %>
-      <%= data['text'] %>
+      <%= comment.created_at.to_s %>
+      <% if !comment.post.nil? %>
+        <% user_id = (comment.post.community.nil? ? comment.post.member.vk_id : -comment.post.community.vk_id) %>
+        <%= link_to 'Ссылка', ('https://vk.com/wall' + user_id.to_s + '_' + comment.post.vk_id.to_s + '?w=wall' + user_id.to_s + '_' + comment.post.vk_id.to_s + '_r' + comment.vk_id.to_s) %>
+      <% end %>
+      <br/>
+      <% parts = data['text'].split(/(\[id\d+\|[^\]]+\])/) %>
+      <% parts.each do |part| %>
+        <% matches = /^\[(id\d+)\|([^\]]+)\]$/.match part %>
+        <% if matches %>
+          <%= link_to matches[2], 'https://vk.com/' + matches[1] %>
+        <% else %>
+          <%= part %>
+        <% end %>
+      <% end %>
     </p>
 <% end %>
