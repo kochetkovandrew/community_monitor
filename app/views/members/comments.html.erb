@@ -1,0 +1,15 @@
+<h4>Комментарии пользователя</h4>
+
+<%= link_to 'Друзья в сообществах', @member %>
+<%= link_to 'Все друзья', {controller: :members, action: :friends, id: @member.id} %>
+
+<% @member.post_comments.order(:created_at).each do |comment| %>
+    <% data = JSON::parse comment.raw %>
+    <% if !comment.post.nil? %>
+      <% user_id = (comment.post.community.nil? ? comment.post.member.vk_id : -comment.post.community.vk_id) %>
+      <%= link_to 'Ссылка', ('https://vk.com/wall' + user_id.to_s + '_' + comment.post.vk_id.to_s + '?w=wall' + user_id.to_s + '_' + comment.post.vk_id.to_s + '_r' + comment.vk_id.to_s) %>
+    <% end %>
+    <p>
+      <%= data['text'] %>
+    </p>
+<% end %>
