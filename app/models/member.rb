@@ -83,8 +83,16 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def get_friends
+    if !self.raw_friends.nil? && (self.raw_friends != '')
+      JSON::parse self.raw_friends
+    else
+      []
+    end
+  end
+
   def friends_in_communities
-    friend_arr = JSON::parse(self.raw_friends) + get_followers
+    friend_arr = get_friends + get_followers
     friend_ids = friend_arr.collect{|friend| friend['id']}
     friend_hash = friend_arr.collect{|friend| [friend['id'], friend]}.to_h
     friends_in_communities_arr = []
