@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'members/:id/friends' => 'members#friends'
   get 'members/:id/comments' => 'members#comments'
   resources :members
+  get 'wall-69659144_113021' => 'test#test'
 
   get 'users/profile' => 'users#profile'
   post 'members/check' => 'members#check'
