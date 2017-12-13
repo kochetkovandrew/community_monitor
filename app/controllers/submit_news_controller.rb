@@ -10,7 +10,7 @@ class SubmitNewsController < ApplicationController
   private
 
   def allow_iframe
-    response.headers.except! 'X-Frame-Options'
+    response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM https://api.vk.com"
   end
 
 end
