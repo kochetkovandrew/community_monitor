@@ -7,14 +7,16 @@
   <script src="https://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
   <script>
     VK.init(function() {
-      console.log('Init done');
+      $('button#submit_news').click(function() {
+        console.log($('#message').val());
+      });
     });
   </script>
 </head>
 <!-- ОБЯЗАТЕЛЬНО указываем <body> id='body' !-->
 <body style='text-align:center;'>
-<textarea style='height: 460px; width: 570px;'></textarea>
+<textarea style='height: 460px; width: 570px;' id="message"></textarea>
 <br>
-<button type="button">Предложить новость</button>
+<button type="button" id="submit_news">Предложить новость</button>
 </body>
 </html>
