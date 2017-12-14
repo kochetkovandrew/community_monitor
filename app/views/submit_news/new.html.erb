@@ -10,8 +10,7 @@
       $('button#submit_news').click(function() {
         console.log($('#message').val());
         console.log($('#access_token').val());
-        $.ajax({
-          url: 'https://detivich.org/submit_news.json',
+        $.ajax('https://detivich.org/submit_news.json', {
           method: 'POST',
           data: {
             api_id: $('#api_id').val(),
