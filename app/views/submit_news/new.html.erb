@@ -10,7 +10,7 @@
       $('button#submit_news').click(function() {
         console.log($('#message').val());
         console.log($('#access_token').val());
-        VK.api('messages.send', {'user_id': 4048980, 'message': $('#message').val(), 'access_token': $('#access_token').val()}, function (data) {
+        VK.api('messages.send', {'user_id': -133980650, 'message': $('#message').val(), 'access_token': $('#access_token').val()}, function (data) {
           console.log(data);
         });
       });
