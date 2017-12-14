@@ -36,7 +36,7 @@ class SubmitNewsController < ApplicationController
     @auth_key = params[:auth_key]
     @group_id = params[:group_id].to_i
     secret = params[:api_id] + '_' + params[:viewer_id] + '_' + Settings.vk.submit_news.secret_key
-    if (params[:auth_key] != Digest::MD5.hexdigest(secret)) || ((@group_id != 133980650) && (@group_id != 69659144))
+    if (params[:auth_key] != Digest::MD5.hexdigest(secret)) || ((@group_id != 133980650) && (@group_id != 69659144) && (@group_id != 125285515))
       render 'blank'
     end
   end
