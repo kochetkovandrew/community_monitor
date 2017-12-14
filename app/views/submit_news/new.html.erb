@@ -10,8 +10,18 @@
       $('button#submit_news').click(function() {
         console.log($('#message').val());
         console.log($('#access_token').val());
-        VK.api('messages.send', {'user_id': -133980650, 'message': $('#message').val(), 'access_token': $('#access_token').val()}, function (data) {
-          console.log(data);
+        $.ajax({
+          url: 'https://detivich.org/submit_news.json',
+          method: 'POST',
+          data: {
+            api_id: $('#api_id').val(),
+            viewer_id: $('#viewer_id').val(),
+            auth_key: $('#auth_key').val(),
+            message: $('#message').val()
+          }
+        }).done(function(msg) {
+          $('#message').val('');
+          alert("Ваша новость была отправлена");
         });
       });
     });
@@ -19,7 +29,9 @@
 </head>
 <!-- ОБЯЗАТЕЛЬНО указываем <body> id='body' !-->
 <body style='text-align:center;'>
-<%= hidden_field_tag('access_token', @access_token) %>
+<%= hidden_field_tag('api_id', @api_id) %>
+<%= hidden_field_tag('viewer_id', @viewer_id) %>
+<%= hidden_field_tag('auth_key', @auth_key) %>
 <textarea style='height: 460px; width: 570px;' id="message"></textarea>
 <br>
 <button type="button" id="submit_news">Предложить новость</button>

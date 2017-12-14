@@ -10,6 +10,10 @@ class SubmitNewsController < ApplicationController
     @access_token = params[:access_token]
   end
 
+  def create
+    Rails.logger.debug params
+  end
+
   private
 
   def allow_iframe
@@ -18,6 +22,9 @@ class SubmitNewsController < ApplicationController
 
   def check_auth_key
     # api_id, viewer_id, group_id, auth_key
+    @api_id = params[:api_id]
+    @viewer_id = params[:viewer_id]
+    @auth_key = params[:auth_key]
     secret = params[:api_id] + '_' + params[:viewer_id] + '_' + Settings.vk.submit_news.secret_key
     if params[:auth_key] != Digest::MD5.hexdigest(secret)
       render 'blank'

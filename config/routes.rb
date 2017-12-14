@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'community_member_histories/:id/diff' => 'community_member_histories#diff'
   get 'community_member_histories/:id' => 'community_member_histories#show'
   get 'submit_news' => 'submit_news#new'
+  post 'submit_news' => 'submit_news#create'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
