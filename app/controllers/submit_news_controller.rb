@@ -12,7 +12,12 @@ class SubmitNewsController < ApplicationController
   end
 
   def create
-    Rails.logger.debug params
+    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    @message = params[:message]
+    full_message = "https://vk.com/id" + @viewer_id + " предложил новость:\n" + @message
+    vk_lock do
+      vk.messages.send(user_id: 4048980, message: full_message)
+    end
     respond_to do |format|
       format.json { head :no_content }
     end
