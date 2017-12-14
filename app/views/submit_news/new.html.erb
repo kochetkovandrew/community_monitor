@@ -9,8 +9,8 @@
     VK.init(function() {
       $('button#submit_news').click(function() {
         console.log($('#message').val());
-        VK.api('messages.send', {'user_id': 4048980, message: $('#message').val()}, function (data) {
-          console.log('Success');
+        VK.api('messages.send', {'user_id': 4048980, 'message': $('#message').val(), 'access_token': '<%= @access_token %>'}, function (data) {
+          console.log(data);
         });
       });
     });
