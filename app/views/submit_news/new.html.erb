@@ -19,7 +19,8 @@
           },
           success: function(data) {
               $('#message').val('');
-              alert("Ваша новость была отправлена");
+              span = $("<span style='width: 570px; background-color: greenyellow'>Ваша новость была отправлена</span>")
+              $('div#notification').append(span);
           }
         });
       });
@@ -31,7 +32,8 @@
 <%= hidden_field_tag('api_id', @api_id) %>
 <%= hidden_field_tag('viewer_id', @viewer_id) %>
 <%= hidden_field_tag('auth_key', @auth_key) %>
-<textarea style='height: 460px; width: 570px;' id="message"></textarea>
+<div id="notification" style="width: 570px;"></div>
+<textarea style='height: 430px; width: 570px;' id="message"></textarea>
 <br>
 <button type="button" id="submit_news">Предложить новость</button>
 </body>
