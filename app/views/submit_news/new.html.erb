@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Подключаем jquery -->
   <script src='https://code.jquery.com/jquery-1.7.1.js'></script>
-  <!-- Подключаем VK-->
   <script src="https://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
   <script>
     VK.init(function() {
-      $('button#submit_news').click(function() {
+        $('#uploadbtn').change(function(e){
+            $.each(e.target.files, function (index, file) {
+                span = $('<span class="filespan"></span>');
+                span.text(file.name);
+                $('div#filenames').append(span);
+            });
+        });
+        $('button#submit_news').click(function() {
         $.ajax({
           type: 'POST',
           url: 'https://detivich.org/submit_news.json',
@@ -28,22 +33,48 @@
     });
   </script>
   <style type="text/css">
-    .uploadButton {
-      display: block;
-      width: 50px;
+    .filespan {
       background: #eee;
-      padding: 10px;
+      padding: 2px;
+      border: 1px solid #333;
       color: #333;
       text-align: center;
-      border-radius: 10px;
+      border-radius: 2px;
       cursor: pointer;
+      font-size: 12px;
+      font-family: sans-serif;
+      margin: 2px;
+    }
+    div#filenames {
+      margin: 2px;
+    }
+    .uploadButton {
+      background: #eee;
+      padding: 2px;
+      border: 1px solid #333;
+      color: #333;
+      text-align: center;
+      border-radius: 2px;
+      cursor: pointer;
+      font-size: 12px;
+      font-family: sans-serif;
     }
     .uploadButton:hover {
       background: #ddd;
     }
+    #submit_news {
+      background: #eee;
+      padding: 2px;
+      border: 1px solid #333;
+      color: #333;
+      text-align: center;
+      border-radius: 2px;
+      cursor: pointer;
+      font-size: 12px;
+      font-family: sans-serif;
+    }
   </style>
 </head>
-<!-- ОБЯЗАТЕЛЬНО указываем <body> id='body' !-->
 <body style='text-align:center;'>
 <%= hidden_field_tag('api_id', @api_id) %>
 <%= hidden_field_tag('viewer_id', @viewer_id) %>
@@ -52,8 +83,12 @@
 <div id="notification" style="width: 570px;"></div>
 <textarea style='height: 430px; width: 570px;' id="message"></textarea>
 <br>
+<div align="center">
 <label for="uploadbtn" class="uploadButton">Загрузить файл</label>
-<input style="opacity: 0; z-index: -1;" type="file" name="upload" id="uploadbtn">
+<input style="opacity: 0; z-index: -1;" type="file" name="upload" id="uploadbtn" multiple>
 <button type="button" id="submit_news">Предложить новость</button>
+  <br>
+  <div id="filenames"></div>
+</div>
 </body>
 </html>

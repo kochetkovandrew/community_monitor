@@ -5,7 +5,7 @@ class SubmitNewsController < ApplicationController
   layout 'blank'
   skip_before_action :verify_authenticity_token, only: [:create]
   after_action :allow_iframe
-  before_filter :check_auth_key
+  # before_filter :check_auth_key
 
   def new
     @access_token = params[:access_token]
