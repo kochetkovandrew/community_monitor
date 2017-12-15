@@ -5,6 +5,7 @@
   <script src="https://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
   <script>
     VK.init(function() {
+        <% if @group_id == 133980650 %>
         $('#uploadbtn').change(function(e){
             $.each(e.target.files, function (index, file) {
                 span = $('<span class="filespan"></span>');
@@ -12,6 +13,7 @@
                 $('div#filenames').append(span);
             });
         });
+        <% end %>
         $('button#submit_news').click(function() {
         $.ajax({
           type: 'POST',
@@ -84,11 +86,16 @@
 <textarea style='height: 430px; width: 570px;' id="message"></textarea>
 <br>
 <div align="center">
-<label for="uploadbtn" class="uploadButton">Загрузить файл</label>
-<input style="opacity: 0; z-index: -1;" type="file" name="upload" id="uploadbtn" multiple>
-<button type="button" id="submit_news">Предложить новость</button>
-  <br>
-  <div id="filenames"></div>
+  <% if @group_id == 133980650 %>
+
+    <label for="uploadbtn" class="uploadButton">Загрузить файл</label>
+    <input style="opacity: 0; z-index: -1;" type="file" name="upload" id="uploadbtn" multiple>
+  <% end %>
+  <button type="button" id="submit_news">Предложить новость</button>
+  <% if @group_id == 133980650 %>
+    <br>
+    <div id="filenames"></div>
+  <% end %>
 </div>
 </body>
 </html>
