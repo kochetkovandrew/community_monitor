@@ -5,4 +5,8 @@ class TestController < ApplicationController
     redirect_to 'https://spid.center/ru/articles/899'
   end
 
+  def test2
+    redirect_to 'http://shvarz.livejournal.com/113839.html'
+  end
+
 end
