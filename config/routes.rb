@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'members/:id/comments' => 'members#comments'
   resources :members
   get 'wall-69659144_113021' => 'test#test'
+  get 'nonprogressors' => 'test#test'
 
   get 'users/profile' => 'users#profile'
   post 'members/check' => 'members#check'
