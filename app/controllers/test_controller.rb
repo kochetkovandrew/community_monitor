@@ -9,4 +9,8 @@ class TestController < ApplicationController
     redirect_to 'http://shvarz.livejournal.com/113839.html'
   end
 
+  def test3
+    redirect_to 'http://h-clinic.ru'
+  end
+
 end

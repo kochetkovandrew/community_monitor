@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'wall-69659144_113021' => 'test#test'
   get 'nonprogressors' => 'test#test'
   get 'slow' => 'test#test2'
+  get 'clinic' => 'test#test3'
 
   get 'users/profile' => 'users#profile'
   post 'members/check' => 'members#check'
