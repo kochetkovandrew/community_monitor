@@ -20,11 +20,13 @@ class SubmitNewsController < ApplicationController
     @message = params[:message]
     uploaded_ios = params[:fileToUpload]
     uploads = []
-    uploaded_ios.each do |uploaded_io|
-      upload = Upload.create(file_name: uploaded_io.original_filename)
-      uploads.push upload
-      File.open(Rails.root.join('uploads', upload.id.to_s), 'wb') do |file|
-        file.write(uploaded_io.read)
+    if !uploaded_ios.nil?
+      uploaded_ios.each do |uploaded_io|
+        upload = Upload.create(file_name: uploaded_io.original_filename)
+        uploads.push upload
+        File.open(Rails.root.join('uploads', upload.id.to_s), 'wb') do |file|
+          file.write(uploaded_io.read)
+        end
       end
     end
     full_message = "https://vk.com/id" + @viewer_id + " анонимно предложил новость:\n" + @message
