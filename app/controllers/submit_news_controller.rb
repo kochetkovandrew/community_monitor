@@ -19,8 +19,10 @@ class SubmitNewsController < ApplicationController
     # headers = request.headers.env.select{|k, _| k =~ /^HTTP_/}
     @message = params[:message]
     uploaded_ios = params[:fileToUpload]
+    uploads = []
     uploaded_ios.each do |uploaded_io|
       upload = Upload.create(file_name: uploaded_io.original_filename)
+      uploads.push upload
       File.open(Rails.root.join('uploads', upload.id.to_s), 'wb') do |file|
         file.write(uploaded_io.read)
       end
@@ -28,6 +30,11 @@ class SubmitNewsController < ApplicationController
     full_message = "https://vk.com/id" + @viewer_id + " предложил новость:\n" + @message
     full_message += "\n"
     full_message += headers.to_yaml
+    full_message += "\n"
+    uploads.each do |upload|
+      full_message += ('http://euve258423.serverprofi24.de/uploads/' + upload.id.to_s + ' ' + upload.file_name + "\n")
+    end
+
     recipient = 305013709
     if @group_id == 133980650
       recipient = 4048980
