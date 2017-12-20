@@ -9,6 +9,7 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
+/uploads/*
 !/log/.keep
 /tmp
 /config/initializers/vkontakte.rb

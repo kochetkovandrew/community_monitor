@@ -16,8 +16,10 @@ class SubmitNewsController < ApplicationController
     @message = params[:message]
     uploaded_ios = params[:fileToUpload]
     uploaded_ios.each do |uploaded_io|
-      vk.docs.get_wall_upload_server
-
+      upload = Upload.create(filename: uploaded_io.original_filename)
+      File.open(Rails.root.join('uploads', upload.id.to_s), 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
     end
     full_message = "https://vk.com/id" + @viewer_id + " предложил новость:\n" + @message
     recipient = 305013709
