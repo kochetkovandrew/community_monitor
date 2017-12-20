@@ -14,6 +14,11 @@ class SubmitNewsController < ApplicationController
   def create
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
     @message = params[:message]
+    uploaded_ios = params[:fileToUpload]
+    uploaded_ios.each do |uploaded_io|
+      vk.docs.get_wall_upload_server
+
+    end
     full_message = "https://vk.com/id" + @viewer_id + " предложил новость:\n" + @message
     recipient = 305013709
     if @group_id == 133980650
