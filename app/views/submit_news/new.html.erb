@@ -35,6 +35,17 @@
     });
   </script>
   <style type="text/css">
+    .button {
+      font-size: 12.5px;
+      font-family: sans-serif;
+      background-color: #5181b8;
+      color: white;
+      text-align: center;
+      border-radius: 4px;
+      padding: 7px 16px 8px 16px;
+      border: 0;
+      box-sizing: border-box;
+    }
     .filespan {
       background: #eee;
       padding: 2px;
@@ -50,30 +61,8 @@
     div#filenames {
       margin: 2px;
     }
-    .uploadButton {
-      background: #eee;
-      padding: 2px;
-      border: 1px solid #333;
-      color: #333;
-      text-align: center;
-      border-radius: 2px;
-      cursor: pointer;
-      font-size: 12px;
-      font-family: sans-serif;
-    }
-    .uploadButton:hover {
-      background: #ddd;
-    }
-    #submit_news {
-      background: #eee;
-      padding: 2px;
-      border: 1px solid #333;
-      color: #333;
-      text-align: center;
-      border-radius: 2px;
-      cursor: pointer;
-      font-size: 12px;
-      font-family: sans-serif;
+    .button:hover {
+      background: #5b88bd;
     }
   </style>
 </head>
@@ -88,10 +77,10 @@
 <div align="center">
   <% if @group_id == 133980650 %>
 
-    <label for="uploadbtn" class="uploadButton">Загрузить файл</label>
+    <label for="uploadbtn" class="uploadButton button">Загрузить файл</label>
     <input style="opacity: 0; z-index: -1;" type="file" name="upload" id="uploadbtn" multiple>
   <% end %>
-  <button type="button" id="submit_news">Предложить новость</button>
+  <button type="button" id="submit_news" class="button">Предложить новость</button>
   <% if @group_id == 133980650 %>
     <br>
     <div id="filenames"></div>
