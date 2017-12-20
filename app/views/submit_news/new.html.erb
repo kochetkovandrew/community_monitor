@@ -26,7 +26,7 @@
           url: 'https://detivich.org/submit_news.json',
           data: formData,
           processData: false,
-          dataType: 'json',
+          contentType: false,
           success: function(data) {
             $('#message').val('');
             span = $("<span style='width: 570px; background-color: greenyellow'>Ваша новость была отправлена</span>")
