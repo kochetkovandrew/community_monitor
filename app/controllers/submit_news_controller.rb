@@ -15,8 +15,12 @@ class SubmitNewsController < ApplicationController
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
     @message = params[:message]
     full_message = "https://vk.com/id" + @viewer_id + " предложил новость:\n" + @message
+    recipient = 305013709
+    if @group_id == 133980650
+      recipient = 4048980
+    end
     vk_lock do
-      vk.messages.send(user_id: 305013709, message: full_message)
+      vk.messages.send(user_id: recipient, message: full_message)
     end
     respond_to do |format|
       format.json { head :no_content }
