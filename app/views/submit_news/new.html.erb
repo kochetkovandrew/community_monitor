@@ -8,7 +8,7 @@
         <% if @group_id == 133980650 %>
         $('#uploadbtn').change(function(e){
             $.each(e.target.files, function (index, file) {
-                span = $('<span class="filespan"></span>');
+                span = $('<span class="filespan button"></span>');
                 span.text(file.name);
                 $('div#filenames').append(span);
             });
@@ -45,18 +45,6 @@
       padding: 7px 16px 8px 16px;
       border: 0;
       box-sizing: border-box;
-    }
-    .filespan {
-      background: #eee;
-      padding: 2px;
-      border: 1px solid #333;
-      color: #333;
-      text-align: center;
-      border-radius: 2px;
-      cursor: pointer;
-      font-size: 12px;
-      font-family: sans-serif;
-      margin: 2px;
     }
     div#filenames {
       margin: 2px;
