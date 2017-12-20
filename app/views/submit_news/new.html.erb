@@ -16,9 +16,9 @@
       <% end %>
       $('button#submit_news').click(function() {
         var formData = new FormData();
-        var fileCount = document.getElementById('upload').files.length;
+        var fileCount = document.getElementById('uploadbtn').files.length;
         for (var x = 0; x < fileCount; x++) {
-          formData.append("fileToUpload[]", document.getElementById('upload').files[x]);
+          formData.append("fileToUpload[]", document.getElementById('uploadbtn').files[x]);
         }
         formData.append('api_id', $('#api_id').val());
         formData.append('viewer_id', $('#viewer_id').val());
