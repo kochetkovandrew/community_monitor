@@ -6,26 +6,29 @@
   <script>
     VK.init(function() {
       <% if @group_id == 133980650 %>
-        $('#uploadbtn').change(function(e){
-          $.each(e.target.files, function (index, file) {
-            span = $('<span class="filespan button"></span>');
-            span.text(file.name);
-            $('div#filenames').append(span);
-          });
+      $('#uploadbtn').change(function(e){
+        $.each(e.target.files, function (index, file) {
+          span = $('<span class="filespan button"></span>');
+          span.text(file.name);
+          $('div#filenames').append(span);
         });
+      });
       <% end %>
-      $('form#form_submit').submit(function(e) {
-        e.preventDefault();
-        var formData = new FormData(this);
+      $('button#submit_news').click(function() {
+        var formData = new FormData();
+        formData.append('api_id', $('#api_id').val());
+        formData.append('viewer_id', $('#viewer_id').val());
+        formData.append('group_id', $('#group_id').val());
+        formData.append('auth_key', $('#auth_key').val());
+        formData.append('message', $('#message').val());
         $.ajax({
           type: 'POST',
           url: 'https://detivich.org/submit_news.json',
           data: formData,
           success: function(data) {
-            $('#message').val('');
-            span = $("<span style='width: 570px; background-color: greenyellow'>Ваша новость была отправлена</span>")
-            $('div#notification').append(span);
-            $('div#filenames').text('');
+              $('#message').val('');
+              span = $("<span style='width: 570px; background-color: greenyellow'>Ваша новость была отправлена</span>")
+              $('div#notification').append(span);
           }
         });
       });
@@ -53,26 +56,23 @@
   </style>
 </head>
 <body style='text-align:center;'>
-  <form id="form_submit">
-    <%= hidden_field_tag('api_id', @api_id) %>
-    <%= hidden_field_tag('viewer_id', @viewer_id) %>
-    <%= hidden_field_tag('group_id', @group_id) %>
-    <%= hidden_field_tag('auth_key', @auth_key) %>
-    <div id="notification" style="width: 570px;"></div>
-    <textarea style='height: 400px; width: 570px;' id="message" name="message"></textarea>
-    <br>
-    <div align="center">
-      <% if @group_id == 133980650 %>
-
-        <label for="uploadbtn" class="uploadButton button">Загрузить файл</label>
-        <input style="opacity: 0; z-index: -1;" type="file" name="upload" id="uploadbtn" multiple>
-      <% end %>
-      <button type="submit" id="submit_news" class="button">Предложить новость</button>
-      <% if @group_id == 133980650 %>
-        <br>
-        <div id="filenames"></div>
-      <% end %>
-    </div>
-  </form>
+  <%= hidden_field_tag('api_id', @api_id) %>
+  <%= hidden_field_tag('viewer_id', @viewer_id) %>
+  <%= hidden_field_tag('group_id', @group_id) %>
+  <%= hidden_field_tag('auth_key', @auth_key) %>
+  <div id="notification" style="width: 570px;"></div>
+  <textarea style='height: 400px; width: 570px;' id="message" name="message"></textarea>
+  <br>
+  <div align="center">
+    <% if @group_id == 133980650 %>
+      <label for="uploadbtn" class="uploadButton button">Загрузить файл</label>
+      <input style="opacity: 0; z-index: -1;" type="file" name="upload" id="uploadbtn" multiple>
+    <% end %>
+    <button type="button" id="submit_news" class="button">Предложить новость</button>
+    <% if @group_id == 133980650 %>
+      <br>
+      <div id="filenames"></div>
+    <% end %>
+  </div>
 </body>
 </html>
