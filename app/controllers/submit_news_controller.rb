@@ -17,7 +17,7 @@ class SubmitNewsController < ApplicationController
     @message = params[:message]
     uploaded_ios = params[:fileToUpload]
     uploaded_ios.each do |uploaded_io|
-      upload = Upload.create(filename: uploaded_io.original_filename)
+      upload = Upload.create(file_name: uploaded_io.original_filename)
       File.open(Rails.root.join('uploads', upload.id.to_s), 'wb') do |file|
         file.write(uploaded_io.read)
       end
