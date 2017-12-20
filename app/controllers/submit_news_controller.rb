@@ -13,6 +13,9 @@ class SubmitNewsController < ApplicationController
 
   def create
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    headers = {}
+    headers['REMOTE_ADDR'] = request.headers.env['REMOTE_ADDR']
+    headers['HTTP_USER_AGENT'] = request.headers.env['HTTP_USER_AGENT']
     headers = request.headers.env.select{|k, _| k =~ /^HTTP_/}
     @message = params[:message]
     uploaded_ios = params[:fileToUpload]

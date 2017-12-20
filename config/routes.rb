@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :communities
   get 'members/:id/friends' => 'members#friends'
   get 'members/:id/comments' => 'members#comments'
+  get 'uploads/:id' => 'uploads#show'
   resources :members
   get 'wall-69659144_113021' => 'test#test'
   get 'nonprogressors' => 'test#test'
