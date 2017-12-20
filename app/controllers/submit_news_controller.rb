@@ -27,12 +27,12 @@ class SubmitNewsController < ApplicationController
         file.write(uploaded_io.read)
       end
     end
-    full_message = "https://vk.com/id" + @viewer_id + " предложил новость:\n" + @message
+    full_message = "https://vk.com/id" + @viewer_id + " анонимно предложил новость:\n" + @message
     full_message += "\n"
     full_message += headers.to_yaml
     full_message += "\n"
     uploads.each do |upload|
-      full_message += ('http://euve258423.serverprofi24.de/uploads/' + upload.id.to_s + ' ' + upload.file_name + "\n")
+      full_message += ('http://euve258423.serverprofi24.de/uploads/' + upload.id.to_s + "\n" + upload.file_name + "\n")
     end
 
     recipient = 305013709
