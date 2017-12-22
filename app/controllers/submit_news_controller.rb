@@ -61,7 +61,7 @@ class SubmitNewsController < ApplicationController
     @auth_key = params[:auth_key]
     @group_id = params[:group_id].to_i
     @community_submit_news_settings = Settings.vk.submit_news.communities['g' + @group_id.to_s]
-    secret_key = !@community_submit_news_settings.nil? ? @community_submit_news_settings['group_id'] : ''
+    secret_key = !@community_submit_news_settings.nil? ? @community_submit_news_settings['secret_key'] : ''
     secret = params[:api_id] + '_' + params[:viewer_id] + '_' + secret_key
     if (params[:auth_key] != Digest::MD5.hexdigest(secret)) || (!@group_id.in?(@allowed_communities))
       render 'blank'
