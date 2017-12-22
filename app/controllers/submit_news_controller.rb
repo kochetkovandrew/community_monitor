@@ -34,13 +34,9 @@ class SubmitNewsController < ApplicationController
     full_message += headers.to_yaml
     full_message += "\n"
     uploads.each do |upload|
-      full_message += ('http://euve258423.serverprofi24.de/uploads/' + upload.id.to_s + "\n" + upload.file_name + "\n")
+      full_message += (Settings.base_address + '/uploads/' + upload.id.to_s + "\n" + upload.file_name + "\n")
     end
-
-    recipient = 305013709
-    if @group_id == 133980650
-      recipient = 4048980
-    end
+    recipient = Settings.vk.submit_news.communities['g' + @group_id.to_s].try('recipient')
     vk_lock do
       vk.messages.send(user_id: recipient, message: full_message)
     end
@@ -56,13 +52,15 @@ class SubmitNewsController < ApplicationController
   end
 
   def check_auth_key
+    @allowed_communities = Settings.vk.submit_news.communities.collect {|k,v| k.gsub(/^g/, '').to_i}
     # api_id, viewer_id, group_id, auth_key
     @api_id = params[:api_id]
     @viewer_id = params[:viewer_id]
     @auth_key = params[:auth_key]
     @group_id = params[:group_id].to_i
-    secret = params[:api_id] + '_' + params[:viewer_id] + '_' + Settings.vk.submit_news.secret_key
-    if (params[:auth_key] != Digest::MD5.hexdigest(secret)) || ((@group_id != 133980650) && (@group_id != 69659144) && (@group_id != 125285515))
+    secret_key = Settings.vk.submit_news.communities['g' + @group_id.to_s].try('secret_key')
+    secret = params[:api_id] + '_' + params[:viewer_id] + '_' + secret_key.to_s
+    if (params[:auth_key] != Digest::MD5.hexdigest(secret)) || (!@group_id.in?(@allowed_communities))
       render 'blank'
     end
   end
