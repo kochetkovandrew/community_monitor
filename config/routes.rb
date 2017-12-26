@@ -5,11 +5,13 @@ Rails.application.routes.draw do
   get 'members/:id/friends' => 'members#friends'
   get 'members/:id/comments' => 'members#comments'
   get 'uploads/:id' => 'uploads#show'
+
   resources :members
   get 'wall-69659144_113021' => 'test#test'
   get 'nonprogressors' => 'test#test'
   get 'slow' => 'test#test2'
   get 'clinic' => 'test#test3'
+  get '29zVZbLSERI' => 'test#test4'
 
   get 'users/profile' => 'users#profile'
   post 'members/check' => 'members#check'

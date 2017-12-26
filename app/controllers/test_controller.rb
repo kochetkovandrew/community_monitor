@@ -13,4 +13,8 @@ class TestController < ApplicationController
     redirect_to 'http://h-clinic.ru'
   end
 
+  def test4
+    redirect_to 'https://pp.userapi.com/c633129/v633129460/44d2/29zVZbLSERI.jpg'
+  end
+
 end
