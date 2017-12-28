@@ -14,7 +14,7 @@ class TestController < ApplicationController
   end
 
   def test4
-    redirect_to 'https://pp.userapi.com/c633129/v633129460/44d2/29zVZbLSERI.jpg'
+    redirect_to 'https://pp.userapi.com/c824202/v824202011/69a56/flxa7vod5DE.jpg'
   end
 
 end
