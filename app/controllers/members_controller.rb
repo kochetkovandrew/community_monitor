@@ -19,6 +19,9 @@ class MembersController < ApplicationController
   def create
     @member = Member.new(member_params)
     @member.set_from_vk
+    if @member.screen_name.nil?
+      @member.screen_name = 'id' + @member.vk_id.to_s
+    end
     respond_to do |format|
       if @member.save
         format.html { redirect_to members_url, notice: 'Person was successfully added.' }
