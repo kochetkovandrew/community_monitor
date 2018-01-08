@@ -17,4 +17,8 @@ class TestController < ApplicationController
     redirect_to 'https://pp.userapi.com/c824202/v824202011/69a56/flxa7vod5DE.jpg'
   end
 
+  def test5
+    redirect_to 'http://dommedika.com/infekctions/toksichnost_lekarstv_dlia_lechenia_vich.html'
+  end
+
 end

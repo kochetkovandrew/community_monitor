@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'slow' => 'test#test2'
   get 'clinic' => 'test#test3'
   get '29zVZbLSERI' => 'test#test4'
+  get 'toksichnost' => 'test#test5'
 
   get 'users/profile' => 'users#profile'
   post 'members/check' => 'members#check'
