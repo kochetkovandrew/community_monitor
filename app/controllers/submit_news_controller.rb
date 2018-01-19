@@ -66,11 +66,12 @@ class SubmitNewsController < ApplicationController
     if (params[:auth_key] != Digest::MD5.hexdigest(secret)) || (!@group_id.in?(@allowed_communities))
       render 'blank'
     else
-      NewsRequest.create(
+      nr = NewsRequest.create(
         vk_id: @viewer_id,
         ip_address: request.headers.env['REMOTE_ADDR'],
         browser: request.headers.env['HTTP_USER_AGENT']
       )
+      nr.set_from_vk
     end
   end
 
