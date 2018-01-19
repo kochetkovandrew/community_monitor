@@ -65,6 +65,12 @@ class SubmitNewsController < ApplicationController
     secret = params[:api_id] + '_' + params[:viewer_id] + '_' + secret_key
     if (params[:auth_key] != Digest::MD5.hexdigest(secret)) || (!@group_id.in?(@allowed_communities))
       render 'blank'
+    else
+      NewsRequest.create(
+        vk_id: @viewer_id,
+        ip_address: request.headers.env['REMOTE_ADDR'],
+        browser: request.headers.env['HTTP_USER_AGENT']
+      )
     end
   end
 

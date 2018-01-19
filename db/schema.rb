@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171222182537) do
+ActiveRecord::Schema.define(version: 20180119125700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,14 @@ ActiveRecord::Schema.define(version: 20171222182537) do
     t.text     "raw_friends"
     t.integer  "vk_id"
     t.text     "raw_followers"
+  end
+
+  create_table "news_requests", force: :cascade do |t|
+    t.integer  "vk_id",      limit: 8
+    t.text     "browser"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.string   "ip_address"
   end
 
   create_table "permission_users", force: :cascade do |t|
