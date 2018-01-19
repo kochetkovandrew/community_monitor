@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :communities
+  resources :news_requests
   get 'members/:id/friends' => 'members#friends'
   get 'members/:id/comments' => 'members#comments'
   get 'uploads/:id' => 'uploads#show'
