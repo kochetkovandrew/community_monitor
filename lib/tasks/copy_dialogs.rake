@@ -25,8 +25,9 @@ task :copy_dialogs => :environment do |t, args|
     step += 1
   end
   all_messages.sort_by! { |message| message[:id] }
-  puts all_messages.to_yaml
-  last_id = all_messages.last[:id]
+  if !all_messages.empty?
+    last_id = all_messages.last[:id]
+  end
   all_ids = all_messages.collect {|message| message[:id]}
   i = copy_dialog.copy_id
   while !(ids = all_ids.shift(25)).empty?
