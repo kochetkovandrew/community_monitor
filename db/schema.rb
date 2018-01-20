@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180119125700) do
+ActiveRecord::Schema.define(version: 20180120173129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,14 @@ ActiveRecord::Schema.define(version: 20180119125700) do
     t.datetime "updated_at"
   end
 
+  create_table "copy_dialogs", force: :cascade do |t|
+    t.integer  "source_id",       limit: 8
+    t.integer  "recipient_id",    limit: 8
+    t.integer  "last_message_id", limit: 8, default: 0, null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+  end
+
   create_table "members", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -72,11 +80,15 @@ ActiveRecord::Schema.define(version: 20180119125700) do
   end
 
   create_table "news_requests", force: :cascade do |t|
-    t.integer  "vk_id",      limit: 8
+    t.integer  "vk_id",         limit: 8
     t.text     "browser"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.string   "ip_address"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "city_title"
+    t.string   "country_title"
   end
 
   create_table "permission_users", force: :cascade do |t|
