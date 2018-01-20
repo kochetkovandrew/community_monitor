@@ -28,9 +28,14 @@ task :copy_dialogs => :environment do |t, args|
   puts all_messages.to_yaml
   last_id = all_messages.last[:id]
   all_ids = all_messages.collect {|message| message[:id]}
-  while !(ids = all_ids.shift(step_size)).empty?
-    vk_lock { vk.messages.send(peer_id: copy_dialog.recipient_id, message: '', forward_messages: ids) }
+  i = copy_dialog.copy_id
+  while !(ids = all_ids.shift(25)).empty?
+    i += 1
+    msg = 'copy' + i.to_s
+    vk_lock { vk.messages.send(peer_id: copy_dialog.recipient_id, message: msg, forward_messages: ids) }
+    sleep 5
   end
+  copy_dialog.copy_id = i
   copy_dialog.last_message_id = last_id
   copy_dialog.save
 end
