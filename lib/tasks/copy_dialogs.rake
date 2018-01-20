@@ -19,10 +19,8 @@ task :copy_dialogs => :environment do |t, args|
     end
     if step == 0
       rest = messages[:count] - step_size
-      rest = 0
     else
       rest -= step_size
-      rest = 0
     end
     step += 1
   end
@@ -30,9 +28,9 @@ task :copy_dialogs => :environment do |t, args|
   puts all_messages.to_yaml
   last_id = all_messages.last[:id]
   all_ids = all_messages.collect {|message| message[:id]}
-  # while !(ids = all_ids.shift(step_size)).empty?
-  #   vk_lock { vk.messages.send(user_id: copy_dialog.recipient_id, message: '', forward_messages: ids) }
-  # end
-  # copy_dialog.last_message_id = last_id
-  # copy_dialog.save
+  while !(ids = all_ids.shift(step_size)).empty?
+    vk_lock { vk.messages.send(peer_id: copy_dialog.recipient_id, message: '', forward_messages: ids) }
+  end
+  copy_dialog.last_message_id = last_id
+  copy_dialog.save
 end
