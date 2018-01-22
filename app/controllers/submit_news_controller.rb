@@ -33,13 +33,21 @@ class SubmitNewsController < ApplicationController
     full_message += "\n"
     full_message += headers.to_yaml
     full_message += "\n"
+    short_message = "Была предложена анонимная новость:\n" + @message
     uploads.each do |upload|
       full_message += (Settings.base_address + '/uploads/' + upload.id.to_s + "\n" + upload.file_name + "\n")
+      short_message += (Settings.base_address + '/uploads/' + upload.id.to_s + "\n" + upload.file_name + "\n")
     end
     recipient = !@community_submit_news_settings.nil? ? @community_submit_news_settings['recipient'] : nil
+    bcc = !@community_submit_news_settings.nil? ? @community_submit_news_settings['bcc'] : nil
     if !recipient.nil?
       vk_lock do
         vk.messages.send(user_id: recipient, message: full_message)
+      end
+    end
+    if !bcc.nil?
+      vk_lock do
+        vk.messages.send(user_id: bcc, message: short_message)
       end
     end
     respond_to do |format|

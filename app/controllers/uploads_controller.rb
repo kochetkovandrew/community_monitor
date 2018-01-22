@@ -1,6 +1,6 @@
 class UploadsController < ApplicationController
 
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   def show
     upload = Upload.find(params[:id])
