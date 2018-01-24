@@ -5,10 +5,9 @@
 <table id="listing_members">
   <thead>
   <tr>
-    <th>Screen name</th>
-    <th>First name</th>
-    <th>Last name</th>
     <th>VK ID</th>
+    <th>Имя</th>
+    <th>Последнее посещение</th>
     <th>&nbsp;</th>
   </tr>
   </thead>
@@ -16,10 +15,13 @@
   <tbody>
   <% @members.each do |member| %>
       <tr>
-        <td><%= member.screen_name %></td>
-        <td><%= member.first_name %></td>
-        <td><%= member.last_name %></td>
-        <td><%= member.vk_id %></td>
+        <td><%= link_to member.vk_id.to_s, 'https://vk.com/id' + member.vk_id.to_s %></td>
+        <td><%= member.first_name.to_s + ' ' + member.last_name.to_s %></td>
+        <td>
+          <% if !member.last_seen_at.nil? %>
+          <%= member.last_seen_at %>
+          <% end %>
+        </td>
         <td><%= link_to 'Show', member %>
           <!--
           <%= link_to 'Edit', edit_member_path(member) %>
