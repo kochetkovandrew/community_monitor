@@ -6,6 +6,9 @@ class SubmitNewsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create]
   after_action :allow_iframe, only: [:new, :create]
   before_filter :check_auth_key, only: [:new, :create]
+  before_action :authenticate_user!, only: [:index]
+  before_action { |f| f.require_permission! 'Admin' }, only: [:index]
+
 
   def new
     @access_token = params[:access_token]
