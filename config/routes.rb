@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   resources :communities
   resources :news_requests
+  resources :submit_news
+
   get 'members/:id/friends' => 'members#friends'
   get 'members/:id/comments' => 'members#comments'
   get 'uploads/:id' => 'uploads#show'
@@ -20,8 +22,9 @@ Rails.application.routes.draw do
 
   get 'community_member_histories/:id/diff' => 'community_member_histories#diff'
   get 'community_member_histories/:id' => 'community_member_histories#show'
-  get 'submit_news' => 'submit_news#new'
-  post 'submit_news' => 'submit_news#create'
+  # get 'submit_news' => 'submit_news#index'
+  # get 'submit_news/new' => 'submit_news#new'
+  # post 'submit_news' => 'submit_news#create'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

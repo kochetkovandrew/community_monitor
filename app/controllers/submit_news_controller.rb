@@ -95,4 +95,8 @@ class SubmitNewsController < ApplicationController
     end
   end
 
+  def index
+    @submit_news = SubmitNews.order(:created_at).all
+  end
+
 end
