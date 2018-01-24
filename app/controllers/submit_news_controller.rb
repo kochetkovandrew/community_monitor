@@ -7,9 +7,9 @@ class SubmitNewsController < ApplicationController
   after_action :allow_iframe, only: [:new, :create]
   before_filter :check_auth_key, only: [:new, :create]
   before_action :authenticate_user!, only: [:index]
-  before_action { |f| f.require_permission! 'Admin' }, only: [:index]
+  before_action only: [:index] { |f| f.require_permission! 'Admin' }
 
-  def index
+    def index
     @submit_news_all = SubmitNews.order(:created_at).all
   end
 
