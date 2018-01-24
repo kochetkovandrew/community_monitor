@@ -2,10 +2,10 @@ require 'digest'
 
 class SubmitNewsController < ApplicationController
 
-  layout 'blank'
+  layout 'blank', only: [:new, :create]
   skip_before_action :verify_authenticity_token, only: [:create]
-  after_action :allow_iframe
-  before_filter :check_auth_key
+  after_action :allow_iframe, only: [:new, :create]
+  before_filter :check_auth_key, only: [:new, :create]
 
   def new
     @access_token = params[:access_token]
