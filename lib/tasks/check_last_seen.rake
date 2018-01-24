@@ -1,6 +1,6 @@
 task check_last_seen: :environment do
   vk = VkontakteApi::Client.new Settings.vk.user_access_token
-  all_members = Member.all
+  all_members = Member.all.to_a
   while !(members = all_members.shift(1000)).empty?
     vk_ids = members.collect {|member| member.vk_id}.compact
     arr = members.collect {|member| [member.vk_id, member]}
