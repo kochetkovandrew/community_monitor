@@ -5,7 +5,7 @@
   <% @submit_news_all.each do |submit_news| %>
   <tr>
     <td>
-      <%= submit_news.news_text %>
+      <%= submit_news.news_text.gsub("\n", "<br>") %>
     </td>
   </tr>
   <% end %>
