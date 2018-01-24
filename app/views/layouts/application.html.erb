@@ -20,6 +20,9 @@
             <%= link_to "Люди", members_path, 'data-no-turbolink': true %>
           </li>
           <li>
+            <%= link_to "Предложенные новости", submit_news_path, 'data-no-turbolink': true %>
+          </li>
+            <li>
             <%= link_to('Выйти', destroy_user_session_path, method: :delete) %>
           </li>
         <% end %>
