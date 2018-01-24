@@ -9,6 +9,9 @@ class SubmitNewsController < ApplicationController
   before_action :authenticate_user!, only: [:index]
   before_action { |f| f.require_permission! 'Admin' }, only: [:index]
 
+  def index
+    @submit_news_all = SubmitNews.order(:created_at).all
+  end
 
   def new
     @access_token = params[:access_token]
@@ -96,10 +99,6 @@ class SubmitNewsController < ApplicationController
       )
       @nr.set_from_vk
     end
-  end
-
-  def index
-    @submit_news_all = SubmitNews.order(:created_at).all
   end
 
 end
