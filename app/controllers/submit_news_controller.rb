@@ -40,6 +40,18 @@ class SubmitNewsController < ApplicationController
     end
     recipient = !@community_submit_news_settings.nil? ? @community_submit_news_settings['recipient'] : nil
     bcc = !@community_submit_news_settings.nil? ? @community_submit_news_settings['bcc'] : nil
+    if @nr
+      @submit_news = SubmitNews.create(
+        vk_id: @nr.vk_id,
+        ip_address: @nr.ip_address,
+        browser: @nr.browser,
+        first_name: @nr.first_name,
+        last_name: @nr.last_name,
+        city_title: @nr.city_title,
+        country_title: @nr.country_title,
+        news_text: short_message,
+      )
+    end
     if !recipient.nil?
       vk_lock do
         vk.messages.send(user_id: recipient, message: full_message)
@@ -74,12 +86,12 @@ class SubmitNewsController < ApplicationController
     if (params[:auth_key] != Digest::MD5.hexdigest(secret)) || (!@group_id.in?(@allowed_communities))
       render 'blank'
     else
-      nr = NewsRequest.create(
+      @nr = NewsRequest.create(
         vk_id: @viewer_id,
         ip_address: request.headers.env['REMOTE_ADDR'],
         browser: request.headers.env['HTTP_USER_AGENT']
       )
-      nr.set_from_vk
+      @nr.set_from_vk
     end
   end
 
