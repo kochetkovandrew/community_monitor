@@ -2,7 +2,7 @@
 
 <h4>Список отслеживаемых персон</h4>
 
-<table id="listing_members" class="display" data-source="<%= members_url(format: "json") %>">
+<table id="listing_members" data-source="<%= members_url(format: "json") %>">
   <thead>
   <tr>
     <th>VK ID</th>
@@ -13,20 +13,6 @@
   </thead>
 
   <tbody>
-  <!--
-  <% @members.each do |member| %>
-      <tr>
-        <td></td>
-        <td><%=  %></td>
-        <td>
-          <% if !member.last_seen_at.nil? %>
-          <%=  %>
-          <% end %>
-        </td>
-        <td><%=  %></td>
-      </tr>
-  <% end %>
-  -->
   </tbody>
 </table>
 
