@@ -5,7 +5,7 @@
 jQuery ->
   $('table#listing_members').dataTable
     sPaginationType: "full_numbers"
-    bJQueryUI: true
+#    bJQueryUI: true
     bProcessing: true
     bServerSide: true
     sAjaxSource: $('#listing_members').data('source')

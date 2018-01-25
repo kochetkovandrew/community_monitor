@@ -32,7 +32,6 @@ class MembersDatatable
   end
 
   def fetch_members
-    Rails.logger.debug sort_column
     members = Member.order("#{sort_column} #{sort_direction} NULLS LAST")
     members = members.page(page).per_page(per_page)
     if params[:sSearch].present?
@@ -54,8 +53,8 @@ class MembersDatatable
       vk_id
       concat_ws('\ ',first_name,last_name)
       last_seen_at
+      last_seen_at
     ]
-    Rails.logger.debug columns
     columns[params[:iSortCol_0].to_i]
   end
 
