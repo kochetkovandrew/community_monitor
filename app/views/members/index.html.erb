@@ -2,7 +2,7 @@
 
 <h4>Список отслеживаемых персон</h4>
 
-<table id="listing_members">
+<table id="listing_members" class="display" data-source="<%= members_url(format: "json") %>">
   <thead>
   <tr>
     <th>VK ID</th>
@@ -13,21 +13,20 @@
   </thead>
 
   <tbody>
+  <!--
   <% @members.each do |member| %>
       <tr>
-        <td><%= link_to member.vk_id.to_s, 'https://vk.com/id' + member.vk_id.to_s %></td>
-        <td><%= member.first_name.to_s + ' ' + member.last_name.to_s %></td>
+        <td></td>
+        <td><%=  %></td>
         <td>
           <% if !member.last_seen_at.nil? %>
-          <%= member.last_seen_at %>
+          <%=  %>
           <% end %>
         </td>
-        <td><%= link_to 'Show', member %>
-          <!--
-          <%= link_to 'Edit', edit_member_path(member) %>
-          <%= link_to 'Destroy', member, method: :delete, data: { confirm: 'Are you sure?' } %>--></td>
+        <td><%=  %></td>
       </tr>
   <% end %>
+  -->
   </tbody>
 </table>
 

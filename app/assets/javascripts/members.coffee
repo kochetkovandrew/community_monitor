@@ -3,5 +3,10 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 jQuery ->
-  $('table#listing_members').dataTable()
+  $('table#listing_members').dataTable
+    sPaginationType: "full_numbers"
+    bJQueryUI: true
+    bProcessing: true
+    bServerSide: true
+    sAjaxSource: $('#listing_members').data('source')
   $('table.friends_info').dataTable()

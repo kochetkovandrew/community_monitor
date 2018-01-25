@@ -8,6 +8,7 @@ gem 'rails', '4.2.5'
 gem 'pg', '0.20'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
+gem 'sprockets-less'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -28,6 +29,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'vkontakte_api', '~> 1.4'
 gem 'devise'
 gem 'devise-i18n'
+
+gem 'will_paginate'
 
 gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS

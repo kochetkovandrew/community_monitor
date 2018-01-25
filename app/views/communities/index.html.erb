@@ -5,9 +5,10 @@
 <table id="listing_communities">
   <thead>
     <tr>
+      <th></th>
+      <th>Название</th>
       <th>Короткое имя</th>
       <th>VK ID</th>
-      <th>Название</th>
       <th>Участников</th>
       <th>Прирост</th>
       <th>&nbsp;</th>
@@ -17,9 +18,16 @@
   <tbody>
     <% @communities.each do |community| %>
       <tr>
+        <td width="8px;">
+          <% if community.monitor_members %>
+            <font color="red">+</font>
+          <% end %>
+        </td>
+        <td>
+          <%= community.name %>
+        </td>
         <td><%= link_to community.screen_name, 'https://vk.com/' + community.screen_name %></td>
         <td><%= community.vk_id %></td>
-        <td><%= community.name %></td>
         <td>
           <% if !@histories_hash[community.id].nil? %>
             <%= @histories_hash[community.id].members_count %>
@@ -33,9 +41,9 @@
             <% end %>
           <% end %>
         </td>
-        <td><%= link_to 'Show', community %>
+        <td><%= link_to 'Показать', community %>
+          <%= link_to 'Редактировать', edit_community_path(community) %>
           <!--
-          <%= link_to 'Edit', edit_community_path(community) %>
           <%= link_to 'Destroy', community, method: :delete, data: { confirm: 'Are you sure?' } %>--></td>
       </tr>
     <% end %>

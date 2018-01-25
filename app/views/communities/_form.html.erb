@@ -13,8 +13,14 @@
 
   <div class="field">
     <%= f.label :screen_name %><br>
-    <%= f.text_field :screen_name %>
+    <%= f.text_field :screen_name, disabled: !@community.new_record? %>
   </div>
+
+  <div class="field">
+    <%= f.label 'Отслеживать участников?' %><br>
+    <%= f.check_box :monitor_members %>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>
