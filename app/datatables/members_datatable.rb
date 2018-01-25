@@ -35,7 +35,7 @@ class MembersDatatable
     members = Member.order("#{sort_column} #{sort_direction} NULLS LAST")
     members = members.page(page).per_page(per_page)
     if params[:sSearch].present?
-      members = members.where("first_name like :search or last_name like :search or vk_id like :search", search: "%#{params[:sSearch]}%")
+      members = members.where("first_name like :search or last_name like :search or screen_name like :search", search: "%#{params[:sSearch]}%")
     end
     members
   end
