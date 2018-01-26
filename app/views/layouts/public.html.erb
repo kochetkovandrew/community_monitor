@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ВИЧ/СПИД диссиденты и их дети</title>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <% if user_signed_in? %>
+          <li>
+            <%= link_to "Сообщества", communities_path, 'data-no-turbolink': true %>
+          </li>
+          <li>
+            <%= link_to "Люди", members_path, 'data-no-turbolink': true %>
+          </li>
+          <li>
+            <%= link_to "Предложенные новости", submit_news_index_path, 'data-no-turbolink': true %>
+          </li>
+          <li>
+            <%= link_to('Выйти', destroy_user_session_path, method: :delete) %>
+          </li>
+        <% else %>
+          <li>
+            <%= link_to('Войти', new_user_session_path) %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div style="text-align: center; padding-bottom: 20px;">
+  <img src="/header.jpg">
+</div>
+<div class="public">
+  <span>
+    <%= yield %>
+  </span>
+</div>
+
+</body>
+</html>

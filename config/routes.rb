@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'members/:id/friends' => 'members#friends'
   get 'members/:id/comments' => 'members#comments'
   get 'uploads/:id' => 'uploads#show'
+  get 'frontpage' => 'frontpage#index'
 
   resources :members
   get 'wall-69659144_113021' => 'test#test'
@@ -31,7 +32,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'communities#index'
+  root 'frontpage#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
