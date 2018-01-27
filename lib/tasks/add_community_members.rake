@@ -1,5 +1,5 @@
 task add_community_members: :environment do
-  all_member_ids = Member.all.collect{|member| member.vk_id}
+  all_member_ids = Member.select(:vk_id).all.collect{|member| member.vk_id}
   history_ids = CommunityMemberHistory.select('community_id, max(id) as max_id').group('community_id').collect{|cmh| cmh.max_id}
   @histories_hash = Hash[*(CommunityMemberHistory.where(id: history_ids).all.collect{|cmh| [cmh.community_id, cmh]}.flatten)]
   Community.where(monitor_members: true).all.each do |community|
