@@ -43,6 +43,7 @@ gem 'select2-rails'
 
 # gem 'bootstrap-select-rails'
 gem 'bootstrap-select-wrapper-rails'
+gem "font-awesome-rails"
 
 gem 'settingslogic'
 
