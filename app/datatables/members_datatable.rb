@@ -23,7 +23,7 @@ class MembersDatatable
         full_name: member.first_name.to_s + ' ' + member.last_name.to_s,
         last_seen_at: member.last_seen_at.nil? ? '' : member.last_seen_at,
         links:
-          link_to('Показать', member, { class: 'btn btn-sm btn-outline-primary', role: 'button'}) +
+          link_to(content_tag(:i, '', class: 'fa fa-info'), member, { class: 'btn btn-sm btn-outline-primary', role: 'button', title: 'Показать'}) +
           select_tag('member[status]', options_for_select(
             [
               ['Не просмотрен', 'not_viewed', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-info'>Не просмотрен</span>"}],
