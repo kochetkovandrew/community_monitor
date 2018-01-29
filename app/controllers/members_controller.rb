@@ -38,8 +38,9 @@ class MembersController < ApplicationController
   end
 
   def update
+    p @member
     respond_to do |format|
-      if @member.update(community_params)
+      if @member.update(member_params)
         format.html { redirect_to @member, notice: 'Person was successfully updated.' }
         format.json { render :show, status: :ok, location: @member }
       else
@@ -85,12 +86,12 @@ class MembersController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_member
-    member = Member.find(params[:id])
+    @member = Member.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def member_params
-    params.require(:member).permit(:screen_name)
+    params.require(:member).permit(:screen_name, :status)
   end
 
 

@@ -1,5 +1,5 @@
 class MembersDatatable
-  delegate :params, :link_to, to: :@view
+  delegate :params, :link_to, :select_tag, :options_for_select, :content_tag, to: :@view
 
   def initialize(view)
     @view = view
@@ -18,12 +18,24 @@ class MembersDatatable
 
   def data
     members.map do |member|
-      [
-        link_to(member.vk_id.to_s, 'https://vk.com/id' + member.vk_id.to_s),
-        member.first_name.to_s + ' ' + member.last_name.to_s,
-        member.last_seen_at.nil? ? '' : member.last_seen_at,
-        link_to('Показать', member),
-      ]
+      {
+        vk_id: link_to(member.vk_id.to_s, 'https://vk.com/id' + member.vk_id.to_s),
+        full_name: member.first_name.to_s + ' ' + member.last_name.to_s,
+        last_seen_at: member.last_seen_at.nil? ? '' : member.last_seen_at,
+        links:
+          link_to('Показать', member, { class: 'btn btn-sm btn-outline-primary', role: 'button'}) +
+          select_tag('member[status]', options_for_select(
+            [
+              ['Не просмотрен', 'not_viewed', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-info'>Не просмотрен</span>"}],
+              ['Неизвестно', 'no_info', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-info'>Неизвестно</span>"}],
+              ['Внимание', 'warning', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-warning'>Внимание</span>"}],
+              ['Умер', 'dead', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-danger'>Умер</span>"}],
+              ['Обработан', 'handled', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-success'>Обработан</span>"}],
+            ], member.status), {:class => 'selectpicker', 'data-width' => '150px'}),
+        status: member.status,
+        DT_RowId: 'member_' + member.id.to_s,
+        DT_RowAttr: { 'data-id': member.id },
+      }
     end
   end
 

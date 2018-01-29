@@ -14,7 +14,7 @@
 // require jquery.turbolinks
 //= require jquery_ujs
 //= require twitter/bootstrap
-
+//= require bootstrap-select
 //= require dataTables/jquery.dataTables
 //= require dataTables/jquery.dataTables.api.fnReloadAjax
 // require jquery.ui.all
@@ -23,3 +23,7 @@
 // require turbolinks
 
 //= require_tree .
+
+function getIdFromString(string_id) {
+    return parseInt(string_id.substr(string_id.lastIndexOf('_')+1));
+}

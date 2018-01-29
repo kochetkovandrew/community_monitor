@@ -41,6 +41,9 @@ gem 'jquery-ui-themes'
 gem 'jquery-datatables-rails', '~> 3.4.0'
 gem 'select2-rails'
 
+# gem 'bootstrap-select-rails'
+gem 'bootstrap-select-wrapper-rails'
+
 gem 'settingslogic'
 
 # Use ActiveModel has_secure_password

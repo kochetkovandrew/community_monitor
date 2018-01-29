@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180126084259) do
+ActiveRecord::Schema.define(version: 20180128135837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20180126084259) do
     t.integer  "vk_id"
     t.text     "raw_followers"
     t.boolean  "manually_added",     default: true
+    t.string   "status",             default: "not_viewed"
   end
 
   create_table "news_requests", force: :cascade do |t|
