@@ -1,9 +1,10 @@
 <h4>Предложенные новости</h4>
 
-<table>
+<table class="table table-striped">
   <tbody>
   <% @submit_news_all.each do |submit_news| %>
   <tr>
+    <td><%= submit_news.created_at %></td>
     <td>
       <% submit_news.news_text.split("\n").each do |piece| %>
         <%= piece %><br/>
