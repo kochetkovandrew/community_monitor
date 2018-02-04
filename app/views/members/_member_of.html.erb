@@ -1,0 +1,5 @@
+<h4>Участник сообществ</h4>
+
+<p>
+  <% @member_of.collect{ |community| community.name }.join(",") %>
+</p>

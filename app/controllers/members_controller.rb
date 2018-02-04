@@ -63,6 +63,7 @@ class MembersController < ApplicationController
     res = @member.friends_in_communities
     @friend_hash = res[:friend_hash]
     @friends_in_communities = res[:friends_in_communities]
+    @member_of = res[:member_of]
   end
 
   def friends

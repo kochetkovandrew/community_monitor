@@ -5,4 +5,5 @@
 <%= link_to 'Все друзья', {controller: :members, action: :friends, id: @member.id} %>
 <%= link_to 'Комментарии', {controller: :members, action: :comments, id: @member.id} %>
 
+<%= render 'member_of' %>
 <%= render 'friends_in_communities' %>

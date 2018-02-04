@@ -96,6 +96,7 @@ class Member < ActiveRecord::Base
     friend_ids = friend_arr.collect{|friend| friend['id']}
     friend_hash = friend_arr.collect{|friend| [friend['id'], friend]}.to_h
     friends_in_communities_arr = []
+    member_of = []
     Community.all.each do |community|
       cmh = community.community_member_histories.order('created_at desc').first
       if (!cmh.nil?)
@@ -104,9 +105,12 @@ class Member < ActiveRecord::Base
         if !intersection.empty?
           friends_in_communities_arr.push({community: community, friends: intersection})
         end
+        if self.id.in?(community_members)
+          member_of.push community
+        end
       end
     end
-    return {friend_hash: friend_hash, friends_in_communities: friends_in_communities_arr}
+    return {friend_hash: friend_hash, friends_in_communities: friends_in_communities_arr, member_of: member_of}
   end
 
 end
