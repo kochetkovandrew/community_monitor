@@ -1,14 +1,27 @@
 <h4>Предложенные новости</h4>
 
 <table class="table table-striped">
+  <thead>
+    <th>Дата</th>
+    <th>Текст</th>
+    <th></th>
+  </thead>
   <tbody>
   <% @submit_news_all.each do |submit_news| %>
-  <tr>
+  <tr data-id="<%= submit_news.id %>">
     <td><%= submit_news.created_at %></td>
     <td>
       <% submit_news.news_text.split("\n").each do |piece| %>
         <%= piece %><br/>
       <% end %>
+    </td>
+    <td>
+      <%= select_tag('submit_news[status]', options_for_select(
+          [
+              ['Не обработано', 'not_handled', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-info'>Не обработано</span>"}],
+              ['Написано', 'written', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-info'>Написано</span>"}],
+              ['Обработано', 'handled', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-success'>Обработано</span>"}]
+          ], submit_news.status), {:class => 'selectpicker', 'data-width' => '150px'}) %>
     </td>
   </tr>
   <% end %>

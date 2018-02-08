@@ -38,7 +38,6 @@ class MembersController < ApplicationController
   end
 
   def update
-    p @member
     respond_to do |format|
       if @member.update(member_params)
         format.html { redirect_to @member, notice: 'Person was successfully updated.' }
