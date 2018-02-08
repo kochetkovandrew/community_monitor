@@ -18,7 +18,7 @@
     <td>
       <%= select_tag('submit_news[status]', options_for_select(
           [
-              ['Не обработано', 'not_handled', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-info'>Не обработано</span>"}],
+              ['Не обработано', 'not_handled', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-warning'>Не обработано</span>"}],
               ['Написано', 'written', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-info'>Написано</span>"}],
               ['Обработано', 'handled', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-success'>Обработано</span>"}]
           ], submit_news.status), {:class => 'selectpicker', 'data-width' => '150px'}) %>
