@@ -1,6 +1,6 @@
 <h4>Предложенные новости</h4>
 
-<table class="table table-striped">
+<table id="submit_news" class="table table-striped">
   <thead>
     <th>Дата</th>
     <th>Текст</th>
@@ -11,9 +11,12 @@
   <tr data-id="<%= submit_news.id %>">
     <td><%= submit_news.created_at %></td>
     <td>
-      <% submit_news.news_text.split("\n").each do |piece| %>
-        <%= piece %><br/>
-      <% end %>
+      <div class="submit_news min_height">
+        <% submit_news.news_text.split("\n").each do |piece| %>
+          <%= piece %><br/>
+        <% end %>
+      </div>
+      <button class="wrap" type="button"><i class="fa fa-angle-double-down"></i></button>
     </td>
     <td>
       <%= select_tag('submit_news[status]', options_for_select(
