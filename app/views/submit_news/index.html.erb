@@ -19,6 +19,31 @@
       <button class="wrap" type="button"><i class="fa fa-angle-double-down"></i></button>
     </td>
     <td>
+<!--
+      <div class="btn-group">
+        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+          Action <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li class="btn-dropdown-element">
+            <button type="button" class="btn btn-warning">
+              Не обработано
+            </button>
+          </li>
+          <li class="btn-dropdown-element">
+            <button type="button" class="btn btn-info">
+              Написано
+            </button>
+          </li>
+          <li class="btn-dropdown-element">
+            <button type="button" class="btn btn-success">
+              Обработано
+            </button>
+          </li>
+        </ul>
+      </div>
+-->
+      <%= link_to 'Детали', submit_news, class: :btn %>
       <%= select_tag('submit_news[status]', options_for_select(
           [
               ['Не обработано', 'not_handled', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-warning'>Не обработано</span>"}],

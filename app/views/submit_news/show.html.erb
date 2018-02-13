@@ -1,0 +1,19 @@
+<h4>Присланная новость</h4>
+<p>
+  <strong>Текст новости:</strong>
+</p>
+<% @submit_news.news_text.split("\n").each do |piece| %>
+    <%= piece %><br/>
+<% end %>
+<p>
+  <strong>Комментарий группы:</strong>
+</p>
+<% if !@submit_news.answer.nil? %>
+  <% @submit_news.answer.split("\n").each do |piece| %>
+    <%= piece %><br/>
+  <% end %>
+<% end %>
+<p>
+  <%= link_to 'Назад', submit_news_index_path, class: :btn %>
+  <%= link_to 'Редактировать', edit_submit_news_path(@submit_news), class: :btn %>
+</p>

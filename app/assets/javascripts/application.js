@@ -23,7 +23,3 @@
 // require turbolinks
 
 //= require_tree .
-
-function getIdFromString(string_id) {
-    return parseInt(string_id.substr(string_id.lastIndexOf('_')+1));
-}

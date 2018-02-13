@@ -7,11 +7,19 @@ class SubmitNewsController < ApplicationController
   after_action :allow_iframe, only: [:new, :create]
   before_filter :check_auth_key, only: [:new, :create]
   before_action :authenticate_user!, only: [:index]
-  before_action :set_submit_news, only: [:update]
+  before_action :set_submit_news, only: [:show, :edit, :update]
   before_action only: [:index] { |f| f.require_permission! 'Admin' }
 
   def index
     @submit_news_all = SubmitNews.order('created_at desc').all
+  end
+
+  def show
+
+  end
+
+  def edit
+
   end
 
   def new
@@ -78,7 +86,7 @@ class SubmitNewsController < ApplicationController
   def update
     respond_to do |format|
       if @submit_news.update(submit_news_params)
-        format.html { redirect_to submit_news, notice: 'News was successfully updated.' }
+        format.html { redirect_to @submit_news, notice: 'News was successfully updated.' }
         format.json { render :show, status: :ok, location: @submit_news }
       else
         format.html { render :edit }
@@ -123,7 +131,7 @@ class SubmitNewsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def submit_news_params
-    params.require(:submit_news).permit(:status)
+    params.require(:submit_news).permit([:status, :news_text, :answer])
   end
 
 end
