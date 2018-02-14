@@ -12,9 +12,13 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.label 'Название' %><br>
+    <%= f.text_field :name, disabled: true %>
   </div>
+    <div class="field">
+      <%= f.label 'Перевод' %><br>
+      <%= f.text_field :translation %>
+    </div>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -1,8 +1,12 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
+  <strong>Название:</strong>
   <%= @other_drug.name %>
+</p>
+<p>
+  <strong>Перевод:</strong>
+  <%= @other_drug.translation %>
 </p>
 
 <%= link_to 'Edit', edit_other_drug_path(@other_drug) %> |
