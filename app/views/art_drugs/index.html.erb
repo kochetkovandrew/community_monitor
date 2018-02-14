@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>АРТ</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Аббревиатура</th>
+      <th>Название (лат.)</th>
+      <th>Перевод</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @art_drugs.each do |art_drug| %>
+      <tr>
+        <td><%= art_drug.abbreviation %></td>
+        <td><%= art_drug.name %></td>
+        <td><%= art_drug.translation %></td>
+        <td><%= link_to 'Show', art_drug %></td>
+        <td><%= link_to 'Edit', edit_art_drug_path(art_drug) %></td>
+        <td><%= link_to 'Destroy', art_drug, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Art drug', new_art_drug_path %>

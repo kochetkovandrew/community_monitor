@@ -1,0 +1,29 @@
+<%= form_for(@art_drug) do |f| %>
+  <% if @art_drug.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@art_drug.errors.count, "error") %> prohibited this art_drug from being saved:</h2>
+
+      <ul>
+      <% @art_drug.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="field">
+      <%= f.label :abbreviation %><br>
+      <%= f.text_field :abbreviation, disabled: true %>
+    </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+    <div class="field">
+      <%= f.label :translation %><br>
+      <%= f.text_field :translation %>
+    </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

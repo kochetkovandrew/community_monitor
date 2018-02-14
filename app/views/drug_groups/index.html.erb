@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Drug Groups</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Translation</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @drug_groups.each do |drug_group| %>
+      <tr>
+        <td><%= drug_group.name %></td>
+        <td><%= drug_group.translation %></td>
+        <td><%= link_to 'Show', drug_group %></td>
+        <td><%= link_to 'Edit', edit_drug_group_path(drug_group) %></td>
+        <td><%= link_to 'Destroy', drug_group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Drug group', new_drug_group_path %>

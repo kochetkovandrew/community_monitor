@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :drug_groups
+  resources :other_drugs
+  resources :art_drugs
   devise_for :users
 
   resources :communities

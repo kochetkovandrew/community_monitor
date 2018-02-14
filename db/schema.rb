@@ -11,10 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180213110222) do
+ActiveRecord::Schema.define(version: 20180214123641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "art_drug_other_drugs", force: :cascade do |t|
+    t.integer  "art_drug_id"
+    t.integer  "other_drug_id"
+    t.string   "interaction"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "art_drugs", force: :cascade do |t|
+    t.string   "abbreviation"
+    t.string   "name"
+    t.text     "hidden_name"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "drug_group_id"
+    t.string   "translation"
+  end
 
   create_table "attachments", force: :cascade do |t|
     t.string   "kind"
@@ -56,6 +74,13 @@ ActiveRecord::Schema.define(version: 20180213110222) do
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
     t.integer  "copy_id"
+  end
+
+  create_table "drug_groups", force: :cascade do |t|
+    t.string   "name"
+    t.string   "translation"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "member_last_seens", force: :cascade do |t|
@@ -101,6 +126,15 @@ ActiveRecord::Schema.define(version: 20180213110222) do
     t.string   "last_name"
     t.string   "city_title"
     t.string   "country_title"
+  end
+
+  create_table "other_drugs", force: :cascade do |t|
+    t.string   "name"
+    t.text     "hidden_name"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "other_drugs_id"
+    t.string   "translation"
   end
 
   create_table "permission_users", force: :cascade do |t|
