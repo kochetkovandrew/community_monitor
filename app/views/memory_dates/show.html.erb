@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Day:</strong>
+  <%= @memory_date.day %>
+</p>
+
+<p>
+  <strong>Month:</strong>
+  <%= @memory_date.month %>
+</p>
+
+<p>
+  <strong>Year:</strong>
+  <%= @memory_date.year %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @memory_date.description %>
+</p>
+
+<p>
+  <strong>Kind:</strong>
+  <%= @memory_date.kind %>
+</p>
+
+<%= link_to 'Edit', edit_memory_date_path(@memory_date) %> |
+<%= link_to 'Back', memory_dates_path %>
