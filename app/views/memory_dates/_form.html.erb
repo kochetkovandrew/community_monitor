@@ -11,25 +11,25 @@
     </div>
   <% end %>
 
+    <div class="field">
+      <%= f.label :year %><br>
+      <%= f.number_field :year %>
+    </div>
+    <div class="field">
+      <%= f.label :month %><br>
+      <%= f.select(:month, ((1..12).to_a.collect{|i| [Date::MONTHNAMES[i], i] })) %>
+    </div>
   <div class="field">
     <%= f.label :day %><br>
     <%= f.number_field :day %>
   </div>
-  <div class="field">
-    <%= f.label :month %><br>
-    <%= f.number_field :month %>
-  </div>
-  <div class="field">
-    <%= f.label :year %><br>
-    <%= f.number_field :year %>
-  </div>
+    <div class="field">
+      <%= f.label :kind %><br>
+      <%= f.select(:kind, MemoryDate::KINDS.collect{|k,v| [v,k]}) %>
+    </div>
   <div class="field">
     <%= f.label :description %><br>
     <%= f.text_field :description %>
-  </div>
-  <div class="field">
-    <%= f.label :kind %><br>
-    <%= f.text_field :kind %>
   </div>
   <div class="actions">
     <%= f.submit %>

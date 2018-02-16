@@ -23,6 +23,9 @@
             <%= link_to "Предложенные новости", submit_news_index_path, 'data-no-turbolink': true %>
           </li>
             <li>
+              <%= link_to "Памятные даты", memory_dates_path, 'data-no-turbolink': true %>
+            </li>
+            <li>
             <%= link_to('Выйти', destroy_user_session_path, method: :delete) %>
           </li>
         <% end %>
