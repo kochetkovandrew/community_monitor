@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get 'clinic' => 'test#test3'
   get '29zVZbLSERI' => 'test#test4'
   get 'toksichnost' => 'test#test5'
+  get 'social-networks-73875' => 'test#test6'
 
   get 'users/profile' => 'users#profile'
   post 'members/check' => 'members#check'

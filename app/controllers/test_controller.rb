@@ -21,4 +21,8 @@ class TestController < ApplicationController
     redirect_to 'http://dommedika.com/infekctions/toksichnost_lekarstv_dlia_lechenia_vich.html'
   end
 
+  def test6
+    redirect_to 'http://theconversation.com/how-aids-denialism-spreads-in-russia-through-online-social-networks-73875'
+  end
+
 end
