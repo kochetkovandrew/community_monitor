@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :memory_dates
   resources :drug_groups
   resources :other_drugs
   resources :art_drugs

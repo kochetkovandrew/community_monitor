@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180214123641) do
+ActiveRecord::Schema.define(version: 20180216145650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,16 @@ ActiveRecord::Schema.define(version: 20180214123641) do
     t.string   "status",             default: "not_viewed"
   end
 
+  create_table "memory_dates", force: :cascade do |t|
+    t.integer  "day"
+    t.integer  "month"
+    t.integer  "year"
+    t.string   "description"
+    t.string   "kind"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "news_requests", force: :cascade do |t|
     t.integer  "vk_id",         limit: 8
     t.text     "browser"
@@ -131,9 +141,9 @@ ActiveRecord::Schema.define(version: 20180214123641) do
   create_table "other_drugs", force: :cascade do |t|
     t.string   "name"
     t.text     "hidden_name"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "other_drugs_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "drug_group_id"
     t.string   "translation"
   end
 
