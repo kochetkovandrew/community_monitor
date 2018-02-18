@@ -4,7 +4,7 @@ class NewsRequestsController < ApplicationController
   before_action { |f| f.require_permission! 'Admin' }
 
   def index
-    @news_requests = NewsRequest.order('created_at asc').all
+    @news_requests = NewsRequest.order('created_at desc').all
   end
 
 end

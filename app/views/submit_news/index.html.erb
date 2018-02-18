@@ -3,6 +3,7 @@
 <table id="submit_news" class="table table-striped">
   <thead>
     <th>Дата</th>
+    <th>Группа</th>
     <th>Текст</th>
     <th></th>
   </thead>
@@ -10,6 +11,7 @@
   <% @submit_news_all.each do |submit_news| %>
   <tr data-id="<%= submit_news.id %>">
     <td><%= submit_news.created_at %></td>
+    <td><%= submit_news.community.screen_name %></td>
     <td>
       <div class="submit_news min_height">
         <% submit_news.news_text.split("\n").each do |piece| %>

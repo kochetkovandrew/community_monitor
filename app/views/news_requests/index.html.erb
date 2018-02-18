@@ -5,24 +5,26 @@
 <table id="listing_news_requests">
   <thead>
     <tr>
+      <th>Время</th>
+      <th>Группа</th>
       <th>Имя</th>
       <th>Город</th>
       <th>VK ID</th>
       <th>IP</th>
       <th>Браузер</th>
-      <th>Время</th>
     </tr>
   </thead>
 
   <tbody>
   <% @news_requests.each do |news_request| %>
       <tr>
+        <td><%= news_request.created_at %></td>
+        <td><%= news_request.community.screen_name %></td>
         <td><%= news_request.first_name.to_s + ' ' + news_request.last_name.to_s %></td>
         <td><%= news_request.city_title.to_s + ', ' + news_request.country_title.to_s %></td>
         <td><%= link_to('id' + news_request.vk_id.to_s, 'https://vk.com/id' + news_request.vk_id.to_s) %></td>
         <td><%= news_request.ip_address %></td>
         <td><%= news_request.browser %></td>
-        <td><%= news_request.created_at %></td>
       </tr>
   <% end %>
   </tbody>
