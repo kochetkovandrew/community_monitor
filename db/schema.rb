@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180216145650) do
+ActiveRecord::Schema.define(version: 20180218122930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,15 +127,16 @@ ActiveRecord::Schema.define(version: 20180216145650) do
   end
 
   create_table "news_requests", force: :cascade do |t|
-    t.integer  "vk_id",         limit: 8
+    t.integer  "vk_id",           limit: 8
     t.text     "browser"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "ip_address"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "city_title"
     t.string   "country_title"
+    t.integer  "community_id_id"
   end
 
   create_table "other_drugs", force: :cascade do |t|
@@ -192,7 +193,7 @@ ActiveRecord::Schema.define(version: 20180216145650) do
   end
 
   create_table "submit_news", force: :cascade do |t|
-    t.integer  "vk_id",         limit: 8
+    t.integer  "vk_id",           limit: 8
     t.string   "ip_address"
     t.text     "browser"
     t.string   "first_name"
@@ -200,10 +201,11 @@ ActiveRecord::Schema.define(version: 20180216145650) do
     t.string   "city_title"
     t.string   "country_title"
     t.text     "news_text"
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
-    t.string   "status",                  default: "not_handled"
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.string   "status",                    default: "not_handled"
     t.text     "answer"
+    t.integer  "community_id_id"
   end
 
   create_table "topics", force: :cascade do |t|
