@@ -105,7 +105,7 @@ class Member < ActiveRecord::Base
         if !intersection.empty?
           friends_in_communities_arr.push({community: community, friends: intersection})
         end
-        if self.id.in?(community_members)
+        if self.vk_id.in?(community_members)
           member_of.push community
         end
       end
