@@ -11,7 +11,7 @@ class SubmitNewsController < ApplicationController
   before_action only: [:index] { |f| f.require_permission! 'Admin' }
 
   def index
-    @submit_news_all = SubmitNews.order('created_at desc').all
+    @submit_news_all = SubmitNews.order('created_at desc').includes([:communities]).all
   end
 
   def show

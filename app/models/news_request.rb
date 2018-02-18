@@ -1,5 +1,7 @@
 class NewsRequest < ActiveRecord::Base
 
+  belongs_to :community
+
   def set_from_vk
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
     raw_user = vk_lock { vk.users.get(user_ids: [self.vk_id], fields: [ :city, :country ])[0] }
