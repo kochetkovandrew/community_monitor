@@ -12,18 +12,18 @@
   <% end %>
 
   <div class="field">
-    <%= f.label 'Название' %><br>
-    <%= f.text_field :name, disabled: true %>
+    <%= f.label 'Название (лат)' %><br>
+    <%= f.text_field :name, size: 80, disabled: true %>
   </div>
   <div class="field">
     <%= f.label 'Перевод' %><br>
-    <%= f.text_field :translation %>
+    <%= f.text_field :translation, size: 80 %>
   </div>
   <div class="field">
-    <%= f.label 'Описание' %><br>
-    <%= f.text_area :hidden_name %>
+    <%= f.label 'Другие названия, каждое с новой строки' %><br>
+    <%= f.text_area :hidden_name, cols: 80, rows: 10 %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Сохранить' %>
   </div>
 <% end %>

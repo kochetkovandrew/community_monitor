@@ -1,14 +1,14 @@
 <p id="notice"><%= notice %></p>
 
-<h1>АРТ</h1>
+<h4>Список препаратов (АРТ)</h4>
 
-<table class="table">
+<table class="table" id="art_drugs">
   <thead>
     <tr>
       <th>Аббревиатура</th>
       <th>Название (лат.)</th>
       <th>Перевод</th>
-      <th colspan="3"></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -17,10 +17,10 @@
       <tr>
         <td><%= art_drug.abbreviation %></td>
         <td><%= art_drug.name %></td>
-        <td><%= art_drug.translation %></td>
-        <td><%= link_to 'Show', art_drug %></td>
-        <td><%= link_to 'Edit', edit_art_drug_path(art_drug) %></td>
-        <td><%= link_to 'Destroy', art_drug, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td title="<%= art_drug.hidden_name %>"><%= art_drug.translation %></td>
+        <td><%= link_to 'Show', art_drug %>
+            <%= link_to 'Edit', edit_art_drug_path(art_drug) %>
+            <%= link_to 'Destroy', art_drug, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Art drug', new_art_drug_path %>
+<%= link_to 'Новый препарат', new_art_drug_path %>

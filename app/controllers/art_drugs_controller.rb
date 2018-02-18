@@ -69,6 +69,6 @@ class ArtDrugsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def art_drug_params
-      params.require(:art_drug).permit([:name, :translation])
+      params.require(:art_drug).permit([:name, :translation, :hidden_name])
     end
 end

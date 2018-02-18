@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Other Drugs</h1>
+<h4>Список препаратов (не АРТ)</h4>
 
 <table class="table" id="other_drugs">
   <thead>
@@ -16,7 +16,7 @@
     <% @other_drugs.each do |other_drug| %>
       <tr>
         <td><%= other_drug.name %></td>
-        <td><%= other_drug.translation %></td>
+        <td title="<%= other_drug.hidden_name %>"><%= other_drug.translation %></td>
         <td><%= other_drug.drug_group.name %></td>
         <td><%= link_to 'Show', other_drug %>
             <%= link_to 'Edit', edit_other_drug_path(other_drug) %>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Other drug', new_other_drug_path %>
+<%= link_to 'Новый препарат', new_other_drug_path %>
