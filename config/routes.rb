@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'members/:id/comments' => 'members#comments'
   get 'uploads/:id' => 'uploads#show'
   get 'frontpage' => 'frontpage#index'
+  get 'druginteractions' => 'druginteractions#index'
 
   resources :members
   get 'wall-69659144_113021' => 'test#test'

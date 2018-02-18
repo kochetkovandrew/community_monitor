@@ -8,6 +8,9 @@
   <strong>Перевод:</strong>
   <%= @other_drug.translation %>
 </p>
-
+<p>
+  <strong>Описание:</strong>
+  <%= @other_drug.hidden_name %>
+</p>
 <%= link_to 'Edit', edit_other_drug_path(@other_drug) %> |
 <%= link_to 'Back', other_drugs_path %>
