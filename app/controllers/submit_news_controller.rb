@@ -40,7 +40,7 @@ class SubmitNewsController < ApplicationController
       uploaded_ios.each do |uploaded_io|
         upload = Upload.create(file_name: uploaded_io.original_filename)
         uploads.push upload
-        File.open(Rails.root.join('uploads', upload.id.to_s), 'wb') do |file|
+        File.open(Rails.root.join('uploads', 'file' + upload.id.to_s + '.file'), 'wb') do |file|
           file.write(uploaded_io.read)
         end
       end
@@ -73,11 +73,11 @@ class SubmitNewsController < ApplicationController
     end
     if !recipient.nil?
 
-      # upload_server = vk_lock { vk.docs.get_messages_upload_server(type: 'doc', peer_id: recipient) }
+      upload_server = vk_lock { vk.docs.get_messages_upload_server(type: 'doc', peer_id: recipient) }
       upload_docs = []
       uploads.each do |upload|
-        upload_server = vk_lock { vk.docs.get_messages_upload_server(type: 'doc', peer_id: recipient) }
-        upload_file = vk_lock { VkontakteApi.upload(url: upload_server[:upload_url], file: [(Rails.root.join('uploads', upload.id.to_s)).to_s, 'application/octet-stream']) }
+        # upload_server = vk_lock { vk.docs.get_messages_upload_server(type: 'doc', peer_id: recipient) }
+        upload_file = vk_lock { VkontakteApi.upload(url: upload_server[:upload_url], file: [(Rails.root.join('uploads', 'file' + upload.id.to_s + '.file')).to_s, 'application/octet-stream']) }
         upload_doc = vk_lock { vk.docs.save(file: upload_file[:file], title: upload.file_name) }
         upload_docs.push upload_doc[0]
       end
@@ -85,16 +85,16 @@ class SubmitNewsController < ApplicationController
         vk.messages.send(
           user_id: recipient,
           message: full_message,
-          attachment: upload_docs.collect{ |upload_doc| 'doc' + upload_docs[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(',')
+          attachment: upload_docs.collect{ |upload_doc| 'doc' + upload_doc[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(',')
         )
       end
     end
     if !bcc.nil?
-      # upload_server = vk_lock { vk.docs.get_messages_upload_server(type: 'doc', peer_id: bcc) }
+      upload_server = vk_lock { vk.docs.get_messages_upload_server(type: 'doc', peer_id: bcc) }
       upload_docs = []
       uploads.each do |upload|
-        upload_server = vk_lock { vk.docs.get_messages_upload_server(type: 'doc', peer_id: bcc) }
-        upload_file = vk_lock { VkontakteApi.upload(url: upload_server[:upload_url], file: [(Rails.root.join('uploads', upload.id.to_s)).to_s, 'application/octet-stream']) }
+        # upload_server = vk_lock { vk.docs.get_messages_upload_server(type: 'doc', peer_id: bcc) }
+        upload_file = vk_lock { VkontakteApi.upload(url: upload_server[:upload_url], file: [(Rails.root.join('uploads', 'file' + upload.id.to_s + '.file')).to_s, 'application/octet-stream']) }
         upload_doc = vk_lock { vk.docs.save(file: upload_file[:file], title: upload.file_name) }
         upload_docs.push upload_doc[0]
       end
@@ -102,7 +102,7 @@ class SubmitNewsController < ApplicationController
         vk.messages.send(
           user_id: bcc,
           message: short_message,
-          attachment: upload_docs.collect{ |upload_doc| 'doc' + upload_docs[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(',')
+          attachment: upload_docs.collect{ |upload_doc| 'doc' + upload_doc[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(',')
         )
       end
     end
