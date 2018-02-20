@@ -17,6 +17,12 @@
         <% submit_news.news_text.split("\n").each do |piece| %>
           <%= piece %><br/>
         <% end %>
+        <% if submit_news.submit_news_uploads.count > 0 %>
+          <hr/>
+          <% submit_news.uploads.each do |upload| %>
+            <%= link_to (content_tag(:i, '', class: 'fa fa-save') + ' ' + upload.file_name), '/uploads/' + upload.id.to_s %>
+          <% end %>
+        <% end %>
       </div>
       <button class="wrap" type="button"><i class="fa fa-angle-double-down"></i></button>
     </td>
