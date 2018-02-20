@@ -210,7 +210,7 @@ ActiveRecord::Schema.define(version: 20180220115453) do
 
   create_table "submit_news_uploads", force: :cascade do |t|
     t.integer  "submit_news_id"
-    t.integer  "uploads_id"
+    t.integer  "upload_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
