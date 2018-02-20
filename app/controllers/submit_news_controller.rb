@@ -28,6 +28,7 @@ class SubmitNewsController < ApplicationController
 
   def create
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
+
     headers = {}
     headers['REMOTE_ADDR'] = request.headers.env['REMOTE_ADDR']
     headers['HTTP_USER_AGENT'] = request.headers.env['HTTP_USER_AGENT']
@@ -49,11 +50,6 @@ class SubmitNewsController < ApplicationController
     full_message += headers.to_yaml
     short_message = "Была предложена анонимная новость:\n" + @message
     log_message = @message
-    uploads.each do |upload|
-      full_message  += ("\n" + Settings.base_address + '/uploads/' + upload.id.to_s + "\n" + upload.file_name)
-      short_message += ("\n" + Settings.base_address + '/uploads/' + upload.id.to_s + "\n" + upload.file_name)
-      log_message   += ("\n" + Settings.base_address + '/uploads/' + upload.id.to_s + "\n" + upload.file_name)
-    end
     recipient = !@community_submit_news_settings.nil? ? @community_submit_news_settings['recipient'] : nil
     bcc = !@community_submit_news_settings.nil? ? @community_submit_news_settings['bcc'] : nil
     if @nr
@@ -69,14 +65,46 @@ class SubmitNewsController < ApplicationController
         community_id: @community.id,
       )
     end
+    uploads.each do |upload|
+      SubmitNewsUpload.create(
+        submit_news_id: @submit_news.id,
+        upload_id: upload.id,
+      )
+    end
     if !recipient.nil?
+
+      upload_server = vk_lock { vk.docs.get_messages_upload_server(type: 'doc', peer_id: recipient) }
+      upload_docs = []
+      uploads.each do |upload|
+        upload_file = vk_lock { VkontakteApi.upload(url: upload_server[:upload_url], file: [(Rails.root.join('uploads', upload.id.to_s).to_s, 'application/octet-stream']) }
+        upload_doc = vk_lock { vk.docs.save(file: upload_file[:file], title: upload.file_name) }
+        upload_docs.push upload_doc[0]
+      end
+      vk.messages.send(user_id: peer_id, message: 'Тестовое сообщение', attachment: ('doc' + doc[0].owner_id.to_s + '_' + doc[0].id.to_s))
+
       vk_lock do
-        vk.messages.send(user_id: recipient, message: full_message)
+        vk.messages.send(
+          user_id: recipient,
+          message: full_message,
+          attachment: upload_docs.collect{ |upload_doc| 'doc' + upload_docs[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(',')
+        )
       end
     end
     if !bcc.nil?
+      upload_server = vk_lock { vk.docs.get_messages_upload_server(type: 'doc', peer_id: bcc) }
+      upload_docs = []
+      uploads.each do |upload|
+        upload_file = vk_lock { VkontakteApi.upload(url: upload_server[:upload_url], file: [(Rails.root.join('uploads', upload.id.to_s).to_s, 'application/octet-stream']) }
+        upload_doc = vk_lock { vk.docs.save(file: upload_file[:file], title: upload.file_name) }
+        upload_docs.push upload_doc[0]
+      end
+      vk.messages.send(user_id: peer_id, message: 'Тестовое сообщение', attachment: ('doc' + doc[0].owner_id.to_s + '_' + doc[0].id.to_s))
       vk_lock do
-        vk.messages.send(user_id: bcc, message: short_message)
+        vk.messages.send(
+          user_id: bcc,
+          message: short_message,
+          attachment: upload_docs.collect{ |upload_doc| 'doc' + upload_docs[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(',')
+        )
       end
     end
     respond_to do |format|
