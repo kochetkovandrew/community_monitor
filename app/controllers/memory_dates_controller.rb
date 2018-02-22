@@ -5,7 +5,7 @@ class MemoryDatesController < ApplicationController
   # GET /memory_dates
   # GET /memory_dates.json
   def index
-    @memory_dates = MemoryDate.order('year asc, month asc, day asc').all
+    @memory_dates = MemoryDate.order('month asc, day asc, year asc').all
   end
 
   # GET /memory_dates/1
