@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :assign_permission, :revoke_permission]
   before_action :authenticate_user!
+  before_action { |f| f.require_permission! 'Admin' }
 
   def index
     @users = User.all

@@ -3,6 +3,7 @@ class CommunityMemberHistoriesController < ApplicationController
   before_action :set_community_member_history, only: [:show, :diff]
 
   before_action :authenticate_user!
+  before_action { |f| f.require_permission! 'Detective' }
 
   def show
 

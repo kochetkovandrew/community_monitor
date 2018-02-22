@@ -2,7 +2,7 @@ class MembersController < ApplicationController
   before_action :set_member, only: [:show, :edit, :update, :destroy]
 
   before_action :authenticate_user!
-  before_action { |f| f.require_permission! 'Admin' }
+  before_action { |f| f.require_permission! 'Detective' }
 
   def index
     @members = Member.all

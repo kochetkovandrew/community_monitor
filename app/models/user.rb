@@ -11,4 +11,8 @@ class User < ActiveRecord::Base
   has_many :permission_users
   has_many :permissions, through: :permission_users
 
+  def has_permission?(permission_name)
+    permission_name.in?(permissions.all.collect{|permission| permission.name})
+  end
+
 end

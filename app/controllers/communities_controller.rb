@@ -2,7 +2,7 @@ class CommunitiesController < ApplicationController
   before_action :set_community, only: [:show, :edit, :update, :destroy]
 
   before_action :authenticate_user!
-  before_action { |f| f.require_permission! 'Admin' }
+  before_action { |f| f.require_permission! 'Detective' }
   # after_action :verify_authorized
 
   # GET /communities

@@ -8,7 +8,7 @@ class SubmitNewsController < ApplicationController
   before_filter :check_auth_key, only: [:new, :create]
   before_action :authenticate_user!, only: [:index]
   before_action :set_submit_news, only: [:show, :edit, :update]
-  before_action only: [:index] { |f| f.require_permission! 'Admin' }
+  before_action only: [:index] { |f| f.require_permission! 'DetivichAdmin' }
 
   def index
     @submit_news_all = SubmitNews.order('created_at desc').includes([:community]).all

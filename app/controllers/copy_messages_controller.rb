@@ -1,6 +1,7 @@
 class CopyMessagesController < ApplicationController
   before_action :set_copy_message, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action { |f| f.require_permission! 'Detective' }
 
   # GET /copy_messages
   # GET /copy_messages.json
