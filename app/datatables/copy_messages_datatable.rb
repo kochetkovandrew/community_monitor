@@ -29,12 +29,6 @@ class CopyMessagesDatatable
     copy_messages.map do |copy_message|
       body = copy_message.body
       raw = JSON.parse(copy_message.raw)
-      if raw['fwd_messages']
-        raw['fwd_messages'].each do |child_message|
-          body += forward_message(child_message)
-        end
-      end
-      body += content_tag(:div, copy_message.raw, class: '')
       {
         created_at: copy_message.created_at,
         body: render_message(raw),
