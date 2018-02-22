@@ -1,0 +1,18 @@
+<h4>Пользователи</h4>
+
+<table id="users" class="table table-striped">
+  <thead>
+    <th>E-mail</th>
+    <th>Права доступа</th>
+    <th></th>
+  </thead>
+  <tbody>
+  <% @users.each do |user| %>
+  <tr>
+    <td><%= user.email %></td>
+    <td><%= user.permissions.collect{|p| p.name}.join(',') %></td>
+    <td><%= link_to content_tag(:i, '', class: 'fa fa-info'), user_path(user) %></td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>

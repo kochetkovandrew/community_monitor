@@ -1,0 +1,18 @@
+<h4>Пользователь <%= @user.email %></h4>
+
+<table id="permission_user" class="table table-striped">
+  <thead>
+    <th>Право доступа</th>
+    <th></th>
+  </thead>
+  <tbody>
+  <tr>
+    <% @permissions.each do |permission| %>
+    <tr>
+      <td><%= permission.name %></td>
+      <td><%= check_box_tag('user_' + @user.id.to_s + '_permission_' + permission.id.to_s, permission.name, permission.id.in?(@user.permission_users.collect{|pu| pu.permission_id}), {'data-user-id' => @user.id, 'data-permission-id' => permission.id}) %></td>
+    </tr>
+    <% end %>
+  </tr>
+  </tbody>
+</table>

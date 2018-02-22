@@ -26,6 +26,10 @@ Rails.application.routes.draw do
   get 'social-networks-73875' => 'test#test6'
 
   get 'users/profile' => 'users#profile'
+  put 'users/:id/assign_permission' => 'users#assign_permission'
+  put 'users/:id/revoke_permission' => 'users#revoke_permission'
+  resources :users
+
   post 'members/check' => 'members#check'
 
   get 'community_member_histories/:id/diff' => 'community_member_histories#diff'
