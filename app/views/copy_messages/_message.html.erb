@@ -3,6 +3,15 @@
 <div>
   <%= message['body'] %>
 </div>
+<% if message['attachments'] %>
+  <div class="im-attachments">
+    <% message['attachments'].each do |attachment| %>
+      <span>
+        <%= render(partial: 'copy_messages/attachment', locals: {attachment: attachment}) %>
+      </span>
+    <% end %>
+   </div>
+<% end %>
 <% if message['fwd_messages'] %>
   <% message['fwd_messages'].each do |child_message| %>
     <div class="im_fwd_log_wrap">

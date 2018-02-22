@@ -1,0 +1,12 @@
+<% case attachment['type'] %>
+<% when 'photo' %>
+    <% href = '#' %>
+    <% attachment['photo'].each do |k,v| %>
+      <% if /^photo_/.match(k) %>
+        <% href = v %>
+      <% end %>
+    <% end %>
+    <%= link_to(image_tag(attachment['photo']['photo_75']), href) %>
+<% else %>
+  <%= attachment['type'] %>
+<% end %>
