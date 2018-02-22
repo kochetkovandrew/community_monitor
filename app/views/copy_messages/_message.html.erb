@@ -6,7 +6,7 @@
 <% if message['fwd_messages'] %>
   <% message['fwd_messages'].each do |child_message| %>
     <div class="im_fwd_log_wrap">
-      <%= render('message', locals: {message: child_message}) %>
+      <%= render(partial: 'copy_messages/message', locals: {message: child_message}) %>
     </div>
   <% end %>
 <% end %>
