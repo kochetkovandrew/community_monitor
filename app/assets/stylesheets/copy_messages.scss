@@ -2,8 +2,9 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .im_fwd_log_wrap {
-  border-left: 2px solid black; // #dee6ee
+  border-left: 2px solid #dee6ee;
   margin: 0 0 0 3px;
+  padding-left: 3px;
 }
 
 .im_time {

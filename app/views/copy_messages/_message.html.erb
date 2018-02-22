@@ -1,4 +1,4 @@
-<%= link_to(message['user_id'].to_s, 'https://vk.com/id' + message['user_id'].to_s) %>
+<%= link_to(content_tag(:span, '', :class => 'im-avatar', 'data-user-vk-id' => message['user_id']), 'https://vk.com/id' + message['user_id'].to_s) %>
 <%= content_tag(:span, DateTime.strptime(message['date'].to_s,'%s').strftime('%Y-%m-%d %H:%M:%S'), class: 'im_time') %>
 <div>
   <%= message['body'] %>

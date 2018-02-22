@@ -6,11 +6,13 @@ class CopyMessagesDatatable
   end
 
   def as_json(options = {})
+    aaData = data
     {
       sEcho: params[:sEcho].to_i,
       iTotalRecords: CopyMessage.count,
       iTotalDisplayRecords: copy_messages.total_entries,
-      aaData: data
+      aaData: aaData,
+      avatars: avatars,
     }
   end
 
@@ -24,11 +26,54 @@ class CopyMessagesDatatable
     )
   end
 
+  def avatars
+    p @user_ids
+    members = Member.where(vk_id: @user_ids).all
+    member_vk_ids = members.collect{|member| member.vk_id}
+    not_known = @user_ids - member_vk_ids
+    new_members = []
+    if !not_known.empty?
+      not_known.each do |vk_id|
+        member = Member.new(screen_name: vk_id, manually_added: false)
+        member.set_from_vk
+        if member.screen_name.nil?
+          member.screen_name = 'id' + member.vk_id.to_s
+        end
+        member.save
+        new_members.push member
+      end
+    end
+    res = {}
+    (members + new_members).each do |member|
+      avatar = 'https://vk.com/images/camera_50.png'
+      full_name = 'Неизвестно'
+      begin
+        parsed = JSON.parse(member.raw)
+        full_name = parsed['first_name'] + ' ' + parsed['last_name']
+        avatar = parsed['photo_50']
+      rescue
+      end
+      res[member.vk_id] = {full_name: full_name, avatar: avatar}
+    end
+    res
+  end
+
+  def collect_avatars(raw_message)
+    @user_ids ||= []
+    @user_ids.push raw_message['user_id']
+    if raw_message['fwd_messages']
+      raw_message['fwd_messages'].each do |child_raw_message|
+        @user_ids += collect_avatars(child_raw_message)
+      end
+    end
+    @user_ids.uniq!
+  end
 
   def data
     copy_messages.map do |copy_message|
       body = copy_message.body
       raw = JSON.parse(copy_message.raw)
+      collect_avatars raw
       {
         created_at: copy_message.created_at,
         body: render_message(raw),
