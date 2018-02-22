@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180220115453) do
+ActiveRecord::Schema.define(version: 20180221222104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,15 @@ ActiveRecord::Schema.define(version: 20180220115453) do
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
     t.integer  "copy_id"
+  end
+
+  create_table "copy_messages", force: :cascade do |t|
+    t.integer  "copy_dialog_id"
+    t.integer  "user_vk_id"
+    t.text     "body"
+    t.text     "raw"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "drug_groups", force: :cascade do |t|

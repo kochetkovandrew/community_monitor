@@ -25,6 +25,18 @@ task :copy_dialogs => :environment do |t, args|
     step += 1
   end
   all_messages.sort_by! { |message| message[:id] }
+  begin
+    all_messages.each do |message|
+      cm = CopyMessage.new(
+        user_vk_id: message[:user_id],
+        body: message[:body],
+        raw: message.to_json,
+      )
+      cm.created_at = Time.at(message[:date])
+      cm.save
+    end
+  rescue
+  end
   if !all_messages.empty?
     last_id = all_messages.last[:id]
   end

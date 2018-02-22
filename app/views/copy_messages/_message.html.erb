@@ -1,0 +1,12 @@
+<%= link_to(message['user_id'].to_s, 'https://vk.com/id' + message['user_id'].to_s) %>
+<%= content_tag(:span, DateTime.strptime(message['date'].to_s,'%s').strftime('%Y-%m-%d %H:%M:%S'), class: 'im_time') %>
+<div>
+  <%= message['body'] %>
+</div>
+<% if message['fwd_messages'] %>
+  <% message['fwd_messages'].each do |child_message| %>
+    <div class="im_fwd_log_wrap">
+      <%= render('message', locals: {message: child_message}) %>
+    </div>
+  <% end %>
+<% end %>

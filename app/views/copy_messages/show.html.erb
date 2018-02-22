@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User vk:</strong>
+  <%= @copy_message.user_vk_id %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @copy_message.body %>
+</p>
+
+<p>
+  <strong>Raw:</strong>
+  <%= @copy_message.raw %>
+</p>
+
+<%= link_to 'Edit', edit_copy_message_path(@copy_message) %> |
+<%= link_to 'Back', copy_messages_path %>
