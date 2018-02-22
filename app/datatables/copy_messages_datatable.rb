@@ -66,7 +66,7 @@ class CopyMessagesDatatable
         @user_ids += collect_avatars(child_raw_message)
       end
     end
-    @user_ids.uniq!
+    @user_ids.uniq! || []
   end
 
   def data
