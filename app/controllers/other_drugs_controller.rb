@@ -1,5 +1,6 @@
 class OtherDrugsController < ApplicationController
   before_action :set_other_drug, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /other_drugs
   # GET /other_drugs.json

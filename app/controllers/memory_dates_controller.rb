@@ -1,5 +1,6 @@
 class MemoryDatesController < ApplicationController
   before_action :set_memory_date, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /memory_dates
   # GET /memory_dates.json

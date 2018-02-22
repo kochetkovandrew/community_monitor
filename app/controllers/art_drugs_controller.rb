@@ -1,5 +1,6 @@
 class ArtDrugsController < ApplicationController
   before_action :set_art_drug, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /art_drugs
   # GET /art_drugs.json
