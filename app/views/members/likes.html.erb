@@ -1,5 +1,7 @@
 <h4>Лайки пользователя</h4>
 
+<%= render 'views' %>
+
 <% @post_comment_likes.each do |post_comment| %>
   <p>
     <%= render partial: 'post_comment_link', locals: {comment: post_comment} %>
