@@ -6,7 +6,13 @@
         <% href = v %>
       <% end %>
     <% end %>
-    <%= link_to(image_tag(attachment['photo']['photo_75']), href) %>
+    <%= link_to(image_tag(attachment['photo']['photo_75']), href, target: '_blank') %>
+<% when 'doc' %>
+    <%= link_to attachment['doc']['title'], attachment['doc']['url'], target: '_blank' %>
+<% when 'audio' %>
+    <%= link_to (content_tag('i', '', class: 'fa fa-music') + ' ' + attachment['audio']['title']), attachment['audio']['url'], target: '_blank' %>
+<% when 'sticker' %>
+    <%= image_tag(attachment['sticker']['photo_64']) %>
 <% else %>
   <%= attachment['type'] %>
 <% end %>
