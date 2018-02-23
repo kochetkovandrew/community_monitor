@@ -17,6 +17,12 @@
     <%= link_to (content_tag('i', '', class: 'fa fa-music') + ' ' + attachment['audio']['title']), attachment['audio']['url'], target: '_blank' %>
 <% when 'sticker' %>
     <%= image_tag(attachment['sticker']['photo_64']) %>
+<% when 'link' %>
+    <% if !attachment['link']['photo'].nil? %>
+      <%= link_to(content_tag(:i, '', class: 'fa fa-link') + ' ' + image_tag(attachment['link']['photo']['photo_75'], title: attachment['link']['title']), attachment['link']['url'], target: '_blank') %>
+    <% else %>
+      <%= link_to(attachment['link']['title'], attachment['link']['url'], target: '_blank') %>
+    <% end %>
 <% else %>
   <%= attachment['type'] %>
 <% end %>
