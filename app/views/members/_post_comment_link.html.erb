@@ -1,0 +1,4 @@
+<% user_id = (comment.post.community.nil? ? comment.post.member.vk_id : -comment.post.community.vk_id) %>
+<% link = ('https://vk.com/wall' + user_id.to_s + '_' + comment.post.vk_id.to_s + '?w=wall' + user_id.to_s + '_' + comment.post.vk_id.to_s + '_r' + comment.vk_id.to_s) %>
+<% link_text ||= link %>
+<%= link_to link_text, link  %>

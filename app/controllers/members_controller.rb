@@ -84,6 +84,11 @@ class MembersController < ApplicationController
     @member = Member.find(params[:id])
   end
 
+  def likes
+    @member = Member.find(params[:id])
+    @post_comment_likes = PostComment.where("likes::jsonb @> '?'::jsonb", @member.vk_id).select([:id, :vk_id, :post_id]).includes([:post => [:community]]).order(:created_at)
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_member

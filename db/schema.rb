@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180223084032) do
+ActiveRecord::Schema.define(version: 20180223202529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -177,7 +177,7 @@ ActiveRecord::Schema.define(version: 20180223084032) do
     t.text     "raw"
     t.integer  "vk_id"
     t.boolean  "likes_handled", default: false
-    t.text     "likes"
+    t.jsonb    "likes",         default: []
     t.integer  "user_vk_id"
     t.integer  "likes_count"
     t.datetime "created_at"
