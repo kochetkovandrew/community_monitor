@@ -14,6 +14,8 @@ jQuery ->
       { data: "last_seen_at" },
       { data: "links" }
     ]
+    language:
+      url: '/i18n/dataTables.russian.json'
     fnDrawCallback: ->
       $('.selectpicker').selectpicker()
       $('select#member_status').change ->

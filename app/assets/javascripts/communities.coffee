@@ -3,4 +3,6 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 jQuery ->
-  $('table#listing_communities').dataTable()
+  $('table#listing_communities').DataTable
+    language:
+      url: '/i18n/dataTables.russian.json'

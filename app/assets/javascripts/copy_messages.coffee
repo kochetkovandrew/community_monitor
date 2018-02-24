@@ -12,6 +12,8 @@ jQuery ->
     columns: [
       { data: "body" },
     ]
+    language:
+      url: '/i18n/dataTables.russian.json'
     fnDrawCallback: ->
       avatars = $('table#copy_messages').DataTable().ajax.json().avatars
       $('span.im-avatar').each ->
