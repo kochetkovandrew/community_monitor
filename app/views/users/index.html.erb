@@ -11,7 +11,7 @@
   <tr>
     <td><%= user.email %></td>
     <td><%= user.permissions.collect{|p| p.name}.join(', ') %></td>
-    <td><%= link_to content_tag(:i, '', class: 'fa fa-info fa-lg'), user_path(user), { class: 'btn btn-sm btn-outline-primary', role: 'button', title: 'Показать'} %></td>
+    <td><%= link_to content_tag(:i, '', class: 'fa fa-info fa-lg fa-fw'), user_path(user), { class: 'btn btn-sm btn-outline-primary', role: 'button', title: 'Показать'} %></td>
   </tr>
   <% end %>
   </tbody>
