@@ -27,7 +27,6 @@ class CopyMessagesDatatable
   end
 
   def avatars
-    p @user_ids
     members = Member.where(vk_id: @user_ids).all
     member_vk_ids = members.collect{|member| member.vk_id}
     not_known = @user_ids - member_vk_ids
@@ -70,6 +69,7 @@ class CopyMessagesDatatable
   end
 
   def data
+    @user_ids ||= []
     copy_messages.map do |copy_message|
       body = copy_message.body
       raw = JSON.parse(copy_message.raw)
