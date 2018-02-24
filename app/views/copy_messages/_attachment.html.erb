@@ -23,6 +23,8 @@
     <% else %>
       <%= link_to(attachment['link']['title'], attachment['link']['url'], target: '_blank') %>
     <% end %>
+<% when 'video' %>
+    <%= link_to (content_tag('i', '', class: 'fa fa-caret-right fa-lg') + ' ' + attachment['video']['title']), ('https://vk.com/video' + attachment['video']['owner_id'].to_s + '_' + attachment['video']['id'].to_s), target: '_blank' %>
 <% else %>
   <%= attachment['type'] %>
 <% end %>
