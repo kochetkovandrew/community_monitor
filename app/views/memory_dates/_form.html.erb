@@ -12,23 +12,23 @@
   <% end %>
 
     <div class="field">
-      <%= f.label :year %><br>
+      <%= f.label 'День' %><br>
+      <%= f.number_field :day %>
+    </div>
+    <div class="field">
+      <%= f.label 'Месяц' %><br>
+      <%= f.select(:month, ((1..12).to_a.collect{|i| [I18n.t("date.month_names")[i], i] })) %>
+    </div>
+    <div class="field">
+      <%= f.label 'Год' %><br>
       <%= f.number_field :year %>
     </div>
     <div class="field">
-      <%= f.label :month %><br>
-      <%= f.select(:month, ((1..12).to_a.collect{|i| [Date::MONTHNAMES[i], i] })) %>
-    </div>
-  <div class="field">
-    <%= f.label :day %><br>
-    <%= f.number_field :day %>
-  </div>
-    <div class="field">
-      <%= f.label :kind %><br>
+      <%= f.label 'Тип' %><br>
       <%= f.select(:kind, MemoryDate::KINDS.collect{|k,v| [v,k]}) %>
     </div>
   <div class="field">
-    <%= f.label :description %><br>
+    <%= f.label 'Описание' %><br>
     <%= f.text_field :description %>
   </div>
   <div class="actions">

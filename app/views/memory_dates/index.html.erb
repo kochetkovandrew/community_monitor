@@ -22,7 +22,7 @@
         <td><%= memory_date.year %></td>
         <td><%= MemoryDate::KINDS[memory_date.kind] %></td>
         <td><%= memory_date.description %></td>
-        <td><%= link_to content_tag(:i, '', class: 'fa fa-info fa-lg fa-fw'), memory_date, { class: 'btn btn-sm btn-outline-primary', role: 'button', title: 'Показать'} %>
+        <td>
             <%= link_to content_tag(:i, '', class: 'fa fa-edit fa-lg fa-fw'), edit_memory_date_path(memory_date), { class: 'btn btn-sm btn-outline-primary', role: 'button', title: 'Редактировать'} %>
             <%= link_to content_tag(:i, '', class: 'fa fa-minus-circle fa-lg fa-fw'), memory_date, class: 'btn btn-sm btn-outline-primary', role: 'button', title: 'Показать', method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

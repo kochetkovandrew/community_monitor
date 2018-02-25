@@ -29,7 +29,7 @@ class MemoryDatesController < ApplicationController
 
     respond_to do |format|
       if @memory_date.save
-        format.html { redirect_to @memory_date, notice: 'Memory date was successfully created.' }
+        format.html { redirect_to memory_dates_path, notice: 'Memory date was successfully created.' }
         format.json { render :show, status: :created, location: @memory_date }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class MemoryDatesController < ApplicationController
   def update
     respond_to do |format|
       if @memory_date.update(memory_date_params)
-        format.html { redirect_to @memory_date, notice: 'Memory date was successfully updated.' }
+        format.html { redirect_to memory_dates_path, notice: 'Memory date was successfully updated.' }
         format.json { render :show, status: :ok, location: @memory_date }
       else
         format.html { render :edit }
