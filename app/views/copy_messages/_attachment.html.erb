@@ -30,7 +30,7 @@
     <% end %>
     <%= link_to (content_tag('i', '', class: 'fa fa-caret-right fa-lg fa-fw') + ' ' + attachment['video']['title']), href, target: '_blank' %>
 <% when 'wall' %>
-    <!--%= attachment.to_json %-->
+    <%= attachment.to_json %>
 <% else %>
   <%= attachment['type'] %>
 <% end %>

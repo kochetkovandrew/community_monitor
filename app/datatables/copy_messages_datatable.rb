@@ -1,5 +1,5 @@
 class CopyMessagesDatatable
-  delegate :params, :link_to, :select_tag, :options_for_select, :content_tag, to: :@view
+  delegate :params, :link_to, :select_tag, :options_for_select, :content_tag, :message_body, to: :@view
 
   def initialize(view)
     @view = view
@@ -17,14 +17,6 @@ class CopyMessagesDatatable
   end
 
   private
-
-  def render_message(message)
-    ActionController::Base.new.render_to_string(
-      template: 'copy_messages/_message',
-      format: [:html],
-      locals: { message: message }
-    )
-  end
 
   def avatars
     members = Member.where(vk_id: @user_ids).all
@@ -76,7 +68,7 @@ class CopyMessagesDatatable
       collect_avatars raw
       {
         created_at: copy_message.created_at,
-        body: render_message(raw),
+        body: message_body(raw),
         DT_RowAttr: { 'data-id' => copy_message.id },
       }
     end

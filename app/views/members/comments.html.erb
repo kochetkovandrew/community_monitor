@@ -15,7 +15,7 @@
     </p>
     <% if data['attachments'] %>
       <% data['attachments'].each do |attachment| %>
-        <%= render partial: 'copy_messages/attachment', locals: {attachment: attachment} %>
+        <%= attachment_body(attachment) %>
       <% end %>
     <% end %>
 <% end %>
