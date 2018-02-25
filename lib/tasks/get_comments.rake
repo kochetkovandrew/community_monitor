@@ -32,7 +32,7 @@ task :get_comments => :environment do
       post.save(touch: false)
     rescue VkontakteApi::Error
       puts e.message
-      raise 'Something wend wrong'
+      raise 'Something went wrong'
     end
   end
 end

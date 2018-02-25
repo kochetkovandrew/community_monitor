@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180225184645) do
+ActiveRecord::Schema.define(version: 20180225215213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(version: 20180225184645) do
     t.integer  "likes_count"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "topic_id"
   end
 
   add_index "post_comments", ["user_vk_id"], name: "index_post_comments_on_user_vk_id", using: :btree
@@ -231,9 +232,10 @@ ActiveRecord::Schema.define(version: 20180225184645) do
     t.integer  "created_by_vk_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "community_id_id"
-    t.integer  "vk_id",            limit: 8, default: 0,  null: false
+    t.integer  "community_id"
+    t.integer  "vk_id",            limit: 8, default: 0,     null: false
     t.jsonb    "raw",                        default: {}
+    t.boolean  "handled",                    default: false, null: false
   end
 
   create_table "uploads", force: :cascade do |t|

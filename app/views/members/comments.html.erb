@@ -3,12 +3,15 @@
 <%= render 'views' %>
 <div style="max-width: 800px;">
 
-<% @member.post_comments.order(:created_at).each do |comment| %>
+<% @member.post_comments.includes([:topic, :post => [:community]]).order(:created_at).each do |comment| %>
     <% data = JSON::parse comment.raw %>
     <p>
       <%= comment.created_at.to_s %>
       <% if !comment.post.nil? %>
         <%= render partial: 'post_comment_link', locals: {comment: comment, link_text: 'Ссылка'} %>
+      <% elsif !comment.topic.nil? %>
+        <% href = comment_link(comment) %>
+        <%= link_to content_tag(:i, '', class: 'fa fa-comments') + ' Ссылка', href %>
       <% end %>
       <br/>
       <%= comment_body(data['text']) %>
