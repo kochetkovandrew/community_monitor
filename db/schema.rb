@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180225164301) do
+ActiveRecord::Schema.define(version: 20180225184645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -231,6 +231,9 @@ ActiveRecord::Schema.define(version: 20180225164301) do
     t.integer  "created_by_vk_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "community_id_id"
+    t.integer  "vk_id",            limit: 8, default: 0,  null: false
+    t.jsonb    "raw",                        default: {}
   end
 
   create_table "uploads", force: :cascade do |t|
