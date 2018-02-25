@@ -1,4 +1,4 @@
-<%= link_to 'Друзья в сообществах', @member %>
-<%= link_to 'Все друзья', {controller: :members, action: :friends, id: @member.id} %>
-<%= link_to 'Комментарии', {controller: :members, action: :comments, id: @member.id} %>
-<%= link_to 'Лайки', {controller: :members, action: :likes, id: @member.id} %>
+<%= link_to content_tag(:i, '', class: 'fa fa-user-secret') + ' Друзья в сообществах', @member, { class: 'btn btn-sm btn-outline-primary', role: 'button'} %>
+<%= link_to content_tag(:i, '', class: 'fa fa-user') + ' Все друзья', {controller: :members, action: :friends, id: @member.id}, { class: 'btn btn-sm btn-outline-primary', role: 'button'} %>
+<%= link_to content_tag(:i, '', class: 'fa fa-comment') + ' Комментарии', {controller: :members, action: :comments, id: @member.id}, { class: 'btn btn-sm btn-outline-primary', role: 'button'} %>
+<%= link_to content_tag(:i, '', class: 'fa fa-thumbs-up') + 'Лайки', {controller: :members, action: :likes, id: @member.id}, { class: 'btn btn-sm btn-outline-primary', role: 'button'} %>
