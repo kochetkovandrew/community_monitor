@@ -42,7 +42,7 @@ class Topic < ActiveRecord::Base
       end
       self.handled = true
       self.save(touch: false)
-    rescue VkontakteApi::Error
+    rescue VkontakteApi::Error => e
       puts e.message
       raise 'Something went wrong'
     end
