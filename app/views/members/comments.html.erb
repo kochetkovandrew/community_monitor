@@ -1,6 +1,7 @@
 <h4>Комментарии пользователя</h4>
 
 <%= render 'views' %>
+<div style="max-width: 800px;">
 
 <% @member.post_comments.order(:created_at).each do |comment| %>
     <% data = JSON::parse comment.raw %>
@@ -10,14 +11,12 @@
         <%= render partial: 'post_comment_link', locals: {comment: comment, link_text: 'Ссылка'} %>
       <% end %>
       <br/>
-      <% parts = data['text'].split(/(\[id\d+\|[^\]]+\])/) %>
-      <% parts.each do |part| %>
-        <% matches = /^\[(id\d+)\|([^\]]+)\]$/.match part %>
-        <% if matches %>
-          <%= link_to matches[2], 'https://vk.com/' + matches[1] %>
-        <% else %>
-          <%= part %>
-        <% end %>
-      <% end %>
+      <%= comment_body(data['text']) %>
     </p>
+    <% if data['attachments'] %>
+      <% data['attachments'].each do |attachment| %>
+        <%= render partial: 'copy_messages/attachment', locals: {attachment: attachment} %>
+      <% end %>
+    <% end %>
 <% end %>
+</div>

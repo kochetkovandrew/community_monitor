@@ -24,7 +24,13 @@
       <%= link_to(attachment['link']['title'], attachment['link']['url'], target: '_blank') %>
     <% end %>
 <% when 'video' %>
-    <%= link_to (content_tag('i', '', class: 'fa fa-caret-right fa-lg') + ' ' + attachment['video']['title']), ('https://vk.com/video' + attachment['video']['owner_id'].to_s + '_' + attachment['video']['id'].to_s), target: '_blank' %>
+    <% href = ('https://vk.com/video' + attachment['video']['owner_id'].to_s + '_' + attachment['video']['id'].to_s) %>
+    <% if attachment['video']['is_private'] == 1 %>
+        <% id = attachment['video']['owner_id'].to_s + '_' + attachment['video']['id'].to_s + '_' + attachment['video']['access_key'] %>
+    <% end %>
+    <%= link_to (content_tag('i', '', class: 'fa fa-caret-right fa-lg fa-fw') + ' ' + attachment['video']['title']), href, target: '_blank' %>
+<% when 'wall' %>
+    <!--%= attachment.to_json %-->
 <% else %>
   <%= attachment['type'] %>
 <% end %>
