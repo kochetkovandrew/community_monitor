@@ -2,6 +2,11 @@
 
 <%= render 'views' %>
 
+<% @post_likes.each do |post| %>
+    <p>
+      <%= render partial: 'post_link', locals: {post: post} %>
+    </p>
+<% end %>
 <% @post_comment_likes.each do |post_comment| %>
   <p>
     <%= render partial: 'post_comment_link', locals: {comment: post_comment} %>
