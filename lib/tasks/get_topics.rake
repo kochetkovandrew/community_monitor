@@ -16,7 +16,7 @@ task get_topics: :environment do
       topics[:items].each do |topic_hash|
         topic = Topic.where(vk_id: topic_hash[:id], community_id: community.id).first
         if topic.nil?
-          topic = Topic.create(
+          topic = Topic.new(
             vk_id: topic_hash[:id],
             community_id: community.id,
             raw: topic_hash,
@@ -25,9 +25,13 @@ task get_topics: :environment do
             created_at: Time.at(topic_hash[:created]),
             updated_at: Time.at(topic_hash[:updated]),
           )
+          topic.save(touch: false)
           new_found = true
         else
-          topic.update_attributes(updated_at: Time.at(topic_hash[:updated]))
+          if Time.at(topic_hash[:updated]) != topic.updated_at
+            topic.get_comments
+            topic.update_attributes(updated_at: Time.at(topic_hash[:updated]))
+          end
         end
       end
       if !new_found
