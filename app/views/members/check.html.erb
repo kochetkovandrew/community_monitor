@@ -7,6 +7,12 @@
 <%= render 'friends_in_communities' %>
 
 <p>
+  <%= form_for(@member, url: {controller: :members, action: :create}, method: :post) do |f| %>
+      <%= f.hidden_field :screen_name, value: 'id' + @member.vk_id.to_s %>
+      <%= submit_tag 'Добавить' %>
+  <% end %>
+</p>
+<p>
   <%= form_for(@member, url: {controller: :members, action: :check}) do |f| %>
       <%= f.text_field :screen_name %>
       <%= submit_tag 'Проверить' %>
