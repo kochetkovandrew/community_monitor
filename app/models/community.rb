@@ -33,7 +33,12 @@ class Community < ActiveRecord::Base
         step += 1
         items = posts_chunk[:items]
         item_ids = items.collect{|item| item[:id]}
-        existing_posts = Post.where(vk_id: item_ids).where(community_id: id).all
+        existing_posts = Post.
+          where('posts.vk_id': item_ids).
+          where('posts.community_id': id).
+          joins('left join post_comments on post_comments.post_id = posts.id').
+          select('posts.*, count(post_comments.*) as post_comments_count').
+          group('posts.id').all
         existing_ids = existing_posts.collect {|post| post.vk_id}
         existing_posts_hash = Hash[existing_posts.collect{|post| [post.vk_id, post]}]
         items.each do |post_hash|
@@ -56,7 +61,7 @@ class Community < ActiveRecord::Base
               post.save(touch: false)
               post.get_likes(force)
             end
-            if post.post_comments.count < post_hash[:comments][:count]
+            if post.post_comments_count < post_hash[:comments][:count]
               post.raw['comments']['count'] = post_hash[:comments][:count]
               post.save(touch: false)
               post.get_comments(force)
