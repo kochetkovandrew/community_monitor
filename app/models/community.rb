@@ -5,6 +5,7 @@ class Community < ActiveRecord::Base
   has_many :community_members
   has_many :community_member_histories
   has_many :members, :through => :community_members
+  has_many :posts
 
   def set_vk_data
     self.vk_id = nil
