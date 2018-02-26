@@ -72,12 +72,23 @@ class MembersController < ApplicationController
   end
 
   def check
-    @member = Member.new(member_params)
-    @member.set_from_vk
-    res = @member.friends_in_communities
-    @friend_hash = res[:friend_hash]
-    @friends_in_communities = res[:friends_in_communities]
-    @member_of = res[:member_of]
+    if params[:member][:screen_name].match(/^\d+$/)
+      @member = Member.where(vk_id: params[:member][:screen_name]).first
+    else
+      @member = Member.where(screen_name: params[:member][:screen_name]).first
+    end
+    if @member
+      respond_to do |format|
+        format.html { redirect_to @member }
+      end
+    else
+      @member = Member.new(member_params)
+      @member.set_from_vk
+      res = @member.friends_in_communities
+      @friend_hash = res[:friend_hash]
+      @friends_in_communities = res[:friends_in_communities]
+      @member_of = res[:member_of]
+    end
   end
 
   def comments
