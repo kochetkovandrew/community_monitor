@@ -10,17 +10,17 @@ class Topic < ActiveRecord::Base
       step = 0
       new_found = false
       while rest > 0
-        comments = vk_lock { vk.board.get_comments(group_id: community.vk_id, topic_id: vk_id, count: step_size, offset: step*step_size, need_likes: 1, sort: (handled ? 'asc' : 'desc')) }
+        comments_chunk = vk_lock { vk.board.get_comments(group_id: community.vk_id, topic_id: vk_id, count: step_size, offset: step*step_size, need_likes: 1, sort: (handled ? 'asc' : 'desc')) }
         if step == 0
-          rest = comments[:count] - step_size
+          rest = comments_chunk[:count] - step_size
         else
           rest -= step_size
         end
         step += 1
-        items = comments[:items]
+        items = comments_chunk[:items]
         item_ids = items.collect{|item| item[:id]}
         existing_ids = PostComment.where(vk_id: item_ids).where(topic_id: id).select([:vk_id]).all.collect {|comment| comment.vk_id}
-        comments[:items].each do |comment_hash|
+        comments_chunk[:items].each do |comment_hash|
           if !(comment_hash[:id].in?(existing_ids))
             comment = PostComment.create(
               vk_id: comment_hash[:id],
