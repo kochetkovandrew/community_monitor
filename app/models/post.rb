@@ -76,7 +76,7 @@ class Post < ActiveRecord::Base
                 comment.get_likes(force)
               end
             end
-            if !new_found
+            if !new_found && !force
               break
             end
           end
