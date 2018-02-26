@@ -5,13 +5,11 @@ class Topic < ActiveRecord::Base
   def get_comments
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
     step_size = 100
-    p 'TOPIC ' + id.to_s
     begin
       rest = 1
       step = 0
       new_found = false
       while rest > 0
-        p 'STEP ' + step.to_s
         comments = vk_lock { vk.board.get_comments(group_id: community.vk_id, topic_id: vk_id, count: step_size, offset: step*step_size, need_likes: 1, sort: (handled ? 'asc' : 'desc')) }
         if step == 0
           rest = comments[:count] - step_size
@@ -36,7 +34,6 @@ class Topic < ActiveRecord::Base
           end
         end
         if !new_found
-          p 'BREAK'
           break
         end
       end
