@@ -1,4 +1,4 @@
-<%= form_for(@memory_date) do |f| %>
+<%= form_for(@memory_date, html: { class: 'form-horizontal col-xs-4' }) do |f| %>
   <% if @memory_date.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@memory_date.errors.count, "error") %> prohibited this memory_date from being saved:</h2>
@@ -11,27 +11,29 @@
     </div>
   <% end %>
 
-    <div class="field">
-      <%= f.label 'День' %><br>
-      <%= f.number_field :day %>
+    <div class="form_group">
+      <%= f.label 'День', class: 'control-label' %><br>
+      <%= f.number_field :day, class: 'form-control' %>
     </div>
-    <div class="field">
-      <%= f.label 'Месяц' %><br>
-      <%= f.select(:month, ((1..12).to_a.collect{|i| [I18n.t("date.month_names")[i], i] })) %>
+    <div class="form_group">
+      <%= f.label 'Месяц', class: 'control-label' %><br>
+      <%= f.select(:month, ((1..12).to_a.collect{|i| [I18n.t("date.month_names")[i], i] }), {}, { class: 'form-control selectpicker' }) %>
     </div>
-    <div class="field">
-      <%= f.label 'Год' %><br>
-      <%= f.number_field :year %>
+    <div class="form_group">
+      <%= f.label 'Год', class: 'control-label' %><br>
+      <%= f.number_field :year, class: 'form-control' %>
     </div>
-    <div class="field">
-      <%= f.label 'Тип' %><br>
-      <%= f.select(:kind, MemoryDate::KINDS.collect{|k,v| [v,k]}) %>
+    <div class="form_group">
+      <%= f.label 'Тип', class: 'control-label' %><br>
+      <%= f.select(:kind, MemoryDate::KINDS.collect{|k,v| [v,k]}, {}, { class: 'form-control selectpicker' }) %>
     </div>
-  <div class="field">
-    <%= f.label 'Описание' %><br>
-    <%= f.text_field :description %>
+  <div class="form_group">
+    <%= f.label 'Описание', class: 'control-label' %><br>
+    <%= f.text_area :description, class: 'form-control' %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+    <br/>
+  <div class="form-actions">
+    <%= link_to('Назад', memory_dates_url, class: 'btn btn-default btn-sm') %>
+    <%= f.submit(@memory_date.new_record? ? 'Добавить' : 'Обновить', class: 'btn btn-primary btn-sm') %>
   </div>
 <% end %>
