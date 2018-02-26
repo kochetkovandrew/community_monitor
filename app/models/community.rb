@@ -63,7 +63,7 @@ class Community < ActiveRecord::Base
             end
           end
         end
-        if !new_found
+        if !new_found && !force
           break
         end
       end
