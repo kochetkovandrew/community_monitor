@@ -10,7 +10,7 @@ class Topic < ActiveRecord::Base
       step = 0
       new_found = false
       while rest > 0
-        comments_chunk = vk_lock { vk.board.get_comments(group_id: community.vk_id, topic_id: vk_id, count: step_size, offset: step*step_size, need_likes: 1, sort: (handled ? 'asc' : 'desc')) }
+        comments_chunk = vk_lock { vk.board.get_comments(group_id: community.vk_id, topic_id: vk_id, count: step_size, offset: step*step_size, need_likes: 1, sort: (handled ? 'desc' : 'asc')) }
         if step == 0
           rest = comments_chunk[:count] - step_size
         else
