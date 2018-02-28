@@ -47,7 +47,32 @@ class MembersDatatable
     members = Member.order("#{sort_column} #{sort_direction} NULLS LAST")
     members = members.page(page).per_page(per_page)
     if params[:sSearch].present?
-      members = members.where("first_name ilike :search or last_name ilike :search or screen_name ilike :search", search: "%#{params[:sSearch]}%")
+      search_tokens = params[:sSearch].split(' ')
+      search_keys = {'first_name' => :string, 'last_name' => :string, 'screen_name' => :string, 'vk_id' => :integer}
+      search_params = {}
+      subqueries = []
+      search_tokens.each do |search_token|
+        subquery = ''
+        search_keys.each_with_index do |(search_key, kind), index|
+          if kind == :integer
+            if search_token.match /^\d+$/
+              if subquery != ''
+                subquery += ' or '
+              end
+              subquery += (search_key + ' = ' + ':search' + index.to_s + 'i')
+              search_params[('search' + index.to_s + 'i').to_sym] = search_token.to_i
+            end
+          else
+            if subquery != ''
+              subquery += ' or '
+            end
+            subquery += (search_key + ' ilike ' + ':search' + index.to_s + 't')
+            search_params[('search' + index.to_s + 't').to_sym] = '%' + search_token + '%'
+          end
+        end
+        subqueries.push('(' + subquery + ')')
+      end
+      members = members.where(subqueries.join(' and '), search_params)
     end
     members
   end
