@@ -1,9 +1,5 @@
-class MembersDatatable
-  delegate :params, :link_to, :select_tag, :options_for_select, :content_tag, to: :@view
-
-  def initialize(view)
-    @view = view
-  end
+class MembersDatatable < ApplicationDatatable
+  delegate :link_to, :select_tag, :options_for_select, :content_tag, to: :@view
 
   def as_json(options = {})
     {
@@ -15,6 +11,10 @@ class MembersDatatable
   end
 
   private
+
+  def search_keys
+    {'first_name' => :string, 'last_name' => :string, 'screen_name' => :string, 'vk_id' => :integer}
+  end
 
   def data
     members.map do |member|
@@ -46,44 +46,13 @@ class MembersDatatable
   def fetch_members
     members = Member.order("#{sort_column} #{sort_direction} NULLS LAST")
     members = members.page(page).per_page(per_page)
-    if params[:sSearch].present?
-      search_tokens = params[:sSearch].split(' ')
-      search_keys = {'first_name' => :string, 'last_name' => :string, 'screen_name' => :string, 'vk_id' => :integer}
-      search_params = {}
-      subqueries = []
-      search_tokens.each do |search_token|
-        subquery = ''
-        search_keys.each_with_index do |(search_key, kind), index|
-          if kind == :integer
-            if search_token.match /^\d+$/
-              if subquery != ''
-                subquery += ' or '
-              end
-              subquery += (search_key + ' = ' + ':search' + index.to_s + 'i')
-              search_params[('search' + index.to_s + 'i').to_sym] = search_token.to_i
-            end
-          else
-            if subquery != ''
-              subquery += ' or '
-            end
-            subquery += (search_key + ' ilike ' + ':search' + index.to_s + 't')
-            search_params[('search' + index.to_s + 't').to_sym] = '%' + search_token + '%'
-          end
-        end
-        subqueries.push('(' + subquery + ')')
-      end
-      members = members.where(subqueries.join(' and '), search_params)
+    search_args = search_query
+    if search_args
+      members = members.where(search_args[:query], search_args[:params])
     end
     members
   end
 
-  def page
-    params[:iDisplayStart].to_i/per_page + 1
-  end
-
-  def per_page
-    params[:iDisplayLength].to_i > 0 ? params[:iDisplayLength].to_i : 10
-  end
 
   def sort_column
     columns = %w[
@@ -95,7 +64,4 @@ class MembersDatatable
     columns[params[:iSortCol_0].to_i]
   end
 
-  def sort_direction
-    params[:sSortDir_0] == "desc" ? "desc" : "asc"
-  end
 end
