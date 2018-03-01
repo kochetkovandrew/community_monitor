@@ -78,6 +78,47 @@ class Community < ActiveRecord::Base
     end
   end
 
+  def get_topics
+    step_size = 100
+    rest = 1
+    step = 0
+    while rest > 0
+      topics = vk_lock { vk.board.get_topics(group_id: vk_id, count: step_size, offset: step*step_size, extended: 0) }
+      if step == 0
+        rest = topics[:count] - step_size
+      else
+        rest -= step_size
+      end
+      step += 1
+      new_found = false
+      topics[:items].each do |topic_hash|
+        topic = Topic.where(vk_id: topic_hash[:id], community_id: id).first
+        if topic.nil?
+          topic = Topic.new(
+            vk_id: topic_hash[:id],
+            community_id: id,
+            raw: topic_hash,
+            title: topic_hash[:title],
+            created_by_vk_id: topic_hash[:created_by],
+            created_at: Time.at(topic_hash[:created]),
+            updated_at: Time.at(topic_hash[:updated]),
+          )
+          topic.save(touch: false)
+          new_found = true
+        else
+          if Time.at(topic_hash[:updated]) != topic.updated_at
+            topic.get_comments
+            topic.update_attributes(updated_at: Time.at(topic_hash[:updated]))
+          end
+        end
+      end
+      if !new_found
+        break
+      end
+    end
+
+  end
+
   def list_wall(count = 3, offset = 0)
     posts = []
     vk = VkontakteApi::Client.new
