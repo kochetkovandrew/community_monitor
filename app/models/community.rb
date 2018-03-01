@@ -104,6 +104,7 @@ class Community < ActiveRecord::Base
             created_at: Time.at(topic_hash[:created]),
             updated_at: Time.at(topic_hash[:updated]),
           )
+          topic.get_comments
           topic.save(touch: false)
           new_found = true
         else
