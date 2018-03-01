@@ -79,6 +79,7 @@ class Community < ActiveRecord::Base
   end
 
   def get_topics
+    vk = VkontakteApi::Client.new Settings.vk.user_access_token
     step_size = 100
     rest = 1
     step = 0
