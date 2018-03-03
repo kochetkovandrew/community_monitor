@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180226145225) do
+ActiveRecord::Schema.define(version: 20180301141649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 20180226145225) do
     t.text     "raw_followers"
     t.boolean  "manually_added",     default: true
     t.string   "status",             default: "not_viewed"
+    t.boolean  "is_friend",          default: false,        null: false
   end
 
   create_table "memory_dates", force: :cascade do |t|

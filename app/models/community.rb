@@ -24,7 +24,7 @@ class Community < ActiveRecord::Base
       step = 0
       while rest > 0
         new_found = false
-        posts_chunk = vk_lock { vk.wall.get(owner_id: -vk_id, count: step_size, offset: step*step_size, extended: 1) }
+        posts_chunk = vk_lock { vk.wall.get(owner_id: -vk_id, filter: 'all', count: step_size, offset: step*step_size, extended: 1) }
         if step == 0
           rest = posts_chunk[:count] - step_size
         else

@@ -1,5 +1,5 @@
 class CommunitiesController < ApplicationController
-  before_action :set_community, only: [:show, :edit, :update, :destroy]
+  before_action :set_community, only: [:show, :edit, :update, :destroy, :wall]
 
   before_action :authenticate_user!
   before_action { |f| f.require_permission! 'Detective' }
@@ -16,6 +16,13 @@ class CommunitiesController < ApplicationController
   # GET /communities/1
   # GET /communities/1.json
   def show
+  end
+
+  def wall
+    respond_to do |format|
+      format.html
+      format.json { render json: CommunityWallDatatable.new(view_context) }
+    end
   end
 
   # GET /communities/new

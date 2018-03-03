@@ -1,5 +1,26 @@
 module VkHelper
 
+  def entry_body(entry)
+    res = '<p>'
+    res += entry.created_at.to_s
+    if entry.kind_of?(PostComment)
+      if !entry.post.nil?
+        res += link_to (fa_icon('comment') + ' Ссылка'), comment_link(entry)
+      elsif !entry.topic.nil?
+        res += link_to (fa_icon('comments') + ' Ссылка'), comment_link(entry)
+      end
+    end
+    res += '<br/>'
+    res += comment_body(entry.raw['text'])
+    res += '</p>'
+    if entry.raw['attachments']
+      entry.raw['attachments'].each do |attachment|
+        res += attachment_body(attachment)
+      end
+    end
+    res.html_safe
+  end
+
   def comment_body(raw_vk_text)
     parts = raw_vk_text.split(/(\[(?:club|id)\d+(?::[^\|]*)?\|[^\]]+\])/)
     res = ''

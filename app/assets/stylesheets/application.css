@@ -18,10 +18,13 @@
  *= require dataTables/jquery.dataTables
  *= require select2
  *= require select2-bootstrap
+ *= require font-awesome
 
  *= require_tree .
  *= require_self
  */
+
+@import "font-awesome";
 
 div.main {
     margin-left: 10px;

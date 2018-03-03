@@ -1,5 +1,5 @@
 class MembersDatatable < ApplicationDatatable
-  delegate :link_to, :select_tag, :options_for_select, :content_tag, to: :@view
+  delegate :link_to, :select_tag, :options_for_select, :content_tag, :fa_icon, to: :@view
 
   def as_json(options = {})
     {
@@ -19,7 +19,7 @@ class MembersDatatable < ApplicationDatatable
   def data
     members.map do |member|
       {
-        vk_id: link_to(member.vk_id.to_s, 'https://vk.com/id' + member.vk_id.to_s),
+        vk_id: ((member.is_friend == false ? '' : fa_icon("handshake-o") + ' ') + link_to(member.vk_id.to_s, 'https://vk.com/id' + member.vk_id.to_s)),
         full_name: member.first_name.to_s + ' ' + member.last_name.to_s,
         last_seen_at: member.last_seen_at.nil? ? '' : member.last_seen_at,
         links:

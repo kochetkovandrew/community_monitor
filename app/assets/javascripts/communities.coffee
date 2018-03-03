@@ -6,3 +6,13 @@ jQuery ->
   $('table#listing_communities').DataTable
     language:
       url: '/i18n/dataTables.russian.json'
+  $('table#community_wall').DataTable
+    iDisplayLength: 25
+    bProcessing: true
+    bServerSide: true
+    sAjaxSource: $('table#community_wall').data('source')
+    columns: [
+      { data: "body" },
+    ]
+    language:
+      url: '/i18n/dataTables.russian.json'

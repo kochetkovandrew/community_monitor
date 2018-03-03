@@ -5,7 +5,7 @@ class MembersController < ApplicationController
   before_action { |f| f.require_permission! 'Detective' }
 
   def index
-    @members = Member.all
+    # @members = Member.all
     @member = Member.new
     respond_to do |format|
       format.html
