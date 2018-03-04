@@ -40,8 +40,8 @@ class CopyMessagesDatatable
       full_name = 'Неизвестно'
       begin
         parsed = JSON.parse(member.raw)
-        full_name = parsed['first_name'] + ' ' + parsed['last_name']
-        avatar = parsed['photo_50']
+        full_name = member.raw['first_name'] + ' ' + member.raw['last_name']
+        avatar = member.raw['photo_50']
       rescue
       end
       res[member.vk_id] = {full_name: full_name, avatar: avatar}
