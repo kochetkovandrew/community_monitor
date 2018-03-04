@@ -39,7 +39,6 @@ class CopyMessagesDatatable
       avatar = 'https://vk.com/images/camera_50.png'
       full_name = 'Неизвестно'
       begin
-        parsed = JSON.parse(member.raw)
         full_name = member.raw['first_name'] + ' ' + member.raw['last_name']
         avatar = member.raw['photo_50']
       rescue
