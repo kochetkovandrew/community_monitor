@@ -50,7 +50,7 @@ class Member < ActiveRecord::Base
       success = false
     end
     if success
-      self.raw_friends = all_friends.to_json
+      self.raw_friends = all_friends
     end
   end
 
@@ -77,7 +77,7 @@ class Member < ActiveRecord::Base
      success = false
     end
     if success
-      self.raw_followers = all_friends.to_json
+      self.raw_followers = all_friends
     end
   end
 
