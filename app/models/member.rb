@@ -24,8 +24,8 @@ class Member < ActiveRecord::Base
     self.maiden_name = raw_user[:maiden_name]
     self.nickname = raw_user[:nickname]
     self.screen_name = raw_user[:screen_name]
-    set_friends_from_vk(vk)
-    set_followers_from_vk(vk)
+    #set_friends_from_vk(vk)
+    #set_followers_from_vk(vk)
   end
 
   def set_friends_from_vk(vk = nil)
