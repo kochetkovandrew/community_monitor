@@ -24,9 +24,15 @@ class Member < ActiveRecord::Base
     self.maiden_name = raw_user[:maiden_name]
     self.nickname = raw_user[:nickname]
     self.screen_name = raw_user[:screen_name]
-    step_size = 5000
-    success = true
+    set_friends_from_vk(vk)
+    set_followers_from_vk(vk)
+  end
+
+  def set_friends_from_vk(vk = nil)
+    vk ||= VkontakteApi::Client.new Settings.vk.user_access_token
     all_friends = []
+    success = true
+    step_size = 5000
     begin
       rest = 1
       step = 0
@@ -46,8 +52,8 @@ class Member < ActiveRecord::Base
     if success
       self.raw_friends = all_friends.to_json
     end
-    set_followers_from_vk(vk)
   end
+
 
   def set_followers_from_vk(vk = nil)
     vk ||= VkontakteApi::Client.new Settings.vk.user_access_token
@@ -76,25 +82,16 @@ class Member < ActiveRecord::Base
   end
 
   def get_followers
-    if !self.raw_followers.nil? && (self.raw_followers != '')
-      JSON::parse self.raw_followers
-    else
-      []
-    end
+    self.raw_followers || []
   end
 
   def get_friends
-    if !self.raw_friends.nil? && (self.raw_friends != '')
-      JSON::parse self.raw_friends
-    else
-      []
-    end
+    self.raw_friends || []
   end
 
   def friends_in_communities
     friend_arr = get_friends + get_followers
-    friend_ids = friend_arr.collect{|friend| friend['id']}
-    friend_hash = friend_arr.collect{|friend| [friend['id'], friend]}.to_h
+    friend_ids = friend_arr.select{|elem| elem.kind_of?(Integer)}
     friends_in_communities_arr = []
     member_of = []
     Community.all.each do |community|
@@ -110,7 +107,42 @@ class Member < ActiveRecord::Base
         end
       end
     end
-    return {friend_hash: friend_hash, friends_in_communities: friends_in_communities_arr, member_of: member_of}
+    friends_arr = Member.where(vk_id: friends_in_communities_arr.collect{|fica| fica[:friends]}.flatten.uniq).all
+    friends_hash = Hash[friends_arr.collect{|fr| [fr.vk_id, fr]}]
+    return {friends: friends_hash, friends_in_communities: friends_in_communities_arr, member_of: member_of}
+  end
+
+  def comparable_hash
+    {
+      sex: self.sex,
+      city_id: self.city_id,
+      city_title: self.city_title || '',
+      country_id: self.country_id,
+      country_title: self.country_title || '',
+      nickname: self.nickname || '',
+      last_name: self.last_name || '',
+      first_name: self.first_name || '',
+    }
+  end
+
+  def set_from_hash(hash)
+    hh = hash.with_indifferent_access
+    self.raw ||= {}
+    self.raw.merge!(hash)
+    self.vk_id = hh[:id]
+    self.sex = hh[:sex]
+    self.last_seen_at = ((!hh[:last_seen].nil? && !hh[:last_seen][:time].nil?) ? Time.at(hh[:last_seen][:time]) : nil)
+    self.last_seen_platform = (!hh[:last_seen].nil? ? hh[:last_seen][:platform] : nil)
+    self.city_id = (!hh[:city].nil? ? hh[:city][:id] : nil)
+    self.city_title = (!hh[:city].nil? ? hh[:city][:title] : nil)
+    self.country_id = (!hh[:country].nil? ? hh[:country][:id] : nil)
+    self.country_title = (!hh[:country].nil? ? hh[:country][:title] : nil)
+    self.domain = hh[:domain]
+    self.first_name = hh[:first_name]
+    self.last_name = hh[:last_name]
+    self.maiden_name = hh[:maiden_name]
+    self.nickname = hh[:nickname]
+    self.screen_name = hh[:screen_name] || hh[:domain] || ('id' + hh[:id].to_s)
   end
 
 end

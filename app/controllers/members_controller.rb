@@ -60,15 +60,16 @@ class MembersController < ApplicationController
   def show
     @member = Member.find(params[:id])
     res = @member.friends_in_communities
-    @friend_hash = res[:friend_hash]
+    @friend_hash = res[:friends]
     @friends_in_communities = res[:friends_in_communities]
     @member_of = res[:member_of]
   end
 
   def friends
     @member = Member.find(params[:id])
-    @friends = JSON::parse(@member.raw_friends)
-    @followers = @member.get_followers
+    @friends = @member.raw_friends
+    @followers = @member.raw_followers
+    # @followers = @member.get_followers
   end
 
   def check

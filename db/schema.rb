@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180301141649) do
+ActiveRecord::Schema.define(version: 20180304121827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,15 @@ ActiveRecord::Schema.define(version: 20180301141649) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "member_histories", force: :cascade do |t|
+    t.integer  "member_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.jsonb    "raw"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "member_last_seens", force: :cascade do |t|
     t.integer  "member_id"
     t.datetime "last_seen_at"
@@ -119,14 +128,16 @@ ActiveRecord::Schema.define(version: 20180301141649) do
     t.string   "maiden_name"
     t.string   "nickname"
     t.string   "screen_name"
-    t.text     "raw"
-    t.text     "raw_friends"
+    t.jsonb    "raw",                default: {}
+    t.jsonb    "raw_friends",        default: []
     t.integer  "vk_id"
-    t.text     "raw_followers"
+    t.jsonb    "raw_followers",      default: []
     t.boolean  "manually_added",     default: true
     t.string   "status",             default: "not_viewed"
     t.boolean  "is_friend",          default: false,        null: false
   end
+
+  add_index "members", ["vk_id"], name: "index_members_on_vk_id", unique: true, using: :btree
 
   create_table "memory_dates", force: :cascade do |t|
     t.integer  "day"
