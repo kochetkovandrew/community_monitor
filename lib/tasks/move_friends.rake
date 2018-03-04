@@ -1,6 +1,7 @@
 task move_friends: :environment do
-  members = Member.where(is_friend: false).all
-  members.each_show_progress do |member|
+  member_ids = Member.where(is_friend: false).select(:id).all
+  member_ids.each_show_progress do |member_id|
+    member = Member.find member_id
     new_friends = []
     (member.raw_friends || []).each do |friend_hash|
       if friend_hash.kind_of?(Hash)
