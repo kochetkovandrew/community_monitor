@@ -1,5 +1,5 @@
 task move_followers: :environment do
-  members = Member.all
+  members = Member.where(is_friend: false).all
   members.each_show_progress do |member|
     new_friends = []
     (member.raw_followers || []).each do |friend_hash|
