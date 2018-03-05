@@ -145,4 +145,10 @@ class Member < ActiveRecord::Base
     self.screen_name = hh[:screen_name] || hh[:domain] || ('id' + hh[:id].to_s)
   end
 
+  def total_entries
+    q = "SELECT reltuples::bigint AS count FROM pg_class WHERE oid = 'members'::regclass"
+    records_array = ActiveRecord::Base.connection.execute(q)
+    records_array[0]['count'].to_i
+  end
+
 end
