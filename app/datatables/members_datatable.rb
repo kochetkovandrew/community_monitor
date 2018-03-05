@@ -45,6 +45,7 @@ class MembersDatatable < ApplicationDatatable
 
   def fetch_members
     members = Member.order("#{sort_column} #{sort_direction} NULLS LAST")
+    members = members.where(is_friend: false)
     members = members.page(page).per_page(per_page)
     search_args = search_query
     if search_args
