@@ -4,7 +4,7 @@ class MembersDatatable < ApplicationDatatable
   def as_json(options = {})
     {
       sEcho: params[:sEcho].to_i,
-      iTotalRecords: Member.count,
+      iTotalRecords: Member.total_count,
       iTotalDisplayRecords: members.total_entries,
       aaData: data
     }
