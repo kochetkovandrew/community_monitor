@@ -28,7 +28,7 @@ class Member < ActiveRecord::Base
     #set_followers_from_vk(vk)
   end
 
-  def set_friends_from_vk(vk = nil)
+  def friends_from_vk(vk = nil)
     vk ||= VkontakteApi::Client.new Settings.vk.user_access_token
     all_friends = []
     success = true
@@ -49,13 +49,14 @@ class Member < ActiveRecord::Base
     rescue
       success = false
     end
-    if success
-      self.raw_friends = all_friends
-    end
+    # if success
+    #   self.raw_friends = all_friends
+    # end
+    all_friends
   end
 
 
-  def set_followers_from_vk(vk = nil)
+  def followers_from_vk(vk = nil)
     vk ||= VkontakteApi::Client.new Settings.vk.user_access_token
     all_friends = []
     success = true
@@ -76,9 +77,10 @@ class Member < ActiveRecord::Base
     rescue
      success = false
     end
-    if success
-      self.raw_followers = all_friends
-    end
+    # if success
+    #   self.raw_followers = all_friends
+    # end
+    all_friends
   end
 
   def get_followers
@@ -90,8 +92,15 @@ class Member < ActiveRecord::Base
   end
 
   def friends_in_communities
-    friend_arr = get_friends + get_followers
-    friend_ids = friend_arr.select{|elem| elem.kind_of?(Integer)}
+    if is_friend || new_record?
+      friends = friends_from_vk
+      followers = followers_from_vk
+      friend_arr = friends + followers
+      friend_ids = friend_arr.collect{|friend| friend[:id]}
+    else
+      friend_arr = get_friends + get_followers
+      friend_ids = friend_arr.select{|elem| elem.kind_of?(Integer)}
+    end
     friends_in_communities_arr = []
     member_of = []
     Community.all.each do |community|
@@ -107,8 +116,12 @@ class Member < ActiveRecord::Base
         end
       end
     end
-    friends_arr = Member.where(vk_id: friends_in_communities_arr.collect{|fica| fica[:friends]}.flatten.uniq).all
-    friends_hash = Hash[friends_arr.collect{|fr| [fr.vk_id, fr]}]
+    if is_friend || new_record?
+      friends_hash = Hash[friend_arr.collect{|fr| [fr[:id], fr]}]
+    else
+      friends_arr = Member.where(vk_id: friends_in_communities_arr.collect{|fica| fica[:friends]}.flatten.uniq).all
+      friends_hash = Hash[friends_arr.collect{|fr| [fr.vk_id, fr]}]
+    end
     return {friends: friends_hash, friends_in_communities: friends_in_communities_arr, member_of: member_of}
   end
 

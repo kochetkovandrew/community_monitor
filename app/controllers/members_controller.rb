@@ -67,8 +67,9 @@ class MembersController < ApplicationController
 
   def friends
     @member = Member.find(params[:id])
-    @friends = @member.raw_friends
-    @followers = @member.raw_followers
+    @friends = Member.where(vk_id: @member.raw_friends).all
+      #.select([:first_name, :last_name, :domain, :city_title, :country_title, :last_seen_at]).all
+    @followers = Member.where(vk_id: @member.raw_followers).all
     # @followers = @member.get_followers
   end
 
@@ -86,7 +87,8 @@ class MembersController < ApplicationController
       @member = Member.new(member_params)
       @member.set_from_vk
       res = @member.friends_in_communities
-      @friend_hash = res[:friend_hash]
+      p res
+      @friend_hash = res[:friends]
       @friends_in_communities = res[:friends_in_communities]
       @member_of = res[:member_of]
     end

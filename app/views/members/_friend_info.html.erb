@@ -1,8 +1,8 @@
-<td><%= link_to((friend['first_name'] || '') + ' ' + (friend['last_name'] || ''), 'https://vk.com/' + friend['domain']) %></td>
-<td><%= friend['city'].try(:[], 'title') %>, <%= friend['country'].try(:[], 'title')%></td>
-<td><%= friend['bdate']%></td>
+<td><%= link_to((friend.first_name || '') + ' ' + (friend.last_name || ''), 'https://vk.com/' + friend.domain) %></td>
+<td><%= friend.city_title %>, <%= friend.country_title %></td>
+<td><%= friend.raw['bdate']%></td>
 <td>
-  <% if !friend['last_seen'].nil? && !friend['last_seen']['time'].nil? %>
-    <%= Time.at(friend['last_seen'].try(:[], 'time') || 0).to_s %>
+  <% if !friend.last_seen_at.nil? %>
+    <%= Time.at(friend.last_seen_at || 0).to_s %>
   <% end %>
 </td>
