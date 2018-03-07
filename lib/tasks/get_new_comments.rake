@@ -1,0 +1,9 @@
+task get_new_comments: :environment do |t|
+  vk_renew_lock do
+    Community.where(id: 1).all.each do |community|
+      Post.where(community_id: community.id).order('created_at desc').limit(3).each do |post|
+        post.get_comments
+      end
+    end
+  end
+end
