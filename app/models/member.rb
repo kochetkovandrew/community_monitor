@@ -180,7 +180,7 @@ class Member < ActiveRecord::Base
             raw: raw,
           )
         end
-        set_from_hash(friend_hash)
+        set_from_hash(new_hash)
         self.save
       end
     end
