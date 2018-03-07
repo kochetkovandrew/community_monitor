@@ -3,13 +3,18 @@ class Member < ActiveRecord::Base
   has_many :communities, :through => :community_members
   has_many :posts
   has_many :post_comments, primary_key: :vk_id, foreign_key: :user_vk_id
+  has_many :member_histories
 
   validates :vk_id, uniqueness: true
 
-  def set_from_vk
+  def get_from_vk
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
     raw_user = vk_lock { vk.users.get(user_ids: [self.screen_name], fields: [ :photo_id, :verified, :sex, :bdate, :city, :country, :home_town, :has_photo, :photo_50, :photo_100, :photo_200_orig, :photo_200, :photo_400_orig, :photo_max, :photo_max_orig, :online, :domain, :has_mobile, :contacts, :site, :education, :universities, :schools, :status, :last_seen, :followers_count, :common_count, :occupation, :nickname, :relatives, :relation, :personal, :connections, :exports, :wall_comments, :activities, :interests, :music, :movies, :tv, :books, :games, :about, :quotes, :timezone, :screen_name, :maiden_name, :crop_photo, :friend_status, :career, :military ])[0] }
-    self.raw = raw_user.to_json
+  end
+
+  def set_from_vk(raw_hash = nil)
+    raw_user = raw_hash || get_from_vk
+    self.raw = raw_user
     self.vk_id = raw_user[:id]
     self.sex = raw_user[:sex]
     self.last_seen_at = ((!raw_user[:last_seen].nil? && !raw_user[:last_seen][:time].nil?) ? Time.at(raw_user[:last_seen][:time]) : nil)
@@ -123,6 +128,79 @@ class Member < ActiveRecord::Base
       friends_hash = Hash[friends_arr.collect{|fr| [fr.vk_id, fr]}]
     end
     return {friends: friends_hash, friends_in_communities: friends_in_communities_arr, member_of: member_of}
+  end
+
+  def set_friends_followers_from_vk
+    existing_friends = raw_friends || []
+    existing_followers = raw_followers || []
+    friends_hash = friends_from_vk
+    followers_hash = followers_from_vk
+    friend_ids_arr = add_friends(friends_hash)
+    follower_ids_arr = add_friends(followers_hash)
+    self.raw_friends = (existing_friends + friend_ids_arr).uniq
+    self.raw_followers = (existing_followers + follower_ids_arr).uniq
+    self.save
+  end
+
+  def update_history(new_hash)
+    friend = Member.new
+    friend.set_from_hash(new_hash)
+    existing_hash = comparable_hash
+    new_hash = friend.comparable_hash
+    if existing_hash != new_hash
+      if (!last_seen_at.nil?) && (friend.last_seen_at.nil? || (last_seen_at > friend.last_seen_at))
+        found_history = false
+        member_histories.each do |member_history|
+          if member_history.comparable_hash == new_hash
+            found_history = true
+            break
+          end
+        end
+        if !found_history
+          member_history = MemberHistory.create(
+            member_id: id,
+            first_name: friend.first_name,
+            last_name: friend.last_name,
+            raw: friend.raw,
+          )
+        end
+      else
+        found_history = false
+        member_histories.each do |member_history|
+          if member_history.comparable_hash == new_hash
+            found_history = true
+            break
+          end
+        end
+        if !found_history
+          member_history = MemberHistory.create(
+            member_id: id,
+            first_name: first_name,
+            last_name: last_name,
+            raw: raw,
+          )
+        end
+        set_from_hash(friend_hash)
+        self.save
+      end
+    end
+  end
+
+  def add_friends(raw_friends_arr)
+    friend_vk_ids = raw_friends_arr.collect{|friend_hash| friend_hash[:id]}
+    existing_friend_hash = Hash[Member.where(vk_id: friend_vk_ids).includes([:member_histories]).all.collect{|member| [member.vk_id, member]}]
+    raw_friends_arr.each do |friend_hash|
+      existing = existing_friend_hash[friend_hash['id']]
+      if !existing.nil?
+        existing.update_history(friend_hash)
+      else
+        friend = Member.new
+        friend.set_from_hash(friend_hash)
+        friend.is_friend = true
+        friend.save
+      end
+    end
+    friend_vk_ids
   end
 
   def comparable_hash

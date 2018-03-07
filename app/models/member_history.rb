@@ -1,5 +1,7 @@
 class MemberHistory < ActiveRecord::Base
 
+  belongs_to :member
+
   def comparable_hash
     {
       sex: self.raw['sex'],

@@ -22,12 +22,21 @@ class MembersController < ApplicationController
 
   def create
     @member = Member.new(member_params)
-    @member.set_from_vk
-    if @member.screen_name.nil?
-      @member.screen_name = 'id' + @member.vk_id.to_s
+    member_hash = @member.get_from_vk
+    existing = Member.includes([:member_histories]).find_by_vk_id(member_hash[:id])
+    if !existing.nil?
+      @member = existing
+      @member.update_history(member_hash)
+      @member.is_friend = false
+    else
+      @member.set_from_vk(member_hash)
+      if @member.screen_name.nil?
+        @member.screen_name = 'id' + @member.vk_id.to_s
+      end
     end
     respond_to do |format|
       if @member.save
+        @member.set_friends_followers_from_vk
         format.html { redirect_to members_url, notice: 'Person was successfully added.' }
         format.json { render :show, status: :created, location: members_url }
       else
