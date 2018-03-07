@@ -19,11 +19,12 @@ class MembersDatatable < ApplicationDatatable
   def data
     members.map do |member|
       {
-        vk_id: ((member.is_friend == false ? '' : fa_icon("handshake-o") + ' ') + link_to(member.vk_id.to_s, 'https://vk.com/id' + member.vk_id.to_s)),
+        vk_id: ((member.is_friend == false ? '' : fa_icon("handshake-o") + ' ') + member.vk_id.to_s),
         full_name: member.first_name.to_s + ' ' + member.last_name.to_s,
         last_seen_at: member.last_seen_at.nil? ? '' : member.last_seen_at,
         links:
-          link_to(content_tag(:i, '', class: 'fa fa-info fa-lg fa-fw'), member, { class: 'btn btn-sm btn-outline-primary', role: 'button', title: 'Показать'}) +
+          link_to(fa_icon('vk', class: 'fa-lg fa-fw'), 'https://vk.com/id' + member.vk_id.to_s, { class: 'btn btn-sm btn-outline-primary', role: 'button'}) +
+          link_to(content_tag(:i, '', class: 'fa fa-info fa-lg fa-fw'), {controller: :members, action: :show, id: member.vk_id}, { class: 'btn btn-sm btn-outline-primary', role: 'button', title: 'Показать'}) +
           select_tag('member[status]', options_for_select(
             [
               ['Не просмотрен', 'not_viewed', {:class => 'ui-icon-notice', 'data-content' => "<span class='label label-info'>Не просмотрен</span>"}],
