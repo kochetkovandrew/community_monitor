@@ -1,5 +1,17 @@
 module VkHelper
 
+  def entry_raw_body(raw_entry)
+    res = '<p>'
+    res += comment_body(raw_entry['text'])
+    res += '</p>'
+    if raw_entry['attachments']
+      raw_entry['attachments'].each do |attachment|
+        res += attachment_body(attachment)
+      end
+    end
+    res
+  end
+
   def entry_body(entry)
     res = '<p>'
     res += entry.created_at.to_s
@@ -13,6 +25,18 @@ module VkHelper
     res += '<br/>'
     res += comment_body(entry.raw['text'])
     res += '</p>'
+    if !entry.raw['copy_history'].nil?
+      cnt = 0
+      entry.raw['copy_history'].each do |child_entry|
+        res += '<div class="im_fwd_log_wrap">'.html_safe
+        res += entry_raw_body(child_entry)
+        cnt += 1
+      end
+      for i in 1..cnt
+        res += '</div>'.html_safe
+      end
+    end
+
     if entry.raw['attachments']
       entry.raw['attachments'].each do |attachment|
         res += attachment_body(attachment)

@@ -11,6 +11,7 @@ jQuery ->
     bProcessing: true
     bServerSide: true
     sAjaxSource: $('table#community_wall').data('source')
+    asStripeClasses: [ ]
     columns: [
       { data: "body" },
     ]

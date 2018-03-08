@@ -21,5 +21,3 @@ jQuery ->
         if avatars[user_vk_id]
           $(this).append $('<img>', {src: avatars[user_vk_id].avatar})
           $(this).append $('<span>').text(avatars[user_vk_id].full_name)
-        console.log user_vk_id
-      console.log avatars

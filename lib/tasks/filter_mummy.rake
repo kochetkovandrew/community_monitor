@@ -198,7 +198,7 @@ task filter_mummy: :environment do
     "Vika",
     "Антон",
   ]
-  people = JSON.parse File.read(Rails.root.join('applog', 'mummy2.json'))
+  people = JSON.parse File.read(Rails.root.join('applog', 'mummy3.json'))
   p people.count
   people.reject! {|person| person['first_name'].in?(typical_names)}
   #people.reject! {|person| person['followers_count'] < 500}
@@ -211,5 +211,6 @@ task filter_mummy: :environment do
   names_array = names.map { |key, value| [key, value] }
   names_array.sort! {|x,y| y[1] <=> x[1]}
   # puts names_array.to_yaml
-  #puts people.to_yaml
+  f = File.open(Rails.root.join('filter_mummy2.yaml'), 'w')
+  f.puts people.to_yaml
 end
