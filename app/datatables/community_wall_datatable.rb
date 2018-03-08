@@ -19,7 +19,7 @@ class CommunityWallDatatable < ApplicationDatatable
   def data
     posts.map do |post|
       {
-        body: entry_body(post),
+        body: entry_body(post) + content_tag(:p, post.post_comments.count.to_s + ' комментариев'),
         DT_RowAttr: { 'data-id': post.id },
       }
     end
