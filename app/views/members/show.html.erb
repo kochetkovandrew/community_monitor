@@ -7,9 +7,8 @@
 <%= render 'member_of' %>
 <%= render 'friends_in_communities' %>
 
-<% if @member.is_friend %>
+<% if !@member.is_monitored %>
 <div class="panel panel-warning">
-  <div class="panel-heading">Отслеживается частично (друг или фолловер одного из отслеживаемых). Используйте функцию
-  «Добавить» для более полного отслеживания</div>
+  <div class="panel-heading">Отслеживается частично. Используйте функцию «Добавить» для более полного отслеживания</div>
 </div>
 <% end %>

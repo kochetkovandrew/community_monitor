@@ -28,11 +28,10 @@ class MembersController < ApplicationController
       @member = existing
       @member.update_history(member_hash)
       @member.is_friend = false
+      @member.is_handled = true
+      @member.is_monitored = true
     else
       @member.set_from_vk(member_hash)
-      if @member.screen_name.nil?
-        @member.screen_name = 'id' + @member.vk_id.to_s
-      end
     end
     respond_to do |format|
       if @member.save
@@ -67,6 +66,21 @@ class MembersController < ApplicationController
   end
 
   def show
+    if !@member
+      @member = Member.new(screen_name: params[:id])
+      member_hash = @member.get_from_vk
+      @member.set_from_vk(member_hash)
+      @member.set_friends_followers_from_vk
+      @member.is_monitored = false
+      @member.is_handled = true
+      @member.save
+    elsif !@member.is_handled
+      member_hash = @member.get_from_vk
+      @member.update_history(member_hash)
+      @member.set_friends_followers_from_vk
+      @member.is_handled = true
+      @member.save
+    end
     res = @member.friends_in_communities
     @friend_hash = res[:friends]
     @friends_in_communities = res[:friends_in_communities]
@@ -91,10 +105,13 @@ class MembersController < ApplicationController
     else
       @member = Member.new(member_params)
       @member.set_from_vk
-      res = @member.friends_in_communities
-      @friend_hash = res[:friends]
-      @friends_in_communities = res[:friends_in_communities]
-      @member_of = res[:member_of]
+      respond_to do |format|
+        format.html { redirect_to controller: :members, action: :show, id: @member.vk_id }
+      end
+      # res = @member.friends_in_communities
+      # @friend_hash = res[:friends]
+      # @friends_in_communities = res[:friends_in_communities]
+      # @member_of = res[:member_of]
     end
   end
 

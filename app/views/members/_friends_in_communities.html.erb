@@ -8,13 +8,14 @@
               <%= community_friends[:community].name %>
             </td>
             <td>
-              <%= link_to @friend_hash[friend_id]['domain'], 'https://vk.com/' + @friend_hash[friend_id]['domain'] %>
+              <%= @friend_hash[friend_id].vk_id %>
             </td>
             <td>
-              <%= @friend_hash[friend_id]['first_name'] %>
+              <%= @friend_hash[friend_id]['first_name'] %> <%= @friend_hash[friend_id]['last_name'] %>
             </td>
             <td>
-              <%= @friend_hash[friend_id]['last_name'] %>
+              <%= link_to fa_icon(:vk, class: ['fa-lg fa-fw']), ('https://vk.com/id' + @friend_hash[friend_id].vk_id.to_s), { class: 'btn btn-sm btn-outline-primary', role: 'button'} %>
+              <%= link_to fa_icon(:info, class: ['fa-lg fa-fw']), {controller: :members, action: :show, id: @friend_hash[friend_id].vk_id}, { class: 'btn btn-sm btn-outline-primary', role: 'button'} %>
             </td>
           </tr>
       <% end %>

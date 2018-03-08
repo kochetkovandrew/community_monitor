@@ -28,7 +28,7 @@ class Member < ActiveRecord::Base
     self.last_name = raw_user[:last_name]
     self.maiden_name = raw_user[:maiden_name]
     self.nickname = raw_user[:nickname]
-    self.screen_name = raw_user[:screen_name]
+    self.screen_name = raw_user[:screen_name] || ('id' + vk_id.to_s)
     #set_friends_from_vk(vk)
     #set_followers_from_vk(vk)
   end
@@ -54,12 +54,8 @@ class Member < ActiveRecord::Base
     rescue
       success = false
     end
-    # if success
-    #   self.raw_friends = all_friends
-    # end
     all_friends
   end
-
 
   def followers_from_vk(vk = nil)
     vk ||= VkontakteApi::Client.new Settings.vk.user_access_token
@@ -97,15 +93,15 @@ class Member < ActiveRecord::Base
   end
 
   def friends_in_communities
-    if is_friend || new_record?
-      friends = friends_from_vk
-      followers = followers_from_vk
-      friend_arr = friends + followers
-      friend_ids = friend_arr.collect{|friend| friend[:id]}
-    else
-      friend_arr = get_friends + get_followers
-      friend_ids = friend_arr.select{|elem| elem.kind_of?(Integer)}
-    end
+    # if is_friend || new_record?
+    #   friends = friends_from_vk
+    #   followers = followers_from_vk
+    #   friend_arr = friends + followers
+    #   friend_ids = friend_arr.collect{|friend| friend[:id]}
+    # else
+    friend_arr = get_friends + get_followers
+    friend_ids = friend_arr.select{|elem| elem.kind_of?(Integer)}
+    # end
     friends_in_communities_arr = []
     member_of = []
     Community.all.each do |community|
@@ -121,12 +117,12 @@ class Member < ActiveRecord::Base
         end
       end
     end
-    if is_friend || new_record?
-      friends_hash = Hash[friend_arr.collect{|fr| [fr[:id], fr]}]
-    else
-      friends_arr = Member.where(vk_id: friends_in_communities_arr.collect{|fica| fica[:friends]}.flatten.uniq).all
-      friends_hash = Hash[friends_arr.collect{|fr| [fr.vk_id, fr]}]
-    end
+    # if is_friend || new_record?
+    #   friends_hash = Hash[friend_arr.collect{|fr| [fr[:id], fr]}]
+    # else
+    friends_arr = Member.where(vk_id: friends_in_communities_arr.collect{|fica| fica[:friends]}.flatten.uniq).all
+    friends_hash = Hash[friends_arr.collect{|fr| [fr.vk_id, fr]}]
+    # end
     return {friends: friends_hash, friends_in_communities: friends_in_communities_arr, member_of: member_of}
   end
 
@@ -197,6 +193,8 @@ class Member < ActiveRecord::Base
         friend = Member.new
         friend.set_from_hash(friend_hash)
         friend.is_friend = true
+        friend.is_monitored = false
+        friend.is_handled = false
         friend.save
       end
     end
