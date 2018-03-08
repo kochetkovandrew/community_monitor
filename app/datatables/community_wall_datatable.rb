@@ -1,5 +1,5 @@
 class CommunityWallDatatable < ApplicationDatatable
-  delegate :link_to, :select_tag, :options_for_select, :content_tag, :entry_body, to: :@view
+  delegate :link_to, :select_tag, :options_for_select, :content_tag, :entry_body, :t, to: :@view
 
   def as_json(options = {})
     {
@@ -19,7 +19,8 @@ class CommunityWallDatatable < ApplicationDatatable
   def data
     posts.map do |post|
       {
-        body: entry_body(post) + content_tag(:p, post.post_comments.count.to_s + ' комментариев'),
+        body: entry_body(post) + content_tag(:br, '') +
+          link_to(post.post_comments.count.to_s + ' ' + t(:comment, count: post.post_comments.count), post, { class: 'btn btn-sm btn-outline-primary', role: 'button'}),
         DT_RowAttr: { 'data-id': post.id },
       }
     end
@@ -45,10 +46,6 @@ class CommunityWallDatatable < ApplicationDatatable
       created_at
     ]
     columns[params[:iSortCol_0].to_i]
-  end
-
-  def sort_direction
-    params[:sSortDir_0] == "asc" ? "asc" : "desc"
   end
 
 end

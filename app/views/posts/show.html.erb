@@ -1,0 +1,6 @@
+<div style="width: 800px; max-width: 800px;">
+  <%= entry_body(@post) %>
+  <br/>
+  <%= @post.post_comments.count %> <%= t(:comment, count: @post.post_comments.count)%>
+  <hr/>
+</div>

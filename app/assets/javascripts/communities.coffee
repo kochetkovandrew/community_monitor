@@ -15,5 +15,6 @@ jQuery ->
     columns: [
       { data: "body" },
     ]
+    order: [[ 0, "desc" ]]
     language:
       url: '/i18n/dataTables.russian.json'
