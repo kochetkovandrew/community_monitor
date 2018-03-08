@@ -6,6 +6,12 @@ class PostsController < ApplicationController
 
   end
 
+  def comments
+    respond_to do |format|
+      format.json { render json: PostCommentsDatatable.new(view_context) }
+    end
+  end
+
   private
 
   def set_post

@@ -3,4 +3,12 @@
   <br/>
   <%= @post.post_comments.count %> <%= t(:comment, count: @post.post_comments.count)%>
   <hr/>
+  <table id="post_comments" data-source="/posts/<%= @post.id %>/comments.json">
+    <thead>
+    <th></th>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
 </div>
+
