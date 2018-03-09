@@ -42,6 +42,7 @@ module VkHelper
         res += attachment_body(attachment)
       end
     end
+    res += content_tag(:div, fa_icon(:heart) + ' Нравится ' + entry.likes.count.to_s)
     res.html_safe
   end
 
