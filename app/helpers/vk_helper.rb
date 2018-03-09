@@ -133,6 +133,15 @@ module VkHelper
         href += '?post='
         href += comment.vk_id.to_s
       end
+    elsif !comment.post.nil?
+      if !comment.post.community.nil?
+        href += 'wall'
+        href += (-comment.post.community.vk_id).to_s
+        href += '_'
+        #href += comment.post.vk_id.to_s
+        #href += '?post='
+        href += comment.vk_id.to_s
+      end
     end
     href
   end
