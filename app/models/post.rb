@@ -34,7 +34,7 @@ class Post < ActiveRecord::Base
     end
   end
 
-  def get_comments(force = false)
+  def get_comments(force = false, recurrent_force = false)
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
     step_size = 100
     if (raw['comments']['count'] > 0) || force
@@ -73,7 +73,7 @@ class Post < ActiveRecord::Base
                 comment.raw['likes']['count'] = comment_hash[:likes][:count]
                 comment.likes_count = comment_hash[:likes][:count]
                 comment.save(touch: false)
-                comment.get_likes(force)
+                comment.get_likes(recurrent_force)
               end
             end
             if !new_found && !force
