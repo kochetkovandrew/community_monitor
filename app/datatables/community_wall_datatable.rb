@@ -19,8 +19,7 @@ class CommunityWallDatatable < ApplicationDatatable
   def data
     posts.map do |post|
       {
-        body: entry_body(post) + content_tag(:br, '') +
-          link_to(post.post_comments.count.to_s + ' ' + t(:comment, count: post.post_comments.count), post, { class: 'btn btn-sm btn-outline-primary', role: 'button'}),
+        body: entry_body(post),
         DT_RowAttr: { 'data-id': post.id },
       }
     end

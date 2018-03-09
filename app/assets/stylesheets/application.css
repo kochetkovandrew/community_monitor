@@ -58,3 +58,35 @@ a:hover {
 .fa-cherry {
     color: #c40000;
 }
+
+.fa-vk-color {
+    color: #ccd8e5;
+}
+
+div.likes {
+    float: right;
+    clear: both;
+}
+
+span.time {
+    color: #939393;
+    font-size: 12.5px;
+}
+.vk-link {
+    color: #2a5885;
+}
+.im-avatar {
+    float: left;
+    margin-right: 10px;
+}
+
+.im-avatar img {
+    border-radius: 50%;
+    color: transparent;
+}
+.im-message {
+    padding-top: 5px;
+    width: 715px;
+    max-width: 715px;
+    float: right;
+}

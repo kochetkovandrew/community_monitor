@@ -13,14 +13,15 @@ module VkHelper
   end
 
   def entry_body(entry)
-    res = '<p>'
-    res += entry.created_at.to_s
+    res = ''
     if entry.kind_of?(PostComment)
-      if !entry.post.nil?
-        res += link_to (fa_icon('comment') + ' Ссылка'), comment_link(entry)
-      elsif !entry.topic.nil?
-        res += link_to (fa_icon('comments') + ' Ссылка'), comment_link(entry)
-      end
+      res += link_to(content_tag(:span, '', :class => 'im-avatar', 'data-user-vk-id' => entry.user_vk_id), 'https://vk.com/id' + entry.user_vk_id.to_s)
+      res += '<div class="im-message">'
+      res += link_to(content_tag(:span, '', :class => 'im-name vk-link', 'data-user-vk-id' => entry.user_vk_id), 'https://vk.com/id' + entry.user_vk_id.to_s)
+    end
+    res += '<p>'
+    if entry.kind_of?(Post)
+      res += content_tag(:span, l(entry.created_at, format: '%-d %B %Y в %H:%M:%S'), class: :time)
     end
     res += '<br/>'
     res += comment_body(entry.raw['text'])
@@ -42,7 +43,19 @@ module VkHelper
         res += attachment_body(attachment)
       end
     end
-    res += content_tag(:div, fa_icon(:heart) + ' Нравится ' + entry.likes.count.to_s)
+    res2 = '';
+    if entry.kind_of?(Post)
+      res2 += link_to(entry.post_comments.count.to_s + ' ' + t(:comment, count: entry.post_comments.count), entry, { class: 'btn btn-sm btn-outline-primary', role: 'button'})
+    end
+    res2 += content_tag(:div, fa_icon(:heart, class: 'fa-vk-color') + ' Нравится ' + entry.likes.count.to_s, { class: 'likes btn btn-sm btn-outline-primary'})
+    res += content_tag(:div, res2.html_safe)
+    if entry.kind_of?(PostComment)
+      res += content_tag(:span, l(entry.created_at, format: '%-d %B %Y в %H:%M:%S'), class: :time)
+      if !entry.post.nil? || !entry.topic.nil?
+        res += link_to (fa_icon('vk')), comment_link(entry), { class: 'btn btn-sm btn-outline-primary', role: 'button'}
+      end
+      res += '</div>'
+    end
     res.html_safe
   end
 

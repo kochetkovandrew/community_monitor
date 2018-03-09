@@ -51,8 +51,7 @@ class PostCommentsDatatable < ApplicationDatatable
     post_comments.map do |post_comment|
       @member_vk_ids.push post_comment.user_vk_id
       {
-        body: link_to(content_tag(:span, '', :class => 'im-avatar', 'data-user-vk-id' => post_comment.user_vk_id), 'https://vk.com/id' + post_comment.user_vk_id.to_s) +
-          ' ' + entry_body(post_comment),
+        body: entry_body(post_comment),
         DT_RowAttr: { 'data-id': post_comment.id },
       }
     end
