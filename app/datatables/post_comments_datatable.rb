@@ -20,6 +20,7 @@ class PostCommentsDatatable < ApplicationDatatable
     new_members = []
     if !not_known.empty?
       not_known.each do |vk_id|
+        next if vk_id < 0
         member = Member.new(screen_name: vk_id, manually_added: false)
         member.set_from_vk
         member.save
