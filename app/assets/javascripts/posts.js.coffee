@@ -20,4 +20,4 @@ jQuery ->
       $('span.im-name').each ->
         user_vk_id = $(this).data('user-vk-id')
         if avatars[user_vk_id]
-          $(this).text(avatars[user_vk_id].full_name)
+          $(this).append(avatars[user_vk_id].full_name)

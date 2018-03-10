@@ -17,7 +17,13 @@ module VkHelper
     if entry.kind_of?(PostComment)
       res += link_to(content_tag(:span, '', :class => 'im-avatar', 'data-user-vk-id' => entry.user_vk_id), 'https://vk.com/id' + entry.user_vk_id.to_s)
       res += '<div class="im-message">'
-      res += link_to(content_tag(:span, '', :class => 'im-name vk-link', 'data-user-vk-id' => entry.user_vk_id), 'https://vk.com/id' + entry.user_vk_id.to_s)
+      if entry.user_vk_id > 0
+        res += link_to(
+          content_tag(:span, '', :class => 'im-name vk-link', 'data-user-vk-id' => entry.user_vk_id),
+          'https://vk.com/id' + entry.user_vk_id.to_s,
+          { class: 'btn btn-sm btn-outline-primary', role: 'button'})
+        res += link_to fa_icon(:info, class: 'fa-sm fa-fw'), {controller: :members, action: :show, id: entry.user_vk_id}, { class: 'btn btn-sm btn-outline-primary', role: 'button'}
+      end
     end
     res += '<p>'
     if entry.kind_of?(Post)
