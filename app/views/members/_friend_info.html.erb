@@ -1,8 +1,12 @@
-<td><%= link_to((friend.first_name || '') + ' ' + (friend.last_name || ''), 'https://vk.com/' + friend.domain) %></td>
+<td><%= (friend.first_name || '') + ' ' + (friend.last_name || '') %></td>
 <td><%= friend.city_title %>, <%= friend.country_title %></td>
 <td><%= friend.raw['bdate']%></td>
 <td>
   <% if !friend.last_seen_at.nil? %>
     <%= Time.at(friend.last_seen_at || 0).to_s %>
   <% end %>
+</td>
+<td>
+  <%= link_to(fa_icon(:vk, class: 'fa-fw fa-sm'), 'https://vk.com/id' + friend.vk_id.to_s, { class: 'btn btn-sm btn-outline-primary', role: 'button'}) %>
+  <%= link_to(fa_icon(:info, class: 'fa-fw fa-sm'), {controller: :members, action: :show, id: friend.vk_id}, { class: 'btn btn-sm btn-outline-primary', role: 'button'}) %>
 </td>

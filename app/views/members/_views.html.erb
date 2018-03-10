@@ -1,4 +1,5 @@
-<%= link_to content_tag(:i, '', class: 'fa fa-user-secret') + ' Друзья в сообществах', {controller: :members, action: :show, id: @member.vk_id}, { class: 'btn btn-sm btn-outline-primary', role: 'button'} %>
+<%= link_to content_tag(:i, '', class: 'fa fa-user-plus') + ' Друзья в сообществах', {controller: :members, action: :show, id: @member.vk_id}, { class: 'btn btn-sm btn-outline-primary', role: 'button'} %>
 <%= link_to content_tag(:i, '', class: 'fa fa-user') + ' Все друзья', {controller: :members, action: :friends, id: @member.vk_id}, { class: 'btn btn-sm btn-outline-primary', role: 'button'} %>
+<%= link_to content_tag(:i, '', class: 'fa fa-user-secret') + ' Скрытые друзья', {controller: :members, action: :hidden_friends, id: @member.vk_id}, { class: 'btn btn-sm btn-outline-primary', role: 'button'} %>
 <%= link_to content_tag(:i, '', class: 'fa fa-comment') + ' Комментарии', {controller: :members, action: :comments, id: @member.vk_id}, { class: 'btn btn-sm btn-outline-primary', role: 'button'} %>
 <%= link_to content_tag(:i, '', class: 'fa fa-thumbs-up') + 'Лайки', {controller: :members, action: :likes, id: @member.vk_id}, { class: 'btn btn-sm btn-outline-primary', role: 'button'} %>

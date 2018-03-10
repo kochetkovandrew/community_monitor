@@ -1,23 +1,4 @@
-<h4>Друзья</h4>
-<table class="friends_info">
-  <thead>
-    <tr>
-      <th>Имя</th>
-      <th>Город</th>
-      <th>Дата рождения</th>
-      <th>Последнее посещение</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @friends.each do |friend| %>
-      <tr>
-        <%= render partial: 'friend_info', locals: {friend: friend} %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<h4>Подписчики</h4>
+<h4>Скрытые друзья</h4>
 <table class="friends_info">
   <thead>
   <tr>
@@ -29,7 +10,26 @@
   </tr>
   </thead>
   <tbody>
-  <% @followers.each do |friend| %>
+  <% @hidden_friends.each do |friend| %>
+      <tr>
+        <%= render partial: 'friend_info', locals: {friend: friend} %>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<h4>В скрытых друзьях у</h4>
+<table class="friends_info">
+  <thead>
+  <tr>
+    <th>Имя</th>
+    <th>Город</th>
+    <th>Дата рождения</th>
+    <th>Последнее посещение</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @hidden_friend_of.each do |friend| %>
       <tr>
         <%= render partial: 'friend_info', locals: {friend: friend} %>
       </tr>

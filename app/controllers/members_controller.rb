@@ -1,5 +1,5 @@
 class MembersController < ApplicationController
-  before_action :set_member, only: [:show, :edit, :update, :destroy, :friends, :comments, :likes]
+  before_action :set_member, only: [:show, :edit, :update, :destroy, :friends, :hidden_friends, :comments, :likes]
 
   before_action :authenticate_user!
   before_action { |f| f.require_permission! 'Detective' }
@@ -116,6 +116,15 @@ class MembersController < ApplicationController
   end
 
   def comments
+  end
+
+  def hidden_friends
+    friend_of = Member.where("raw_friends::jsonb @> '?'::jsonb", @member.vk_id)
+    @hidden_friends = friend_of.reject{|friend| friend.vk_id.in?(@member.raw_friends)}
+    @hidden_friend_of = Member.
+      where(vk_id: (@member.raw_friends - friend_of.collect{|member| member.vk_id})).
+      where(is_handled: true).
+      all
   end
 
   def likes
