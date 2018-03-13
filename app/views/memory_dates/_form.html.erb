@@ -17,7 +17,7 @@
     </div>
     <div class="form_group">
       <%= f.label 'Месяц', class: 'control-label' %><br>
-      <%= f.select(:month, ((1..12).to_a.collect{|i| [I18n.t("date.month_names")[i], i] }), {}, { class: 'form-control selectpicker' }) %>
+      <%= f.select(:month, ((1..12).to_a.collect{|i| [I18n.t("date.month_names")[i], i] }), {include_blank: 'Выберите месяц'}, { class: 'form-control selectpicker' }) %>
     </div>
     <div class="form_group">
       <%= f.label 'Год', class: 'control-label' %><br>

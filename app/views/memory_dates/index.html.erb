@@ -5,9 +5,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th>День</th>
-      <th>Месяц</th>
-      <th>Год</th>
+      <th>Дата</th>
       <th>Тип</th>
       <th>Текст</th>
       <th></th>
@@ -17,9 +15,9 @@
   <tbody>
     <% @memory_dates.each do |memory_date| %>
       <tr>
-        <td><%= memory_date.day %></td>
-        <td><%= I18n.t("date.month_names")[memory_date.month] %></td>
-        <td><%= memory_date.year %></td>
+        <td><%= memory_date.day %>
+            <%= I18n.t("date.month_names")[memory_date.month] %>
+            <%= memory_date.year %></td>
         <td><%= MemoryDate::KINDS[memory_date.kind] %></td>
         <td><%= memory_date.description %></td>
         <td>
