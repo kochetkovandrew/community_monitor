@@ -20,4 +20,7 @@ jQuery ->
         user_vk_id = $(this).data('user-vk-id')
         if avatars[user_vk_id]
           $(this).append $('<img>', {src: avatars[user_vk_id].avatar})
-          $(this).append $('<span>').text(avatars[user_vk_id].full_name)
+      $('span.im-name').each ->
+        user_vk_id = $(this).data('user-vk-id')
+        if avatars[user_vk_id]
+          $(this).append(avatars[user_vk_id].full_name)
