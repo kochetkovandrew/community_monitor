@@ -19,8 +19,8 @@ class MembersDatatable < ApplicationDatatable
   def data
     members.map do |member|
       {
-        vk_id: image_tag(member.raw['photo_50'] || 'https://vk.com/images/camera_50.png') +
-          ((member.is_friend == false ? '' : fa_icon("handshake-o") + ' ') + member.vk_id.to_s),
+        vk_id: content_tag(:div, image_tag(member.raw['photo_50'] || 'https://vk.com/images/camera_50.png'), class: 'list-avatar') + ' ' +
+          content_tag(:p, ((member.is_friend == false ? '' : fa_icon("handshake-o") + ' ') + member.vk_id.to_s), class: 'members_vk_id'),
         full_name: member.first_name.to_s + ' ' + member.last_name.to_s,
         last_seen_at: member.last_seen_at.nil? ? '' : member.last_seen_at,
         links:

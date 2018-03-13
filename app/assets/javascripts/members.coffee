@@ -14,6 +14,9 @@ jQuery ->
       { data: "last_seen_at" },
       { data: "links" }
     ]
+    aoColumnDefs: [
+      { sWidth: '50px', sClass: "listing_members_vk_id_td", aTargets: [ 0 ] }
+    ]
     language:
       url: '/i18n/dataTables.russian.json'
     fnDrawCallback: ->
