@@ -13,7 +13,7 @@ class CommunityWallDatatable < ApplicationDatatable
   private
 
   def search_keys
-    {"(raw #>> '{body}')" => :string}
+    {"(raw #>> '{text}')" => :string}
   end
 
   def data

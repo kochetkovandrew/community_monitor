@@ -53,7 +53,7 @@ module VkHelper
     if entry.kind_of?(Post)
       res2 += link_to(entry.post_comments.count.to_s + ' ' + t(:comment, count: entry.post_comments.count), entry, { class: 'btn btn-sm btn-outline-primary', role: 'button'})
     end
-    res2 += content_tag(:div, fa_icon(:heart, class: 'fa-vk-color') + ' Нравится ' + entry.likes.count.to_s, { class: 'likes btn btn-sm btn-outline-primary'})
+    res2 += content_tag(:div, fa_icon(:heart, class: 'fa-vk-color') + ' Нравится ' + (entry.likes.try(:count) || 0).to_s, { class: 'likes btn btn-sm btn-outline-primary'})
     res += content_tag(:div, res2.html_safe)
     if entry.kind_of?(PostComment)
       res += content_tag(:span, l(entry.created_at, format: '%-d %B %Y в %H:%M:%S'), class: :time)
