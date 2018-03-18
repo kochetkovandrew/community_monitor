@@ -1,0 +1,14 @@
+<div style="width: 800px; max-width: 800px;">
+  <%= entry_body(@topic) %>
+  <br/>
+  <%= @topic.post_comments.count %> <%= t(:comment, count: @topic.post_comments.count)%>
+  <hr/>
+  <table id="topic_comments" data-source="/topics/<%= @topic.id %>/comments.json">
+    <thead>
+    <th></th>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+

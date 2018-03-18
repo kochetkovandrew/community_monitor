@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'communities/:id/wall' => 'communities#wall'
   get 'communities/:id/topics' => 'communities#topics'
   get 'posts/:id/comments' => 'posts#comments'
+  get 'topics/:id/comments' => 'topics#comments'
   get 'members/:id/friends' => 'members#friends'
   get 'members/:id/comments' => 'members#comments'
   get 'members/:id/likes' => 'members#likes'
