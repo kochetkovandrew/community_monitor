@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180308163727) do
+ActiveRecord::Schema.define(version: 20180318184551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,8 @@ ActiveRecord::Schema.define(version: 20180308163727) do
   add_index "members", ["is_friend"], name: "index_members_on_is_friend", using: :btree
   add_index "members", ["is_handled"], name: "index_members_on_is_handled", using: :btree
   add_index "members", ["is_monitored"], name: "index_members_on_is_monitored", using: :btree
+  add_index "members", ["raw_followers"], name: "index_members_on_raw_followers", using: :gin
+  add_index "members", ["raw_friends"], name: "index_members_on_raw_friends", using: :gin
   add_index "members", ["screen_name"], name: "index_members_on_screen_name", using: :btree
   add_index "members", ["vk_id"], name: "index_members_on_vk_id", unique: true, using: :btree
 
@@ -203,6 +205,7 @@ ActiveRecord::Schema.define(version: 20180308163727) do
     t.integer  "topic_id"
   end
 
+  add_index "post_comments", ["likes"], name: "index_post_comments_on_likes", using: :gin
   add_index "post_comments", ["post_id", "created_at"], name: "index_post_comments_on_post_id_and_created_at", using: :btree
   add_index "post_comments", ["topic_id", "created_at"], name: "index_post_comments_on_topic_id_and_created_at", using: :btree
   add_index "post_comments", ["user_vk_id"], name: "index_post_comments_on_user_vk_id", using: :btree
@@ -223,6 +226,8 @@ ActiveRecord::Schema.define(version: 20180308163727) do
     t.jsonb    "likes",         default: []
     t.integer  "member_id"
   end
+
+  add_index "posts", ["likes"], name: "index_posts_on_likes", using: :gin
 
   create_table "submit_news", force: :cascade do |t|
     t.integer  "vk_id",         limit: 8

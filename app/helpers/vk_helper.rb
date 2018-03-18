@@ -30,7 +30,11 @@ module VkHelper
       res += content_tag(:span, l(entry.created_at, format: '%-d %B %Y в %H:%M:%S'), class: :time)
     end
     res += '<br/>'
-    res += comment_body(entry.raw['text'])
+    if entry.kind_of?(Topic)
+      res += comment_body(entry.raw['title'])
+    else
+      res += comment_body(entry.raw['text'])
+    end
     res += '</p>'
     if !entry.raw['copy_history'].nil?
       cnt = 0
@@ -50,10 +54,12 @@ module VkHelper
       end
     end
     res2 = '';
-    if entry.kind_of?(Post)
+    if entry.kind_of?(Post) || entry.kind_of?(Topic)
       res2 += link_to(entry.post_comments.count.to_s + ' ' + t(:comment, count: entry.post_comments.count), entry, { class: 'btn btn-sm btn-outline-primary', role: 'button'})
     end
-    res2 += content_tag(:div, fa_icon(:heart, class: 'fa-vk-color') + ' Нравится ' + (entry.likes.try(:count) || 0).to_s, { class: 'likes btn btn-sm btn-outline-primary'})
+    if !entry.kind_of?(Topic)
+      res2 += content_tag(:div, fa_icon(:heart, class: 'fa-vk-color') + ' Нравится ' + (entry.likes.try(:count) || 0).to_s, { class: 'likes btn btn-sm btn-outline-primary'})
+    end
     res += content_tag(:div, res2.html_safe)
     if entry.kind_of?(PostComment)
       res += content_tag(:span, l(entry.created_at, format: '%-d %B %Y в %H:%M:%S'), class: :time)

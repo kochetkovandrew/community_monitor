@@ -1,3 +1,5 @@
 <%= link_to fa_icon('info') + ' Информация', @community, {class: 'btn btn-sm btn-outline-primary', role: :button} %>
 <%= link_to fa_icon('list-alt') + ' Стена', {controller: :communities, action: :wall, id: @community.id}, {class: 'btn btn-sm btn-outline-primary', role: :button} %>
+<%= link_to fa_icon('comments') + ' Обсуждения', {controller: :communities, action: :topics, id: @community.id}, {class: 'btn btn-sm btn-outline-primary', role: :button} %>
+
 <br/>

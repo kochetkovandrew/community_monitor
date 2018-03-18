@@ -10,8 +10,10 @@ Rails.application.routes.draw do
   resources :news_requests
   resources :submit_news
   resources :posts
+  resources :topics
 
   get 'communities/:id/wall' => 'communities#wall'
+  get 'communities/:id/topics' => 'communities#topics'
   get 'posts/:id/comments' => 'posts#comments'
   get 'members/:id/friends' => 'members#friends'
   get 'members/:id/comments' => 'members#comments'
