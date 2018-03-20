@@ -5,7 +5,7 @@ class CommunityWallDatatable < ApplicationDatatable
     {
       sEcho: params[:sEcho].to_i,
       iTotalRecords: Post.where(community_id: params[:id]).count,
-      iTotalDisplayRecords: posts.total_entries,
+      iTotalDisplayRecords: objects.total_entries,
       aaData: data
     }
   end
@@ -17,7 +17,7 @@ class CommunityWallDatatable < ApplicationDatatable
   end
 
   def data
-    posts.map do |post|
+    objects.map do |post|
       {
         body: entry_body(post),
         DT_RowAttr: { 'data-id': post.id },
@@ -25,20 +25,9 @@ class CommunityWallDatatable < ApplicationDatatable
     end
   end
 
-  def posts
-    @posts ||= fetch_posts
+  def fetch_query
+    Post.where(community_id: params[:id])
   end
-
-  def fetch_posts
-    posts = Post.where(community_id: params[:id]).order("#{sort_column} #{sort_direction} NULLS LAST")
-    posts = posts.page(page).per_page(per_page)
-    search_args = search_query
-    if search_args
-      posts = posts.where(search_args[:query], search_args[:params])
-    end
-    posts
-  end
-
 
   def sort_column
     columns = %w[

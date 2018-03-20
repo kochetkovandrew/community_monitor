@@ -55,4 +55,19 @@ class ApplicationDatatable
     params[:sSortDir_0] == "desc" ? "desc" : "asc"
   end
 
+  def objects
+    @objects ||= fetch_objects
+  end
+
+  def fetch_objects
+    objects = fetch_query
+    objects = objects.order("#{sort_column} #{sort_direction} NULLS LAST")
+    objects = objects.page(page).per_page(per_page)
+    search_args = search_query
+    if search_args
+      objects = objects.where(search_args[:query], search_args[:params])
+    end
+    objects
+  end
+
 end

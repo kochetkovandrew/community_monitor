@@ -5,7 +5,7 @@ class CommunityTopicsDatatable < ApplicationDatatable
     {
       sEcho: params[:sEcho].to_i,
       iTotalRecords: Topic.where(community_id: params[:id]).count,
-      iTotalDisplayRecords: topics.total_entries,
+      iTotalDisplayRecords: objects.total_entries,
       aaData: data
     }
   end
@@ -17,7 +17,7 @@ class CommunityTopicsDatatable < ApplicationDatatable
   end
 
   def data
-    topics.map do |topic|
+    objects.map do |topic|
       {
         body: entry_body(topic),
         DT_RowAttr: { 'data-id': topic.id },
@@ -25,20 +25,9 @@ class CommunityTopicsDatatable < ApplicationDatatable
     end
   end
 
-  def topics
-    @topics ||= fetch_topics
+  def fetch_query
+    Topic.where(community_id: params[:id])
   end
-
-  def fetch_topics
-    topics = Topic.where(community_id: params[:id]).order("#{sort_column} #{sort_direction} NULLS LAST")
-    topics = topics.page(page).per_page(per_page)
-    search_args = search_query
-    if search_args
-      topics = topics.where(search_args[:query], search_args[:params])
-    end
-    topics
-  end
-
 
   def sort_column
     columns = %w[

@@ -5,7 +5,7 @@ class TopicCommentsDatatable < ApplicationDatatable
     {
       sEcho: params[:sEcho].to_i,
       iTotalRecords: PostComment.where(topic_id: params[:id]).count,
-      iTotalDisplayRecords: topic_comments.total_entries,
+      iTotalDisplayRecords: objects.total_entries,
       aaData: data,
       avatars: avatars,
     }
@@ -47,7 +47,7 @@ class TopicCommentsDatatable < ApplicationDatatable
 
   def data
     @member_vk_ids ||= []
-    topic_comments.map do |topic_comment|
+    objects.map do |topic_comment|
       @member_vk_ids.push topic_comment.user_vk_id
       {
         body: entry_body(topic_comment),
@@ -56,20 +56,9 @@ class TopicCommentsDatatable < ApplicationDatatable
     end
   end
 
-  def topic_comments
-    @topic_comments ||= fetch_topic_comments
+  def fetch_query
+    PostComment.where(topic_id: params[:id])
   end
-
-  def fetch_topic_comments
-    topic_comments = PostComment.where(topic_id: params[:id]).order("#{sort_column} #{sort_direction} NULLS LAST")
-    topic_comments = topic_comments.page(page).per_page(per_page)
-    search_args = search_query
-    if search_args
-      topic_comments = topic_comments.where(search_args[:query], search_args[:params])
-    end
-    topic_comments
-  end
-
 
   def sort_column
     columns = %w[
