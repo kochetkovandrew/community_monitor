@@ -84,7 +84,15 @@ span.time {
     border-radius: 50%;
     color: transparent;
 }
+
 .im-message {
+    padding-top: 5px;
+    width: 715px;
+    max-width: 715px;
+    padding-left: 60px;
+}
+
+.entry-message {
     padding-top: 5px;
     width: 715px;
     max-width: 715px;

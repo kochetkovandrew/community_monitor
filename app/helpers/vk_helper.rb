@@ -16,7 +16,7 @@ module VkHelper
     res = ''
     if entry.kind_of?(PostComment)
       res += link_to(content_tag(:span, '', :class => 'im-avatar', 'data-user-vk-id' => entry.user_vk_id), 'https://vk.com/id' + entry.user_vk_id.to_s)
-      res += '<div class="im-message">'
+      res += '<div class="entry-message">'
       if entry.user_vk_id > 0
         res += link_to(
           content_tag(:span, '', :class => 'im-name vk-link', 'data-user-vk-id' => entry.user_vk_id),
@@ -145,7 +145,7 @@ module VkHelper
     end
     if message['fwd_messages']
       message['fwd_messages'].each do |child_message|
-        res += content_tag(:div, message_body(child_message), class: 'im_fwd_log_wrap')
+        res += content_tag(:div, content_tag(:span, message_body(child_message)), class: 'im_fwd_log_wrap')
       end
     end
     link_to(content_tag(:span, '', :class => 'im-avatar', 'data-user-vk-id' => message['user_id']), 'https://vk.com/id' + message['user_id'].to_s) +
