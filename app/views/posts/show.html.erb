@@ -1,7 +1,11 @@
+<% if !@post.community.nil? %>
+  <h4>«<%= @post.community.name %>»</h4>
+  <% @community = @post.community %>
+  <%= render partial: 'communities/views' %>
+<% end %>
 <div style="width: 800px; max-width: 800px;">
   <%= entry_body(@post) %>
   <br/>
-  <%= @post.post_comments.count %> <%= t(:comment, count: @post.post_comments.count)%>
   <hr/>
   <table id="post_comments" data-source="/posts/<%= @post.id %>/comments.json">
     <thead>

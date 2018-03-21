@@ -28,10 +28,12 @@ module VkHelper
     res += '<p>'
     if entry.kind_of?(Post)
       res += content_tag(:span, l(entry.created_at, format: '%-d %B %Y в %H:%M:%S'), class: :time)
+      res += link_to (fa_icon('vk')), post_link(entry), { class: 'btn btn-sm btn-outline-primary', role: 'button'}
     end
     res += '<br/>'
     if entry.kind_of?(Topic)
       res += comment_body(entry.raw['title'])
+      res += link_to (fa_icon('vk')), topic_link(entry), { class: 'btn btn-sm btn-outline-primary', role: 'button'}
     else
       res += comment_body(entry.raw['text'])
     end
@@ -148,6 +150,28 @@ module VkHelper
     end
     link_to(content_tag(:span, '', :class => 'im-avatar', 'data-user-vk-id' => message['user_id']), 'https://vk.com/id' + message['user_id'].to_s) +
       content_tag(:div, res, class: 'im-message')
+  end
+
+  def post_link(post)
+    href = 'https://vk.com/'
+    if !post.community.nil?
+      href += 'wall'
+      href += (-post.community.vk_id).to_s
+      href += '_'
+      href += post.vk_id.to_s
+    end
+    href
+  end
+
+  def topic_link(topic)
+    href = 'https://vk.com/'
+    if !topic.community.nil?
+      href += 'topic'
+      href += (-topic.community.vk_id).to_s
+      href += '_'
+      href += topic.vk_id.to_s
+    end
+    href
   end
 
   def comment_link(comment)
