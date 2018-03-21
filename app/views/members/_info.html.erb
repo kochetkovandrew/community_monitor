@@ -1,5 +1,8 @@
+<div class="span6">
 <table class="table table-condensed">
+
   <tr>
+    <td rowspan="7" style="width: 50px;"><%= content_tag(:div, image_tag(@member.raw['photo_50'] || 'https://vk.com/images/camera_50.png'), class: 'list-avatar') %></td>
     <td>Имя</td>
     <td><%= @member.first_name %></td>
   </tr>
@@ -12,8 +15,20 @@
     <td><%= link_to @member.screen_name, 'https://vk.com/' + @member.screen_name %></td>
   </tr>
   <tr>
+    <td>Пол</td>
+    <td><%= case @member.sex when 1 then 'Женский' when 2 then 'Мужской' end %></td>
+  </tr>
+  <tr>
+    <td>Страна</td>
+    <td><%= @member.country_title %></td>
+  </tr>
+  <tr>
+    <td>Город</td>
+    <td><%= @member.city_title %></td>
+  </tr>
+  <tr>
     <td></td>
     <td><%= link_to('Упоминания', 'https://vk.com/feed?obj=' + @member.vk_id.to_s + '&q=&section=mentions') %></td>
   </tr>
 </table>
-
+</div>
