@@ -13,7 +13,7 @@ class MembersDatatable < ApplicationDatatable
   private
 
   def search_keys
-    {'first_name' => :string, 'last_name' => :string, 'screen_name' => :string, 'vk_id' => :integer}
+    {'first_name' => :string, 'last_name' => :string, 'screen_name' => :string, 'city_title' => :string, 'vk_id' => :integer}
   end
 
   def data
@@ -22,6 +22,7 @@ class MembersDatatable < ApplicationDatatable
         vk_id: content_tag(:div, image_tag(member.raw['photo_50'] || 'https://vk.com/images/camera_50.png'), class: 'list-avatar') + ' ' +
           content_tag(:p, ((member.is_friend == false ? '' : fa_icon("handshake-o") + ' ') + member.vk_id.to_s), class: 'members_vk_id'),
         full_name: member.first_name.to_s + ' ' + member.last_name.to_s,
+        city_title: member.city_title,
         last_seen_at: member.last_seen_at.nil? ? '' : member.last_seen_at.strftime("%Y-%m-%d %H:%M:%S"),
         links:
           link_to(fa_icon('vk', class: 'fa-lg fa-fw'), 'https://vk.com/id' + member.vk_id.to_s, { class: 'btn btn-sm btn-outline-primary', role: 'button'}) +

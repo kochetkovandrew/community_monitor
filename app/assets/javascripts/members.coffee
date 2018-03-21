@@ -11,6 +11,7 @@ jQuery ->
     columns: [
       { data: "vk_id" },
       { data: "full_name" },
+      { data: "city_title" },
       { data: "last_seen_at" },
       { data: "links" }
     ]

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180318184551) do
+ActiveRecord::Schema.define(version: 20180321155438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(version: 20180318184551) do
     t.boolean  "is_monitored",       default: false,        null: false
   end
 
+  add_index "members", ["city_title"], name: "index_members_on_city_title", using: :btree
   add_index "members", ["is_friend"], name: "index_members_on_is_friend", using: :btree
   add_index "members", ["is_handled"], name: "index_members_on_is_handled", using: :btree
   add_index "members", ["is_monitored"], name: "index_members_on_is_monitored", using: :btree
