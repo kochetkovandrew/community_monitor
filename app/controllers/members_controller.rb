@@ -1,5 +1,6 @@
 class MembersController < ApplicationController
-  before_action :set_member, only: [:show, :edit, :update, :destroy, :friends, :hidden_friends, :comments, :likes]
+
+  before_action :set_member, only: [:show, :edit, :update, :destroy, :friends, :hidden_friends, :comments, :likes, :history]
 
   before_action :authenticate_user!
   before_action { |f| f.require_permission! 'Detective' }
@@ -132,16 +133,19 @@ class MembersController < ApplicationController
     @post_comment_likes = PostComment.where("likes::jsonb @> '?'::jsonb", @member.vk_id).select([:id, :vk_id, :post_id]).includes([:post => [:community]]).order(:created_at)
   end
 
+  def history
+
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_member
-    @member = Member.find_by_vk_id(params[:id])
+    @member = Member.includes([:member_histories]).find_by_vk_id(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def member_params
     params.require(:member).permit(:screen_name, :status)
   end
-
 
 end

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get 'members/:id/comments' => 'members#comments'
   get 'members/:id/likes' => 'members#likes'
   get 'members/:id/hidden_friends' => 'members#hidden_friends'
+  get 'members/:id/history' => 'members#history'
   get 'uploads/:id' => 'uploads#show'
   get 'frontpage' => 'frontpage#index'
   get 'druginteractions' => 'druginteractions#index'

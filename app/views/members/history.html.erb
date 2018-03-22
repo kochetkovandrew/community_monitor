@@ -1,0 +1,31 @@
+<h4>История</h4>
+
+<%= render 'info' %>
+
+<% @member.member_histories.order(:created_at).each do |member_history| %>
+  <div class="span6">
+    <table class="table table-condensed">
+      <tr>
+        <td rowspan="0" style="width: 70px;"></td>
+        <td style="width: 200px;">Добавлено</td>
+        <td><strong><%= member_history.created_at %></strong></td>
+      </tr>
+      <tr>
+        <td>Имя</td>
+        <td><%= member_history.raw['first_name'] %></td>
+      </tr>
+      <tr>
+        <td>Фамилия</td>
+        <td><%= member_history.raw['last_name'] %></td>
+      </tr>
+      <tr>
+        <td>Страна</td>
+        <td><%= member_history.raw.try(:[], 'country').try(:[], 'title') %></td>
+      </tr>
+      <tr>
+        <td>Город</td>
+        <td><%= member_history.raw.try(:[], 'city').try(:[], 'title') %></td>
+      </tr>
+    </table>
+  </div>
+<% end %>
