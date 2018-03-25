@@ -240,14 +240,15 @@ class Member < ActiveRecord::Base
     records_array[0]['count'].to_i
   end
 
-  def self.get_from_vk(vk_ids, update_existing = false)
+  def self.get_from_vk(vk_ids, settings = {})
+    l_settings = {update_existing: false, collect_friends: false}.merge(settings)
     res = []
-    if !update_existing
+    if !l_settings[:update_existing]
       vk_ids -= Member.where(vk_id: vk_ids).select([:vk_id]).collect{|member| member.vk_id}
     end
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
     while !(vk_ids_slice = vk_ids.shift(1000)).empty?
-      if update_existing
+      if l_settings[:update_existing]
         existing_members = Hash[Member.where(vk_id: vk_ids_slice).all.collect{|member| [member.vk_id, member]}]
       else
         existing_members = {}
@@ -259,6 +260,12 @@ class Member < ActiveRecord::Base
         if existing_members[raw_user[:id]].nil?
           new_member.save
           res.push new_member
+          if l_settings[:collect_friends]
+            new_member.is_handled = true
+            new_member.is_monitored = true
+            new_member.set_friends_followers_from_vk
+            new_member.save
+          end
         else
           existing_member = existing_members[raw_user[:id]]
           existing_hash = existing_member.comparable_hash
