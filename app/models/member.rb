@@ -240,4 +240,44 @@ class Member < ActiveRecord::Base
     records_array[0]['count'].to_i
   end
 
+  def self.get_from_vk(vk_ids, update_existing = false)
+    res = []
+    if !update_existing
+      vk_ids -= Member.where(vk_id: vk_ids).select([:vk_id]).collect{|member| member.vk_id}
+    end
+    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    while !(vk_ids_slice = vk_ids.shift(1000)).empty?
+      if update_existing
+        existing_members = Hash[Member.where(vk_id: vk_ids_slice).all.collect{|member| [member.vk_id, member]}]
+      else
+        existing_members = {}
+      end
+      raw_users = vk_lock { vk.users.get(user_ids: vk_ids_slice, fields: [ :photo_id, :verified, :sex, :bdate, :city, :country, :home_town, :has_photo, :photo_50, :photo_100, :photo_200_orig, :photo_200, :photo_400_orig, :photo_max, :photo_max_orig, :online, :domain, :has_mobile, :contacts, :site, :education, :universities, :schools, :status, :last_seen, :followers_count, :common_count, :occupation, :nickname, :relatives, :relation, :personal, :connections, :exports, :wall_comments, :activities, :interests, :music, :movies, :tv, :books, :games, :about, :quotes, :timezone, :screen_name, :maiden_name, :crop_photo, :friend_status, :career, :military ]) }
+      raw_users.each do |raw_user|
+        new_member = Member.new
+        new_member.set_from_hash(raw_user)
+        if existing_members[raw_user[:id]].nil?
+          new_member.save
+          res.push new_member
+        else
+          existing_member = existing_members[raw_user[:id]]
+          existing_hash = existing_member.comparable_hash
+          new_hash = new_member.comparable_hash
+          if existing_hash != new_hash
+            member_history = MemberHistory.create(
+              member_id: existing_member.id,
+              first_name: existing_member.first_name,
+              last_name: existing_member.last_name,
+              raw: existing.raw,
+            )
+            existing.set_from_hash(raw_user)
+            existing.save
+          end
+          res.push existing
+        end
+      end
+    end
+    res
+  end
+
 end

@@ -19,13 +19,7 @@ class TopicCommentsDatatable < ApplicationDatatable
     not_known = @member_vk_ids - member_vk_ids
     new_members = []
     if !not_known.empty?
-      not_known.each do |vk_id|
-        next if vk_id < 0
-        member = Member.new(screen_name: vk_id, manually_added: false)
-        member.set_from_vk
-        member.save
-        new_members.push member
-      end
+      new_members = Member.get_from_vk(not_known)
     end
     res = {}
     (members + new_members).each do |member|
