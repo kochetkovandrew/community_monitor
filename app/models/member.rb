@@ -142,12 +142,12 @@ class Member < ActiveRecord::Base
     friend = Member.new
     friend.set_from_hash(new_hash)
     existing_hash = comparable_hash
-    new_hash = friend.comparable_hash
-    if existing_hash != new_hash
+    new_c_hash = friend.comparable_hash
+    if existing_hash != new_c_hash
       if (!last_seen_at.nil?) && (friend.last_seen_at.nil? || (last_seen_at > friend.last_seen_at))
         found_history = false
         member_histories.each do |member_history|
-          if member_history.comparable_hash == new_hash
+          if member_history.comparable_hash == new_c_hash
             found_history = true
             break
           end
@@ -163,7 +163,7 @@ class Member < ActiveRecord::Base
       else
         found_history = false
         member_histories.each do |member_history|
-          if member_history.comparable_hash == new_hash
+          if member_history.comparable_hash == new_c_hash
             found_history = true
             break
           end
