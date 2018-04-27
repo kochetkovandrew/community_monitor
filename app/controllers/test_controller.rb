@@ -25,4 +25,8 @@ class TestController < ApplicationController
     redirect_to 'http://theconversation.com/how-aids-denialism-spreads-in-russia-through-online-social-networks-73875'
   end
 
+  def test7
+    redirect_to 'https://kalininsky--tum.sudrf.ru/modules.php?name=sud_delo&srv_num=1&name_op=case&case_id=19319972&case_uid=EFB321F1-9556-4354-A3C5-DE5AFB01AA1B&delo_id=1540006&new='
+  end
+
 end
