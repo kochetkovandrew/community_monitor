@@ -1,5 +1,5 @@
 task :get_members, [:vk_id] => :environment do |t, args|
-  vk = VkontakteApi::Client.new
+  vk = VkontakteApi::Client.new Settings.vk.user_access_token
   Community.all.each do |community|
     begin
       group_id = community.vk_id
