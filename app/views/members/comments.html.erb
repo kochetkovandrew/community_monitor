@@ -7,10 +7,13 @@
     <p>
       <%= comment.created_at.to_s %>
       <% if !comment.post.nil? %>
-        <%= render partial: 'post_comment_link', locals: {comment: comment, link_text: 'Ссылка'} %>
+        <% href = comment_link(comment) %>
+        <%= link_to content_tag(:i, '', class: 'fa fa-vk'), href %>
+        <%= link_to content_tag(:i, '', class: 'fa fa-comments'), comment.post, target: '_blank' %>
       <% elsif !comment.topic.nil? %>
         <% href = comment_link(comment) %>
-        <%= link_to content_tag(:i, '', class: 'fa fa-comments') + ' Ссылка', href %>
+        <%= link_to content_tag(:i, '', class: 'fa fa-vk'), href %>
+          <%= link_to content_tag(:i, '', class: 'fa fa-comments'), comment.topic %>
       <% end %>
       <br/>
       <%= comment_body(comment.raw['text']) %>
