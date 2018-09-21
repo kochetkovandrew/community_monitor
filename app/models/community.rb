@@ -10,7 +10,7 @@ class Community < ActiveRecord::Base
 
   def set_vk_data
     self.vk_id = nil
-    vk = VkontakteApi::Client.new
+    vk = VkontakteApi::Client.new Settings.vk.user_access_token
     groups = vk_lock { vk.groups.get_by_id(group_id: self.screen_name, fields: [:id]) }
     self.vk_id = groups[0][:id]
     self.name = groups[0][:name]
@@ -18,7 +18,7 @@ class Community < ActiveRecord::Base
   end
 
   def get_wall(force = false)
-    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    vk = VkontakteApi::Client.new (self.access_token || Settings.vk.user_access_token)
     step_size = 100
     begin
       rest = 1
@@ -51,8 +51,8 @@ class Community < ActiveRecord::Base
               raw: post_hash,
               created_at: Time.at(post_hash[:date]),
             )
-            post.get_likes
-            post.get_comments
+            post.get_likes(false, vk)
+            post.get_comments(false, false, vk)
             new_found = true
           else
             post = existing_posts_hash[post_hash[:id]]
@@ -60,12 +60,12 @@ class Community < ActiveRecord::Base
               post = existing_posts_hash[post_hash[:id]]
               post.raw['likes']['count'] = post_hash[:likes][:count]
               post.save(touch: false)
-              post.get_likes(force)
+              post.get_likes(force, vk)
             end
             if post.post_comments_count < post_hash[:comments][:count]
               post.raw['comments']['count'] = post_hash[:comments][:count]
               post.save(touch: false)
-              post.get_comments(force)
+              post.get_comments(force, false, vk)
             end
           end
         end
@@ -80,7 +80,7 @@ class Community < ActiveRecord::Base
   end
 
   def get_topics
-    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    vk = VkontakteApi::Client.new (self.access_token || Settings.vk.user_access_token)
     step_size = 100
     rest = 1
     step = 0
@@ -105,12 +105,12 @@ class Community < ActiveRecord::Base
             created_at: Time.at(topic_hash[:created]),
             updated_at: Time.at(topic_hash[:updated]),
           )
-          topic.get_comments
           topic.save(touch: false)
+          topic.get_comments(vk)
           new_found = true
         else
           if Time.at(topic_hash[:updated]) != topic.updated_at
-            topic.get_comments
+            topic.get_comments(vk)
             topic.update_attributes(updated_at: Time.at(topic_hash[:updated]))
           end
         end

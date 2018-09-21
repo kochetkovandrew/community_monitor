@@ -4,8 +4,8 @@ class Post < ActiveRecord::Base
   belongs_to :member
   has_many :post_comments
 
-  def get_likes(force = false)
-    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+  def get_likes(force = false, vk_client = nil)
+    vk = (vk_client || VkontakteApi::Client.new(Settings.vk.user_access_token))
     step_size = 1000
     if (raw['likes']['count'] > 0) || force
       if likes.nil? || (likes.count != raw['likes']['count']) || force
@@ -34,8 +34,8 @@ class Post < ActiveRecord::Base
     end
   end
 
-  def get_comments(force = false, recurrent_force = false)
-    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+  def get_comments(force = false, recurrent_force = false, vk_client = nil)
+    vk = (vk_client || VkontakteApi::Client.new(Settings.vk.user_access_token))
     step_size = 100
     if (raw['comments']['count'] > 0) || force
       if (post_comments.count < raw['comments']['count']) || force
@@ -66,14 +66,14 @@ class Post < ActiveRecord::Base
                   created_at: Time.at(comment_hash[:date]),
                   likes_count: comment_hash[:likes][:count],
                 )
-                comment.get_likes
+                comment.get_likes(false, vk)
                 new_found = true
               elsif existing_comments_hash[comment_hash[:id]].raw['likes']['count'] < comment_hash[:likes][:count]
                 comment = existing_comments_hash[comment_hash[:id]]
                 comment.raw['likes']['count'] = comment_hash[:likes][:count]
                 comment.likes_count = comment_hash[:likes][:count]
                 comment.save(touch: false)
-                comment.get_likes(recurrent_force)
+                comment.get_likes(recurrent_force, vk)
               end
             end
             if !new_found && !force
