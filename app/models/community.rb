@@ -10,7 +10,7 @@ class Community < ActiveRecord::Base
 
   def set_vk_data
     self.vk_id = nil
-    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    vk = VkontakteApi::Client.new (self.access_token || Settings.vk.user_access_token)
     groups = vk_lock { vk.groups.get_by_id(group_id: self.screen_name, fields: [:id]) }
     self.vk_id = groups[0][:id]
     self.name = groups[0][:name]
