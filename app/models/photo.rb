@@ -37,4 +37,28 @@ class Photo < ActiveRecord::Base
     photos
   end
 
+  def self.uris_from_entity(entity)
+    photos = []
+    if entity.raw['attachments']
+      entity.raw['attachments'].each do |attachment|
+        if attachment['type'] == 'photo'
+          photo_size = 0
+          link = ""
+          attachment['photo'].each do |k, v|
+            matches = /^photo_(\d+)/.match k
+            if matches
+              if matches[1].to_i > photo_size
+                photo_size = matches[1].to_i
+                link = v
+              end
+            end
+          end
+          photos.push link
+        end
+      end
+    end
+    photos
+  end
+
+
 end
