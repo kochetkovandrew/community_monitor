@@ -6,4 +6,9 @@ task :get_photos => :environment do |t, args|
       Photo::from_entity(comment)
     end
   end
+  comm.topics.all do |topic|
+    topic.post_comments.each do |comment|
+      Photo::from_entity(comment)
+    end
+  end
 end

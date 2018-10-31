@@ -7,6 +7,11 @@ task :get_photos_count => :environment do |t, args|
       all_uris += Photo::uris_from_entity(comment)
     end
   end
+  comm.topics.all do |topic|
+    topic.post_comments.each do |comment|
+      all_uris += Photo::uris_from_entity(comment)
+    end
+  end
   p all_uris.count
   p all_uris.sort.uniq.count
 end
