@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180920094230) do
+ActiveRecord::Schema.define(version: 20181031142757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -193,6 +193,15 @@ ActiveRecord::Schema.define(version: 20180920094230) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "photos", force: :cascade do |t|
+    t.string   "uri"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.string   "local_filename"
+  end
+
+  add_index "photos", ["uri"], name: "index_photos_on_uri", using: :btree
 
   create_table "post_comments", force: :cascade do |t|
     t.integer  "post_id"
