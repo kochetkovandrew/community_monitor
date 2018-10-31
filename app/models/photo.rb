@@ -18,8 +18,11 @@ class Photo < ActiveRecord::Base
           end
           existing_photo = Photo.find_by_uri(link)
           if !existing_photo
+            new_photo = Photo.create(uri: link)
+          end
+          if !existing_photo || existing_photo.local_filename.nil?
             extname = File.extname(URI.parse(link).path)
-            photo = Photo.create(uri: link)
+            photo = existing_photo || new_photo
             File.open(Rails.root.join("attachments", photo.id.to_s + extname), "wb") do |saved_file|
               # the following "open" is provided by open-uri
               open(link, "rb") do |read_file|
