@@ -23,16 +23,20 @@ class Photo < ActiveRecord::Base
           if !existing_photo || existing_photo.local_filename.nil?
             extname = File.extname(URI.parse(link).path)
             photo = existing_photo || new_photo
-            File.open(Rails.root.join("attachments", photo.id.to_s + extname), "wb") do |saved_file|
-              # the following "open" is provided by open-uri
-              open(link, "rb") do |read_file|
-                saved_file.write(read_file.read)
-                sleep(0.35)
+            begin
+              File.open(Rails.root.join("attachments", photo.id.to_s + extname), "wb") do |saved_file|
+                # the following "open" is provided by open-uri
+                open(link, "rb") do |read_file|
+                  saved_file.write(read_file.read)
+                  sleep(0.35)
+                end
               end
+              photo.local_filename = photo.id.to_s + extname
+              photo.save
+              photos.push photo
+            rescue
+              p "Can't download \"" + link + "\""
             end
-            photo.local_filename = photo.id.to_s + extname
-            photo.save
-            photos.push photo
           end
         end
       end
