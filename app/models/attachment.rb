@@ -56,7 +56,7 @@ class Attachment < ActiveRecord::Base
                   sleep(0.35)
                 end
               end
-              doc.local_filename = photo.id.to_s + extname
+              doc.local_filename = doc.id.to_s + extname
               doc.save
               attachments.push doc
             rescue => e
