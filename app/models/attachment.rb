@@ -35,7 +35,7 @@ class Attachment < ActiveRecord::Base
               photo.save
               attachments.push photo
             rescue
-              logger.error "Can't download \"" + link + "\""
+              Rails.logger.error "Can't download \"" + link + "\""
             end
           end
         elsif attachment['type'] == 'doc'
@@ -60,9 +60,9 @@ class Attachment < ActiveRecord::Base
               doc.save
               attachments.push doc
             rescue => e
-              logger.error e.message
-              logger.error e.backtrace.join("\n")
-              logger.error "Can't download \"" + link + "\""
+              Rails.logger.error e.message
+              Rails.logger.error e.backtrace.join("\n")
+              Rails.logger.error "Can't download \"" + link + "\""
             end
           end
         end
