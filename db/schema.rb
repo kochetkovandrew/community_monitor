@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181031142757) do
+ActiveRecord::Schema.define(version: 20181101005503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,12 +35,14 @@ ActiveRecord::Schema.define(version: 20181031142757) do
   end
 
   create_table "attachments", force: :cascade do |t|
-    t.string   "kind"
-    t.integer  "vk_id"
-    t.string   "original"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "uri"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.string   "local_filename"
+    t.string   "title"
   end
+
+  add_index "attachments", ["uri"], name: "index_attachments_on_uri", using: :btree
 
   create_table "communities", force: :cascade do |t|
     t.string   "screen_name"
@@ -193,15 +195,6 @@ ActiveRecord::Schema.define(version: 20181031142757) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "photos", force: :cascade do |t|
-    t.string   "uri"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.string   "local_filename"
-  end
-
-  add_index "photos", ["uri"], name: "index_photos_on_uri", using: :btree
 
   create_table "post_comments", force: :cascade do |t|
     t.integer  "post_id"
