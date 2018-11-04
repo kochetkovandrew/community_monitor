@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   resources :communities
   resources :news_requests
   resources :submit_news
-  get '/posts/vk/:id' => 'posts#vk_view'
   resources :posts
   resources :topics
 
