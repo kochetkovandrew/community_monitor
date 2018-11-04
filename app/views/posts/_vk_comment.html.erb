@@ -1,0 +1,39 @@
+<div class="reply reply_dived clear  _post">
+  <div class="reply_wrap _reply_content _post_content clear_fix">
+
+    <a class="reply_image">
+      <img src="<%= @members_map[comment.user_vk_id].nil? ? 'https://vk.com/images/camera_50.png' : @members_map[comment.user_vk_id][:avatar] %>" width="40" height="40" class="reply_img">
+    </a>
+    <div class="reply_content">
+
+      <div class="reply_author">
+        <a class="author"><%= @members_map[comment.user_vk_id].nil? ? '' : @members_map[comment.user_vk_id][:full_name] %></a>
+      </div>
+      <div class="reply_text">
+        <div>
+          <div class="wall_reply_text"><%= comment_body(comment.raw['text']) %></div>
+        </div>
+      </div>
+      <div class="reply_footer clear_fix">
+        <div class="like_wrap lite">
+          <div class="like_cont ">
+            <div class="like_btns">
+              <a class="like_btn like _like empty" data-count="0" href="#" title="Нравится">
+                <div class="like_button_icon"></div>
+                <div class="like_button_label"></div>
+                <div class="like_button_count"></div>
+                <span class="blind_label">Нравится</span>
+              </a>
+              <span class="blind_label" tabindex="0" role="link">Показать список оценивших</span>
+
+            </div>
+            <div class="like_views _views"></div>
+
+          </div>
+        </div>
+        <div class="reply_date"><a class="wd_lnk"><span class="rel_date"><%= comment.created_at.to_vk_time('Europe/Moscow') %></span></a></div>
+
+      </div>
+    </div>
+  </div>
+</div>

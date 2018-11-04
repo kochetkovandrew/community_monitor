@@ -1,6 +1,7 @@
 <% if !@post.community.nil? %>
   <h4>«<%= @post.community.name %>»</h4>
   <% @community = @post.community %>
+  <%= link_to fa_icon('vk') + ' Вид в VK', {controller: :posts, action: :vk_view, id: @post.id}, target: '_blank' %>
   <%= render partial: 'communities/views' %>
 <% end %>
 <div style="width: 800px; max-width: 800px;">
