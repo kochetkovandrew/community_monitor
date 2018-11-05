@@ -53,13 +53,10 @@ class Community < ActiveRecord::Base
 
   def self.get_from_vk(vk_ids, settings = {})
     l_settings = {update_existing: false}.merge(settings)
-    Rails.logger.debug l_settings
-    Rails.logger.debug vk_ids
     res = []
     if !l_settings[:update_existing]
       vk_ids -= Community.where(vk_id: vk_ids).select([:vk_id]).collect{|community| community.vk_id}
     end
-    Rails.logger.debug vk_ids
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
     while !(vk_ids_slice = vk_ids.shift(500)).empty?
       if l_settings[:update_existing]
@@ -67,9 +64,6 @@ class Community < ActiveRecord::Base
       else
         existing_groups = {}
       end
-      Rails.logger.debug '===EXISTING==='
-      Rails.logger.debug existing_groups
-      Rails.logger.debug '===EXISTING==='
       raw_groups = vk_lock { vk.groups.get_by_id(group_ids: vk_ids_slice, fields: [:id, :name, :screen_name, :photo_50, :photo_100, :photo_200, :city, :country, :contacts, :description]) }
       raw_groups.each do |raw_group|
         new_group = Community.new
@@ -78,21 +72,20 @@ class Community < ActiveRecord::Base
           new_group.save
           res.push new_group
         else
-          Rails.logger.debug '============================== ELSE'
           existing_group = existing_groups[raw_group[:id]]
           existing_hash = existing_group.comparable_hash
           new_hash = new_group.comparable_hash
           Rails.logger.debug existing_hash
           Rails.logger.debug new_hash
-    #       if existing_hash != new_hash
-    #         member_history = CommunityHistory.create(
-    #           community_id: existing_community.id,
-    #           raw: existing_group.raw,
-    #         )
-    #         existing_group.set_from_hash(raw_group)
-    #         existing_group.save
-    #       end
-    #       res.push existing_group
+          if existing_hash != new_hash
+            community_history = CommunityHistory.create(
+              community_id: existing_group.id,
+              raw: existing_group.raw,
+            )
+            existing_group.set_from_hash(raw_group)
+            existing_group.save
+          end
+          res.push existing_group
         end
       end
     end
