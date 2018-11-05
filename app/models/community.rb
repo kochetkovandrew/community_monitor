@@ -1,20 +1,132 @@
 class Community < ActiveRecord::Base
   validates_numericality_of :vk_id, allow_blank: false
-  before_validation :set_vk_data
+  # before_validation :set_vk_data
   attr_accessor :posts_count
   has_many :community_members
   has_many :community_member_histories
   has_many :members, :through => :community_members
   has_many :posts
   has_many :topics
+  has_many :community_histories
+
+  def get_from_vk
+    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    raw_group = vk_lock {
+      vk.groups.get_by_id(
+        group_id: self.screen_name,
+        fields: [:id, :name, :screen_name, :photo_50, :photo_100, :photo_200, :city, :country, :contacts, :description]
+      )
+    }[0]
+  end
+
+  def set_from_vk(raw_hash = nil)
+    raw_group = raw_hash || get_from_vk
+    self.raw = raw_group
+    self.vk_id = raw_group[:id]
+    self.name = raw_group[:name]
+    self.screen_name = raw_group[:screen_name] || ('club' + vk_id.to_s)
+  end
+
 
   def set_vk_data
     self.vk_id = nil
     vk = VkontakteApi::Client.new (self.access_token || Settings.vk.user_access_token)
-    groups = vk_lock { vk.groups.get_by_id(group_id: self.screen_name, fields: [:id]) }
+    groups = vk_lock {
+      vk.groups.get_by_id(
+        group_id: self.screen_name,
+        fields: [:id, :name, :screen_name, :photo_50, :photo_100, :photo_200, :city, :country, :contacts, :description]
+      )
+    }
     self.vk_id = groups[0][:id]
     self.name = groups[0][:name]
   rescue
+  end
+
+  def set_from_hash(hash)
+    hh = hash.with_indifferent_access
+    self.raw ||= {}
+    self.raw.merge!(hash)
+    self.vk_id = hh[:id]
+    self.screen_name = hh[:screen_name] || ('club' + hh[:id].to_s)
+    self.name = hh[:name]
+  end
+
+  def self.get_from_vk(vk_ids, settings = {})
+    l_settings = {update_existing: false}.merge(settings)
+    Rails.logger.debug l_settings
+    Rails.logger.debug vk_ids
+    res = []
+    if !l_settings[:update_existing]
+      vk_ids -= Community.where(vk_id: vk_ids).select([:vk_id]).collect{|community| community.vk_id}
+    end
+    Rails.logger.debug vk_ids
+    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    while !(vk_ids_slice = vk_ids.shift(500)).empty?
+      if l_settings[:update_existing]
+        existing_groups = Hash[Community.where(vk_id: vk_ids_slice).all.collect{|community| [community.vk_id, community]}]
+      else
+        existing_groups = {}
+      end
+      Rails.logger.debug '===EXISTING==='
+      Rails.logger.debug existing_groups
+      Rails.logger.debug '===EXISTING==='
+      raw_groups = vk_lock { vk.groups.get_by_id(group_ids: vk_ids_slice, fields: [:id, :name, :screen_name, :photo_50, :photo_100, :photo_200, :city, :country, :contacts, :description]) }
+      raw_groups.each do |raw_group|
+        new_group = Community.new
+        new_group.set_from_hash(raw_group)
+        if existing_groups[raw_group[:id]].nil?
+          new_group.save
+          res.push new_group
+        else
+          Rails.logger.debug '============================== ELSE'
+          existing_group = existing_groups[raw_group[:id]]
+          existing_hash = existing_group.comparable_hash
+          new_hash = new_group.comparable_hash
+          Rails.logger.debug existing_hash
+          Rails.logger.debug new_hash
+    #       if existing_hash != new_hash
+    #         member_history = CommunityHistory.create(
+    #           community_id: existing_community.id,
+    #           raw: existing_group.raw,
+    #         )
+    #         existing_group.set_from_hash(raw_group)
+    #         existing_group.save
+    #       end
+    #       res.push existing_group
+        end
+      end
+    end
+    res
+  end
+
+  def update_history(new_hash)
+    friend = Community.new
+    friend.set_from_hash(new_hash)
+    existing_hash = comparable_hash
+    new_c_hash = friend.comparable_hash
+    if existing_hash != new_c_hash
+      found_history = false
+      community_histories.each do |community_history|
+        if community_history.comparable_hash == new_c_hash
+          found_history = true
+          break
+        end
+      end
+      if !found_history
+        community_history = CommunityHistory.create(
+          community_id: id,
+          raw: friend.raw,
+        )
+      end
+    end
+  end
+
+  def comparable_hash
+    {
+      screen_name: self.screen_name,
+      name: self.name,
+      photo_200: (self.raw || {})['photo_200'],
+    }
   end
 
   def get_wall(force = false)

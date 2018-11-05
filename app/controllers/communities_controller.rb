@@ -46,6 +46,14 @@ class CommunitiesController < ApplicationController
   # POST /communities.json
   def create
     @community = Community.new(community_params)
+    community_hash = @community.get_from_vk
+    existing = Community.includes([:community_histories]).find_by_vk_id(community_hash[:id])
+    if !existing.nil?
+      @community = existing
+      @community.update_history(community_hash)
+    else
+      @community.set_from_vk(community_hash)
+    end
     respond_to do |format|
       if @community.save
         format.html { redirect_to @community, notice: 'Community was successfully added.' }
