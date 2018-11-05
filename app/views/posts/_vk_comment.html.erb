@@ -8,6 +8,10 @@
 
       <div class="reply_author">
         <a class="author"><%= @members_map[comment.user_vk_id].nil? ? '' : @members_map[comment.user_vk_id][:full_name] %></a>
+        <% if comment.raw['reply_to_user'] %>
+          <%= (@members_map[comment.user_vk_id].nil? || (@members_map[comment.user_vk_id][:sex] == 2)) ? 'ответил' : 'ответила' %>
+          <%= @members_map[comment.raw['reply_to_user']].nil? ? '' : @members_map[comment.raw['reply_to_user']][:first_name_dat] %>
+        <% end %>
       </div>
       <div class="reply_text">
         <div>

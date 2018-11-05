@@ -32,7 +32,6 @@ class CommunitiesController < ApplicationController
     end
   end
 
-
   # GET /communities/new
   def new
     @community = Community.new
