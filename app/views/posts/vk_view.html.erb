@@ -1,13 +1,51 @@
+<div class="narrow_column_wrap">
+  <div class="narrow_column" id="narrow_column" style="margin-top: 0px;">
+    <div class="page_block ui_rmenu ui_rmenu_pr" id="wall_rmenu" role="list">
+      <a class="ui_ownblock clear_fix" href="/vichnet">
+        <img class="ui_ownblock_img" src="<%= @members_map[@post.raw['from_id']].nil? ? 'https://vk.com/images/camera_50.png' : @members_map[@post.raw['from_id']][:avatar] %>">
+        <div class="ui_ownblock_info">
+          <div class="ui_ownblock_label"><%= @members_map[@post.raw['from_id']].nil? ? '' : @members_map[@post.raw['from_id']][:full_name] %></div>
+          <div class="ui_ownblock_hint">вернуться к странице</div>
+        </div>
+      </a><div class="ui_rmenu_sep"></div><a id="ui_rmenu_own" class="ui_rmenu_item _ui_item_own">
+      <span>Записи сообщества</span>
+    </a><a id="ui_rmenu_all" class="ui_rmenu_item _ui_item_all">
+      <span>Все записи</span>
+    </a><a id="ui_rmenu_search" class="ui_rmenu_item _ui_item_search">
+      <span>Поиск по записям</span>
+    </a><a id="ui_rmenu_one" class="ui_rmenu_item _ui_item_one ui_rmenu_item_sel">
+      <span>Запись на стене</span>
+    </a>
+      <div class="ui_rmenu_slider _ui_rmenu_slider"></div>
+    </div>
+  </div>
+</div>
+<div class="wide_column_wrap">
+  <div class="wide_column" id="wide_column">
+    <div class="wall_wrap clear_fix">
+      <div class="big_wall">
+        <div class="wall_module">
+          <div id="page_wall_posts" class="mark_top_verified ">
+            <div class="_post post page_block closed_comments deep_active">
+            <div class="_post_content">
+
+
+
+
+
+
+
+
 <div class="post_header">
   <a class="post_image" href="/vichnet">
-    <img src="https://vk.com/images/camera_50.png" data-post-click-type="post_owner_img" width="50" height="50" class="post_img">
+    <img src="<%= @members_map[@post.raw['from_id']].nil? ? 'https://vk.com/images/camera_50.png' : @members_map[@post.raw['from_id']][:avatar] %>" data-post-click-type="post_owner_img" width="50" height="50" class="post_img">
     <span class="blind_label">.</span>
   </a>
 
   <div class="post_header_info">
     <h5 class="post_author">
       <a class="author" data-post-click-type="post_owner_link">
-        ИМЯ АВТОРА
+        <%= @members_map[@post.raw['from_id']].nil? ? '' : @members_map[@post.raw['from_id']][:full_name] %>
       </a>
       <span class="explain"><span class="wall_fixed_label">&nbsp;запись закреплена</span></span></h5>
     <div class="post_date"><a class="post_link">
@@ -75,5 +113,14 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

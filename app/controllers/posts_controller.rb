@@ -6,16 +6,29 @@ class PostsController < ApplicationController
   layout 'vk', only: :vk_view
 
   def vk_view
-    @member_vk_ids ||= []
+    actor_vk_ids ||= [ @post.raw['from_id'] ]
     @post.post_comments.each do |comment|
-      @member_vk_ids.push comment.user_vk_id
+      actor_vk_ids.push comment.user_vk_id
     end
-    members = Member.where(vk_id: @member_vk_ids).all
-    member_vk_ids = members.collect{|member| member.vk_id}
-    not_known = @member_vk_ids - member_vk_ids
+
+    #members
+    member_vk_ids = actor_vk_ids.select{|id| id>0}
+    members = Member.where(vk_id: member_vk_ids).where('updated_at > ?', (Time.current - 2.days)).all
+    existing_member_vk_ids = members.collect{|member| member.vk_id}
+    not_known = member_vk_ids - existing_member_vk_ids
     new_members = []
     if !not_known.empty?
-      new_members = Member.get_from_vk(not_known)
+      new_members = Member::get_from_vk(not_known)
+    end
+
+    #communities
+    community_vk_ids = actor_vk_ids.select{|id| id<0}.collect{|id| -id}
+    communities = Community.where(vk_id: member_vk_ids).where('updated_at > ?', (Time.current - 2.days)).all
+    existing_community_vk_ids = communities.collect{|community| community.vk_id}
+    not_known = community_vk_ids - existing_community_vk_ids
+    new_communities = []
+    if !not_known.empty?
+      new_communities = Community::get_from_vk(not_known)
     end
     @members_map = {}
     (members + new_members).each do |member|
@@ -28,7 +41,16 @@ class PostsController < ApplicationController
       end
       @members_map[member.vk_id] = {full_name: full_name, avatar: avatar}
     end
-
+    (communities + new_communities).each do |community|
+      avatar = 'https://vk.com/images/camera_50.png'
+      full_name = 'Неизвестно'
+      begin
+        full_name = community.raw['name']
+        avatar = community.raw['photo_50']
+      rescue
+      end
+      @members_map[-community.vk_id] = {full_name: full_name, avatar: avatar}
+    end
   end
 
 

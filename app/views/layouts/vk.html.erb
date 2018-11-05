@@ -57,13 +57,14 @@
     <div id="side_bar" class="side_bar fl_l" style="top: 0px;">
       <div id="side_bar_inner" class="side_bar_inner">
         <div id="quick_login" class="quick_login">
-          <div><iframe class="upload_frame" id="quick_login_frame" name="quick_login_frame"></iframe></div><form method="POST" name="login" id="quick_login_form" target="quick_login_frame">
+          <div>
+            <iframe class="upload_frame" id="quick_login_frame" name="quick_login_frame"></iframe>
+          </div>
           <div class="label">Телефон или email</div>
-          <div class="labeled"><input type="text" name="email" class="dark" id="quick_email"></div>
+          <div class="labeled"><input type="text" class="dark"></div>
           <div class="label">Пароль</div>
-          <div class="labeled"><input type="password" name="pass" class="dark" id="quick_pass"></div>
+          <div class="labeled"><input type="password" class="dark"></div>
           <input type="submit" class="submit">
-        </form>
           <button class="quick_login_button flat_button button_wide" id="quick_login_button">Войти</button>
           <button class="quick_reg_button flat_button button_wide" id="quick_reg_button" style="">Регистрация</button>
           <div class="clear forgot"><div class="checkbox" id="quick_expire" role="checkbox" aria-checked="false" tabindex="0">Чужой компьютер</div><a id="quick_forgot" class="quick_forgot" href="/restore" target="_top">Забыли пароль?</a></div>
@@ -83,51 +84,12 @@
       <div id="wrap3"><div id="wrap2">
         <div id="wrap1">
           <div id="content" class=""><div class="wide_column_left">
-            <div class="narrow_column_wrap">
-              <div class="narrow_column" id="narrow_column" style="margin-top: 0px;">
-                <div class="page_block ui_rmenu ui_rmenu_pr" id="wall_rmenu" role="list">
-                  <a class="ui_ownblock clear_fix" href="/vichnet">
-                    <img class="ui_ownblock_img" src="https://pp.userapi.com/c631224/v631224101/1036c/v2Yh_F15brI.jpg?ava=1">
-                    <div class="ui_ownblock_info">
-                      <div class="ui_ownblock_label">ВИЧ СПИД - ВЕЛИЧАЙШАЯ МИСТИФИКАЦИЯ XX ВЕКА</div>
-                      <div class="ui_ownblock_hint">вернуться к странице</div>
-                    </div>
-                  </a><div class="ui_rmenu_sep"></div><a id="ui_rmenu_own" href="/wall-5940425?own=1" class="ui_rmenu_item _ui_item_own">
-                  <span>Записи сообщества</span>
-                </a><a id="ui_rmenu_all" href="/wall-5940425" class="ui_rmenu_item _ui_item_all">
-                  <span>Все записи</span>
-                </a><a id="ui_rmenu_search" href="/wall-5940425?search=1" class="ui_rmenu_item _ui_item_search">
-                  <span>Поиск по записям</span>
-                </a><a id="ui_rmenu_one" href="/wall-5940425_250427" class="ui_rmenu_item _ui_item_one ui_rmenu_item_sel">
-                  <span>Запись на стене</span>
-                </a>
-                  <div class="ui_rmenu_slider _ui_rmenu_slider"></div>
-                </div>
-              </div>
-            </div>
-            <div class="wide_column_wrap">
-              <div class="wide_column" id="wide_column">
-                <div class="wall_wrap clear_fix">
-                  <div class="big_wall">
-                    <div class="wall_module">
-                      <div id="page_wall_posts" class="mark_top_verified "><div id="post-5940425_250427" class="_post post page_block closed_comments deep_active" data-post-id="-5940425_250427" post_view_hash="88e264dc5c808f631a">
-                        <div class="_post_content">
-
-                          <%= yield %>
-
-
-
-                        </div>
-                      </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div></div>
+            <%= yield %>
+          </div>
+          </div>
         </div>
-      </div></div>
+      </div>
+      </div>
     </div>
 
     <div id="footer_wrap" class="footer_wrap fl_r" style="width: 795px;"><div class="footer_nav" id="bottom_nav">

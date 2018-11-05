@@ -54,8 +54,10 @@ class Community < ActiveRecord::Base
   def self.get_from_vk(vk_ids, settings = {})
     l_settings = {update_existing: false}.merge(settings)
     res = []
+    preexisting_communities = []
     if !l_settings[:update_existing]
-      vk_ids -= Community.where(vk_id: vk_ids).select([:vk_id]).collect{|community| community.vk_id}
+      preexisting_communities = Community.where(vk_id: vk_ids).all
+      vk_ids -= preexisting_communities.collect{|community| community.vk_id}
     end
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
     while !(vk_ids_slice = vk_ids.shift(500)).empty?
@@ -89,7 +91,7 @@ class Community < ActiveRecord::Base
         end
       end
     end
-    res
+    res + preexisting_communities
   end
 
   def update_history(new_hash)

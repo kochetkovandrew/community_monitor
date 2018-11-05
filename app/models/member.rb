@@ -243,8 +243,10 @@ class Member < ActiveRecord::Base
   def self.get_from_vk(vk_ids, settings = {})
     l_settings = {update_existing: false, collect_friends: false}.merge(settings)
     res = []
+    preexisting_members = []
     if !l_settings[:update_existing]
-      vk_ids -= Member.where(vk_id: vk_ids).select([:vk_id]).collect{|member| member.vk_id}
+      preexisting_members = Member.where(vk_id: vk_ids).all
+      vk_ids -= preexisting_members.collect{|member| member.vk_id}
     end
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
     while !(vk_ids_slice = vk_ids.shift(1000)).empty?
@@ -275,16 +277,16 @@ class Member < ActiveRecord::Base
               member_id: existing_member.id,
               first_name: existing_member.first_name,
               last_name: existing_member.last_name,
-              raw: existing.raw,
+              raw: existing_member.raw,
             )
-            existing.set_from_hash(raw_user)
-            existing.save
+            existing_member.set_from_hash(raw_user)
+            existing_member.save
           end
-          res.push existing
+          res.push existing_member
         end
       end
     end
-    res
+    res + preexisting_members
   end
 
 end
