@@ -6,6 +6,7 @@ class Post < ActiveRecord::Base
 
   def get_likes(force = false, vk_client = nil)
     vk = (vk_client || VkontakteApi::Client.new(Settings.vk.user_access_token))
+    owner_id = (community_id.nil? ? member.vk_id : -commuinity.vk_id)
     step_size = 1000
     if (raw['likes']['count'] > 0) || force
       if likes.nil? || (likes.count != raw['likes']['count']) || force
@@ -14,7 +15,7 @@ class Post < ActiveRecord::Base
           step = 0
           all_likes = []
           while rest > 0
-            likes_chunk = vk_lock { vk.likes.get_list(type: 'post', owner_id: -(community.vk_id), item_id: vk_id, count: step_size, offset: step*step_size) }
+            likes_chunk = vk_lock { vk.likes.get_list(type: 'post', owner_id: owner_id, item_id: vk_id, count: step_size, offset: step*step_size) }
             all_likes += likes_chunk[:items]
             if step == 0
               rest = likes_chunk[:count] - step_size
