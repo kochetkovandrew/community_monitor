@@ -6,7 +6,7 @@ class Post < ActiveRecord::Base
 
   def get_likes(force = false, vk_client = nil)
     vk = (vk_client || VkontakteApi::Client.new(Settings.vk.user_access_token))
-    owner_id = (community_id.nil? ? member.vk_id : -commuinity.vk_id)
+    owner_id = (community_id.nil? ? member.vk_id : -community.vk_id)
     step_size = 1000
     if (raw['likes']['count'] > 0) || force
       if likes.nil? || (likes.count != raw['likes']['count']) || force
