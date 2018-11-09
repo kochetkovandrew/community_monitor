@@ -129,7 +129,7 @@ class MembersController < ApplicationController
   end
 
   def likes
-    @post_likes = Post.where("likes::jsonb @> '?'::jsonb", @member.vk_id).select([:id, :vk_id, :community_id]).includes([:community]).order(:created_at)
+    @post_likes = Post.where("likes::jsonb @> '?'::jsonb", @member.vk_id).select([:id, :vk_id, :community_id]).where('community_id is not null').includes([:community]).order(:created_at)
     @post_comment_likes = PostComment.where("likes::jsonb @> '?'::jsonb", @member.vk_id).select([:id, :vk_id, :post_id]).includes([:post => [:community]]).order(:created_at)
   end
 
