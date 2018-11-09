@@ -1,4 +1,4 @@
-<% user_id = (post.community.nil? ? post.member.vk_id : -post.community.vk_id) %>
+<% user_id = (post.community.nil? ? post.member.try(:vk_id) : -post.community.try(:vk_id)) %>
 <% link = ('https://vk.com/wall' + user_id.to_s + '_' + post.vk_id.to_s) %>
 <% link_text ||= link %>
 <%= link_to content_tag(:i, '', class: 'fa fa-envelope') + ' ' + link_text, link  %>
