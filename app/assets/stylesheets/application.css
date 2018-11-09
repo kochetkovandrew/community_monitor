@@ -98,3 +98,11 @@ span.time {
     max-width: 715px;
     float: right;
 }
+
+.dataTables_wrapper .dataTables_filter input {
+    -webkit-appearance: textfield;
+}
+
+.dataTables_wrapper .toolbar input {
+    margin-left: 0.5em;
+}

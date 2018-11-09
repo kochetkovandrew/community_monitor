@@ -23,3 +23,12 @@
 // require turbolinks
 
 //= require_tree .
+
+// getUrlVar = (key) ->
+//   result = new RegExp(key + '=([^&]*)', 'i').exec(window.location.search)
+//   result && decodeURIComponent(result[1]) || ''
+
+function getUrlVar(key){
+  var result = new RegExp(key + "=([^&]*)", "i").exec($(location).attr('href'));
+  return result && decodeURIComponent(result[1]) || "";
+}
