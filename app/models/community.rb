@@ -186,7 +186,7 @@ class Community < ActiveRecord::Base
     end
   end
 
-  def get_topics
+  def get_topics(force = false)
     vk = VkontakteApi::Client.new (self.access_token || Settings.vk.user_access_token)
     step_size = 100
     rest = 1
@@ -209,9 +209,9 @@ class Community < ActiveRecord::Base
             raw: topic_hash,
             title: topic_hash[:title],
             created_by_vk_id: topic_hash[:created_by],
-            created_at: Time.at(topic_hash[:created]),
-            updated_at: Time.at(topic_hash[:updated]),
           )
+          topic.created_at = Time.at(topic_hash[:created])
+          topic.updated_at = Time.at(topic_hash[:updated])
           topic.save(touch: false)
           topic.get_comments(vk)
           new_found = true
@@ -222,7 +222,7 @@ class Community < ActiveRecord::Base
           end
         end
       end
-      if !new_found
+      if !new_found && !force
         break
       end
     end
