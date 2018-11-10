@@ -12,7 +12,7 @@ class PostComment < ActiveRecord::Base
           step = 0
           all_likes = []
           while rest > 0
-            owner_id = (post.community_id.nil? ? post.member.vk_id : -post.commuinity.vk_id)
+            owner_id = (post.community_id.nil? ? post.member.vk_id : -post.community.vk_id)
             likes_chunk = vk_lock { vk.likes.get_list(type: 'comment', owner_id: owner_id, item_id: vk_id, count: step_size, offset: step*step_size) }
             all_likes += likes_chunk[:items]
             if step == 0
