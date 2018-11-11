@@ -23,13 +23,6 @@
       </ul>
     </li>
 
-
-
-    <% if current_user.has_permission?('Detective') %>
-    <li>
-      <%= link_to "Wikileaks", copy_messages_path, 'data-no-turbolink': true %>
-    </li>
-    <% end %>
     <% if current_user.has_permission?('DetivichAdmin') %>
     <li>
       <%= link_to "Предложенные новости", submit_news_index_path, 'data-no-turbolink': true %>
