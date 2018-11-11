@@ -4,11 +4,15 @@ class CopyMessagesController < ApplicationController
   before_action :set_copy_message, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
   before_action { |f| f.require_permission! 'Detective' }
+  before_action only: :index do |f|
+    @dialog = CopyDialog.find(params[:copy_dialog_id])
+    f.require_permission!(@dialog.permission.name)
+  end
 
   # GET /copy_messages
   # GET /copy_messages.json
   def index
-    @dialog = CopyDialog.find(params[:copy_dialog_id])
+    # @dialog = CopyDialog.find(params[:copy_dialog_id])
     @copy_dialog_id = params[:copy_dialog_id]
     # @copy_messages = CopyMessage.where(copy_dialog_id: @dialog.id)
     respond_to do |format|

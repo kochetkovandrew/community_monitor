@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181111140234) do
+ActiveRecord::Schema.define(version: 20181111153406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20181111140234) do
     t.integer  "copy_id"
     t.integer  "last_resent_message_id", limit: 8, default: 0, null: false
     t.string   "title"
-    t.string   "access_key"
+    t.string   "access_token"
     t.integer  "permission_id"
   end
 
