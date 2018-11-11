@@ -14,6 +14,28 @@ jQuery ->
     displayStart = 25 * (parseInt(page) - 1)
   else
     displayStart = 0
+  # $('select#archive_topic').select2()
+  $('button.message_archive_topic_button').click () ->
+    topic_id = parseInt($('select option:selected', $(this).parent()).val())
+    topic_title = $('select option:selected', $(this).parent()).text()
+    ids = $('.archive_checkbox:checked').map(->
+      $(this).closest('tr').data 'id'
+    ).get()
+    if (topic_id > 0) && (ids.length > 0)
+      $.ajax
+        method: 'POST'
+        url: '/copy_messages/archive.json'
+        data: { topic_id: topic_id, ids: ids }
+        success: (data) ->
+          $.each ids, (index, id) ->
+            $('input[type=checkbox]', 'tr[data-id=' + id + ']').remove()
+            $('p.copy_message_topic', 'tr[data-id=' + id + ']').append($('<b></b>').text('Архив: ' + topic_title))
+            $('tr[data-id=' + id + ']').data('topic-id', topic_id)
+            $('tr[data-id=' + id + ']').data('topic-title', topic_title)
+        beforeSend: () ->
+          $('.modal').modal('show')
+        complete: () ->
+          $('.modal').modal('hide')
   $('table#copy_messages').dataTable
     iDisplayLength: 25
     lengthMenu: [25]
@@ -33,7 +55,12 @@ jQuery ->
       $('span.im-avatar').each ->
         user_vk_id = $(this).data('user-vk-id')
         if avatars[user_vk_id]
+          if !$(this).closest('tr').data('topic-id')
+            $(this).append $('<input type="checkbox">').addClass('archive_checkbox')
+          else
+            $('p.copy_message_topic', $(this).closest('tr')).append($('<b></b>').text('Архив: ' + $(this).closest('tr').data('topic-title')))
           $(this).append $('<img>', {src: avatars[user_vk_id].avatar})
+          # $(this).append $('<br>')
       $('span.im-name').each ->
         user_vk_id = $(this).data('user-vk-id')
         if avatars[user_vk_id]

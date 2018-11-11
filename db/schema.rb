@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181105000513) do
+ActiveRecord::Schema.define(version: 20181111024125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20181105000513) do
     t.datetime "updated_at",     null: false
     t.string   "local_filename"
     t.string   "title"
+    t.string   "kind"
   end
 
   add_index "attachments", ["uri"], name: "index_attachments_on_uri", using: :btree
@@ -94,10 +95,11 @@ ActiveRecord::Schema.define(version: 20181105000513) do
     t.integer  "copy_dialog_id"
     t.integer  "user_vk_id"
     t.text     "body"
-    t.text     "raw"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.integer  "vk_id",          limit: 8, default: 0, null: false
+    t.jsonb    "raw",                      default: {}
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "vk_id",          limit: 8, default: 0,  null: false
+    t.integer  "topic_id"
   end
 
   create_table "drug_groups", force: :cascade do |t|

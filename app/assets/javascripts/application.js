@@ -32,3 +32,7 @@ function getUrlVar(key){
   var result = new RegExp(key + "=([^&]*)", "i").exec($(location).attr('href'));
   return result && decodeURIComponent(result[1]) || "";
 }
+
+jQuery(function() {
+  $('.select2').select2()
+});

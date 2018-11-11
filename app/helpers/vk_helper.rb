@@ -134,7 +134,19 @@ module VkHelper
       'https://vk.com/id' + message['user_id'].to_s,
       { class: 'btn btn-sm btn-outline-primary', role: 'button'})
     res += link_to fa_icon(:info, class: 'fa-sm fa-fw'), {controller: :members, action: :show, id: message['user_id']}, { class: 'btn btn-sm btn-outline-primary', role: 'button'}
-    res += content_tag(:p,
+
+    # archive_select = 'Архив: '.html_safe +
+    #   select_tag('archive_topic', options_for_select( [""] +
+    #     Community.
+    #       where(screen_name: Settings.vk.archive_community).
+    #       first.
+    #       topics.
+    #       order('updated_at desc').
+    #       collect{|topic| [topic.title, topic.id, ]}))
+    #   archive_select += button_tag('Добавить', {type: :button, class: 'message_archive_topic_button'})
+    #   res += content_tag(:p, archive_select)
+      res += content_tag(:p, '', {class: 'copy_message_topic'})
+      res += content_tag(:p,
       content_tag(:span, l(Time.at(message['date']), format: '%-d %B %Y в %H:%M:%S'), class: :time) +
       content_tag(:div, message['body'])
     )

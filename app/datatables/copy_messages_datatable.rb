@@ -56,25 +56,28 @@ class CopyMessagesDatatable < ApplicationDatatable
   end
 
   def search_keys
-    {'raw' => :string}
+    {"raw::json #>> '{}'" => :string}
   end
 
   def data
     @user_ids ||= []
     objects.map do |copy_message|
       body = copy_message.body
-      raw = JSON.parse(copy_message.raw)
-      collect_avatars raw
+      collect_avatars copy_message.raw
       {
         created_at: copy_message.created_at,
-        body: message_body(raw),
-        DT_RowAttr: { 'data-id' => copy_message.id },
+        body: message_body(copy_message.raw),
+        DT_RowAttr: {
+          'data-id' => copy_message.id,
+          'data-topic-id' => copy_message.try(:topic_id),
+          'data-topic-title' => copy_message.try(:topic).try(:title)
+        },
       }
     end
   end
 
   def fetch_query
-    CopyMessage
+    CopyMessage.includes([:topic])
   end
 
   def sort_column

@@ -1,17 +1,40 @@
-<p id="notice"><%= notice %></p>
+<div style="float: left;">
+  <p id="notice"><%= notice %></p>
 
-<h4>Пересланные сообщения</h4>
+  <h4>Пересланные сообщения</h4>
 
-<div style="max-width: 800px;">
-  <table id="copy_messages" data-source="<%= copy_messages_url(format: "json") %>">
-    <thead>
-      <tr>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
+  <div style="max-width: 800px;">
+    <table id="copy_messages" data-source="<%= copy_messages_url(format: "json") %>">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
 </div>
-<br>
+<div style="float: right; width: 300px;">
+  <div style="position: fixed;">
+    Архив:
+    <%= select_tag('archive_topic', options_for_select( [""] +
+          Community.
+            where(screen_name: Settings.vk.archive_community).
+            first.
+            topics.
+            order('updated_at desc').
+            collect{|topic| [topic.title, topic.id ]}), {class: :select2}) %>
+    <%= button_tag('Добавить', {type: :button, class: 'message_archive_topic_button'}) %>
+  </div>
+</div>
 
+
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" style="width: 48px">
+      <span class="fa fa-spinner fa-spin fa-3x"></span>
+    </div>
+  </div>
+</div>

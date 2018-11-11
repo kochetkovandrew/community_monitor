@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  post 'copy_messages/archive' => 'copy_messages#archive'
   resources :copy_messages
   resources :memory_dates
   resources :drug_groups

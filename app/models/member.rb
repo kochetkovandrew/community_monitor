@@ -7,6 +7,10 @@ class Member < ActiveRecord::Base
 
   validates :vk_id, uniqueness: true
 
+  def full_name
+    first_name.to_s + ' ' + last_name.to_s
+  end
+
   def get_from_vk
     vk = VkontakteApi::Client.new Settings.vk.user_access_token
     raw_user = vk_lock { vk.users.get(user_ids: [self.screen_name], fields: [ :photo_id, :verified, :sex, :bdate, :city, :country, :home_town, :has_photo, :photo_50, :photo_100, :photo_200_orig, :photo_200, :photo_400_orig, :photo_max, :photo_max_orig, :online, :domain, :has_mobile, :contacts, :site, :education, :universities, :schools, :status, :last_seen, :followers_count, :common_count, :occupation, :nickname, :relatives, :relation, :personal, :connections, :exports, :wall_comments, :activities, :interests, :music, :movies, :tv, :books, :games, :about, :quotes, :timezone, :screen_name, :maiden_name, :crop_photo, :friend_status, :career, :military, :first_name_dat ])[0] }
