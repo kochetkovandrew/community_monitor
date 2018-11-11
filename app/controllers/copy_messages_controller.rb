@@ -108,17 +108,28 @@ class CopyMessagesController < ApplicationController
         upload_media.push ('doc' + upload_doc[0][:owner_id].to_s + '_' + upload_doc[0][:id].to_s)
       end
     end
-    i = 0
-    while !(chunk_media = upload_media.shift(10)).empty?
+    if upload_media.empty?
       res = vk_lock {
         vk.board.create_comment(
           group_id: community.vk_id,
           topic_id: topic.vk_id,
-          message: (i == 0) ? text : '',
-          attachments: chunk_media.join(','),
+          message: text,
           from_group: 1
         )
       }
+    else
+      i = 0
+      while !(chunk_media = upload_media.shift(10)).empty?
+        res = vk_lock {
+          vk.board.create_comment(
+            group_id: community.vk_id,
+            topic_id: topic.vk_id,
+            message: (i == 0) ? text : '',
+            attachments: chunk_media.join(','),
+            from_group: 1
+          )
+        }
+      end
     end
     copy_messages.each do |copy_message|
       copy_message.topic_id = topic.id

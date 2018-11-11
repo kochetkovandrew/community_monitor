@@ -55,10 +55,12 @@ jQuery ->
       $('span.im-avatar').each ->
         user_vk_id = $(this).data('user-vk-id')
         if avatars[user_vk_id]
-          if !$(this).closest('tr').data('topic-id')
-            $(this).append $('<input type="checkbox">').addClass('archive_checkbox')
-          else
-            $('p.copy_message_topic', $(this).closest('tr')).append($('<b></b>').text('Архив: ' + $(this).closest('tr').data('topic-title')))
+          console.log $(this).parent().parent().prop('nodeName')
+          if $(this).parent().parent().prop('nodeName') != 'SPAN'
+            if !$(this).closest('tr').data('topic-id')
+              $(this).append $('<input type="checkbox">').addClass('archive_checkbox')
+            else
+              $('p.copy_message_topic', $(this).closest('tr')).first().append($('<b></b>').text('Архив: ' + $(this).closest('tr').data('topic-title')))
           $(this).append $('<img>', {src: avatars[user_vk_id].avatar})
           # $(this).append $('<br>')
       $('span.im-name').each ->
