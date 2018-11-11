@@ -77,7 +77,7 @@ class CopyMessagesDatatable < ApplicationDatatable
   end
 
   def fetch_query
-    CopyMessage.includes([:topic])
+    CopyMessage.where(copy_dialog_id: params[:copy_dialog_id]).includes([:topic])
   end
 
   def sort_column

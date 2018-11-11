@@ -15,4 +15,8 @@ class User < ActiveRecord::Base
     permission_name.in?(permissions.all.collect{|permission| permission.name})
   end
 
+  def has_permission_id?(permission_id)
+    permission_id.in?(permission_users.all.collect{|permission_user| permission_user.permission_id})
+  end
+
 end

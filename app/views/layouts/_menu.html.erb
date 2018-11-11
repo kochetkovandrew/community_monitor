@@ -9,6 +9,22 @@
       <%= link_to "Люди", members_path, 'data-no-turbolink': true %>
     </li>
     <% end %>
+
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Wikileaks<span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <% CopyDialog.order(:id).each do |copy_dialog| %>
+          <% if current_user.has_permission_id?(copy_dialog.permission_id) %>
+            <li>
+              <%= link_to copy_dialog.title, copy_dialog_copy_messages_path(copy_dialog_id: copy_dialog.id), 'data-no-turbolink': true %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </li>
+
+
+
     <% if current_user.has_permission?('Detective') %>
     <li>
       <%= link_to "Wikileaks", copy_messages_path, 'data-no-turbolink': true %>

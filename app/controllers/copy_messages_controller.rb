@@ -8,7 +8,9 @@ class CopyMessagesController < ApplicationController
   # GET /copy_messages
   # GET /copy_messages.json
   def index
-    @copy_messages = CopyMessage.all
+    @dialog = CopyDialog.find(params[:copy_dialog_id])
+    @copy_dialog_id = params[:copy_dialog_id]
+    # @copy_messages = CopyMessage.where(copy_dialog_id: @dialog.id)
     respond_to do |format|
       format.html
       format.json { render json: CopyMessagesDatatable.new(view_context) }

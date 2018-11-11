@@ -5,7 +5,7 @@
 messagesGoPage = (page) ->
   if page > 0
     $('table#copy_messages').DataTable().page(page-1).draw('page')
-    window.history.pushState("", "", "/copy_messages?page=" + page);
+    window.history.pushState("", "", $('input[name=basepath]').val() + "?page=" + page);
 
 
 jQuery ->
@@ -65,11 +65,10 @@ jQuery ->
         user_vk_id = $(this).data('user-vk-id')
         if avatars[user_vk_id]
           $(this).append(avatars[user_vk_id].full_name)
+      window.history.pushState("", "", $('input[name=basepath]').val() + "?page=" + ($('table#copy_messages').DataTable().page() + 1))
     initComplete: (settings, json) ->
       $("div.toolbar").append('<b>Перейти к странице:</b>')
       $("div.toolbar").append($('<input></input>').attr('name', 'datatables[page]'))
-#      if page
-#        messagesGoPage(page)
       $("input[name='datatables[page]']").keypress (e) ->
         if (e.which == 13)
           page = parseInt($(this).val())

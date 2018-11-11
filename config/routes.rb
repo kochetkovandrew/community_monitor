@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   post 'copy_messages/archive' => 'copy_messages#archive'
+  resources :copy_dialogs, path: 'dialogs' do
+    resources :copy_messages, only: [:index], path: 'messages'
+  end
   resources :copy_messages
   resources :memory_dates
   resources :drug_groups
