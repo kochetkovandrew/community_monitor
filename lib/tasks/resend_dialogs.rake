@@ -1,6 +1,6 @@
 task :resend_dialogs => :environment do |t, args|
-  vk = VkontakteApi::Client.new Settings.vk.copy_access_token
-  copy_dialog = CopyDialog.first
+  copy_dialog = CopyDialog.find 1
+  vk = VkontakteApi::Client.new copy_dialog.access_token
   rest = 1
   step = 0
   step_size = 200
