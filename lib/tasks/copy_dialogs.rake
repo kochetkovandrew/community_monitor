@@ -31,7 +31,7 @@ task :copy_dialogs => :environment do |t, args|
         user_vk_id: message[:user_id],
         vk_id: message[:id],
         body: message[:body],
-        raw: message.to_json,
+        raw: message,
       )
       cm.created_at = Time.at(message[:date])
       cm.save
