@@ -116,6 +116,10 @@ class CopyMessagesController < ApplicationController
         )
       }
     end
+    copy_messages.each do |copy_message|
+      copy_message.topic_id = topic.id
+      copy_message.save(touch: false)
+    end
     respond_to do |format|
       format.json { head :no_content }
     end
