@@ -1,5 +1,6 @@
 class WallController < ApplicationController
 
+  before_action :authenticate_user!
   before_action :set_community, only: [:index]
 
   def index

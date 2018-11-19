@@ -1,7 +1,3 @@
-<li>
-  <%= link_to "Новости", wall_index_path, 'data-no-turbolink': true %>
-</li>
-
 <% if user_signed_in? %>
     <% if current_user.has_permission?('Detective') %>
     <li>
