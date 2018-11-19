@@ -12,7 +12,7 @@ module VkHelper
     res
   end
 
-  def entry_body(entry)
+  def entry_body(entry, show_links=true)
     res = ''
     if entry.kind_of?(PostComment)
       res += link_to(content_tag(:span, '', :class => 'im-avatar', 'data-user-vk-id' => entry.user_vk_id), 'https://vk.com/id' + entry.user_vk_id.to_s)
@@ -55,9 +55,13 @@ module VkHelper
         res += attachment_body(attachment)
       end
     end
-    res2 = '';
+    res2 = ''
     if entry.kind_of?(Post) || entry.kind_of?(Topic)
-      res2 += link_to(entry.post_comments.count.to_s + ' ' + t(:comment, count: entry.post_comments.count), entry, { class: 'btn btn-sm btn-outline-primary', role: 'button'})
+      if show_links
+        res2 += link_to(entry.post_comments.count.to_s + ' ' + t(:comment, count: entry.post_comments.count), entry, { class: 'btn btn-sm btn-outline-primary', role: 'button'})
+      else
+        res2 += button_tag(entry.post_comments.count.to_s + ' ' + t(:comment, count: entry.post_comments.count), {class: 'btn btn-sm btn-outline-primary', role: 'button'})
+      end
     end
     if !entry.kind_of?(Topic)
       res2 += content_tag(:div, fa_icon(:heart, class: 'fa-vk-color') + ' Нравится ' + (entry.likes.try(:count) || 0).to_s, { class: 'likes btn btn-sm btn-outline-primary'})

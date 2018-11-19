@@ -1,3 +1,7 @@
+<li>
+  <%= link_to "Новости", wall_index_path, 'data-no-turbolink': true %>
+</li>
+
 <% if user_signed_in? %>
     <% if current_user.has_permission?('Detective') %>
     <li>
@@ -23,22 +27,24 @@
       </ul>
     </li>
 
-    <% if current_user.has_permission?('DetivichAdmin') %>
-    <li>
-      <%= link_to "Предложенные новости", submit_news_index_path, 'data-no-turbolink': true %>
-    </li>
-    <% end %>
-    <li>
-      <%= link_to "Памятные даты", memory_dates_path, 'data-no-turbolink': true %>
-    </li>
-    <% if current_user.has_permission?('Admin') %>
+    <% if current_user.has_permission?('Detective') %>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Другое<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+        <% if current_user.has_permission?('DetivichAdmin') %>
         <li>
-          <%= link_to "Пользователи", users_path, 'data-no-turbolink': true %>
+          <%= link_to "Предложенные новости", submit_news_index_path, 'data-no-turbolink': true %>
         </li>
-    <% end %>
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Препараты<span class="caret"></span></a>
-      <ul class="dropdown-menu">
+        <% end %>
+        <li>
+          <%= link_to "Памятные даты", memory_dates_path, 'data-no-turbolink': true %>
+        </li>
+        <% if current_user.has_permission?('Admin') %>
+            <li>
+              <%= link_to "Пользователи", users_path, 'data-no-turbolink': true %>
+            </li>
+        <% end %>
+        <li role="separator" class="divider"></li>
         <li>
           <%= link_to "АРТ", art_drugs_path, 'data-no-turbolink': true %>
         </li>
@@ -47,10 +53,12 @@
         </li>
         <li role="separator" class="divider"></li>
         <li>
-          <%= link_to "Взаимодействие", druginteractions_path, 'data-no-turbolink': true %>
+          <%= link_to "Взаимодействие препаратов", druginteractions_path, 'data-no-turbolink': true %>
         </li>
       </ul>
-    </li>
+      </li>
+    <% end %>
+
     <li>
       <%= link_to('Выйти', destroy_user_session_path, method: :delete) %>
     </li>

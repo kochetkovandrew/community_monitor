@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get '/posts/vk/:id' => 'posts#vk_view'
   resources :posts
   resources :topics
+  resources :wall, only: [:index]
 
   get 'communities/:id/wall' => 'communities#wall'
   get 'communities/:id/topics' => 'communities#topics'
