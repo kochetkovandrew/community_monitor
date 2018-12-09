@@ -114,7 +114,11 @@ module VkHelper
       res += image_tag(attachment['sticker']['photo_64'])
     when 'link'
       if !attachment['link']['photo'].nil?
-        host = URI.parse(attachment['link']['url']).host
+        begin
+          host = URI.parse(attachment['link']['url']).host
+        rescue ActionView::Template::Error => e
+          host = ''
+        end
         lefttd = content_tag(:td, '', {href: attachment['link']['url'], target: '_blank', class: 'page_media_link_thumb', style: "background-image: url(#{attachment['link']['photo']['photo_75']}); background-size: 49px 49px;"})
         txtlink = link_to(attachment['link']['title'], attachment['link']['url'], target: '_blank', class: 'page_media_link_title')
         hostlink = link_to(host, attachment['link']['url'], target: '_blank', class: 'page_media_link_url')
