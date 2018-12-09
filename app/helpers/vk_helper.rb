@@ -116,15 +116,16 @@ module VkHelper
       if !attachment['link']['photo'].nil?
         begin
           host = URI.parse(attachment['link']['url']).host
+          lefttd = content_tag(:td, '', {href: attachment['link']['url'], target: '_blank', class: 'page_media_link_thumb', style: "background-image: url(#{attachment['link']['photo']['photo_75']}); background-size: 49px 49px;"})
+          txtlink = link_to(attachment['link']['title'], attachment['link']['url'], target: '_blank', class: 'page_media_link_title')
+          hostlink = link_to(host, attachment['link']['url'], target: '_blank', class: 'page_media_link_url')
+          divrighttd = content_tag(:div, txtlink + "\n" + hostlink, class: 'page_media_link_desc_wrap')
+          righttd = content_tag(:td, divrighttd, class: 'page_media_link_desc_td')
+          tr = content_tag(:tr, lefttd + righttd)
         rescue ActionView::Template::Error => e
           host = ''
+          tr = ''
         end
-        lefttd = content_tag(:td, '', {href: attachment['link']['url'], target: '_blank', class: 'page_media_link_thumb', style: "background-image: url(#{attachment['link']['photo']['photo_75']}); background-size: 49px 49px;"})
-        txtlink = link_to(attachment['link']['title'], attachment['link']['url'], target: '_blank', class: 'page_media_link_title')
-        hostlink = link_to(host, attachment['link']['url'], target: '_blank', class: 'page_media_link_url')
-        divrighttd = content_tag(:div, txtlink + "\n" + hostlink, class: 'page_media_link_desc_wrap')
-        righttd = content_tag(:td, divrighttd, class: 'page_media_link_desc_td')
-        tr = content_tag(:tr, lefttd + righttd)
         table = content_tag(:table, tr, {cellpadding: 0, cellspacing: 0})
         #     <table cellpadding="0" cellspacing="0" class="page_media_thumbed_table"><tbody><tr>
         #     <td href="/away.php?to=http%3A%2F%2Fantivakcina.org%2Fv-detskij-sad-bez-privivki-ot-poliomielita%2F&amp;post=-19732513_126201&amp;el=snippet" target="_blank" onclick="window.open(this.getAttribute('href'), '_blank');" style="background-image: url(https://pp.userapi.com/c629504/v629504559/216ec/UffGmOmaV7w.jpg); background-size: 49px 49px;" class="page_media_link_thumb">
