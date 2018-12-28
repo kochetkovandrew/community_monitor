@@ -19,6 +19,7 @@ class CopyMessagesDatatable < ApplicationDatatable
     member_vk_ids = members.collect{|member| member.vk_id}
     not_known = @user_ids - member_vk_ids
     new_members = []
+    not_known.reject!{|id| id < 0}
     if !not_known.empty?
       not_known.each do |vk_id|
         member = Member.new(screen_name: vk_id, manually_added: false)
