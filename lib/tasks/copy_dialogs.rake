@@ -1,5 +1,5 @@
 task :copy_dialogs => :environment do |t, args|
-  CopyDialog.all.each do |copy_dialog|
+  CopyDialog.where('access_token is not null').all.each do |copy_dialog|
     vk = VkontakteApi::Client.new copy_dialog.access_token
     rest = 1
     step = 0
