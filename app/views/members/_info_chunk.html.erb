@@ -10,7 +10,7 @@
 <tr>
   <td>Страничка</td>
   <td>
-    <%= link_to member.raw['screen_name'], 'https://vk.com/' + member.raw['screen_name'] %><br/>
+    <%= link_to member.raw['screen_name'], 'https://vk.com/' + (member.raw['screen_name'] || ('id' + member.raw['id'].to_s)).to_s %><br/>
     <%= link_to('Упоминания', 'https://vk.com/feed?obj=' + member.raw['id'].to_s + '&q=&section=mentions') %>
 
   </td>
