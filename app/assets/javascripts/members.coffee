@@ -33,10 +33,12 @@ jQuery ->
   $('.table-member-info .tr-hidable').hide()
   $('.table-member-info .hide-info').hide()
   $('.table-member-info .hide-info').click ->
-    $('.table-member-info .tr-hidable').hide()
-    $('.table-member-info .hide-info').hide()
-    $('.table-member-info .show-info').show()
+    table = $(this).closest('.table-member-info')
+    $('.tr-hidable', table).hide()
+    $('.hide-info', table).hide()
+    $('.show-info', table).show()
   $('.table-member-info .show-info').click ->
-    $('.table-member-info .tr-hidable').show()
-    $('.table-member-info .show-info').hide()
-    $('.table-member-info .hide-info').show()
+    table = $(this).closest('.table-member-info')
+    $('.tr-hidable', table).show()
+    $('.show-info', table).hide()
+    $('.hide-info', table).show()

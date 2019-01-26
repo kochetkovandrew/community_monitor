@@ -97,7 +97,8 @@ class MembersController < ApplicationController
     if params[:member][:screen_name].match(/^\d+$/)
       @member = Member.where(vk_id: params[:member][:screen_name]).first
     else
-      @member = Member.where(screen_name: params[:member][:screen_name]).first
+      screen_name = params[:member][:screen_name].gsub(/^.*vk.com\//, '')
+      @member = Member.where(screen_name: screen_name).first
     end
     if @member
       respond_to do |format|

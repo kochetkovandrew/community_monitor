@@ -7,6 +7,10 @@ class Member < ActiveRecord::Base
 
   validates :vk_id, uniqueness: true
 
+  def screen_name=(new_screen_name)
+    super(new_screen_name.gsub(/^.*vk.com\//, ''))
+  end
+
   def full_name
     first_name.to_s + ' ' + last_name.to_s
   end
