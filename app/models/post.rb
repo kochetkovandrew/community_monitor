@@ -37,6 +37,7 @@ class Post < ActiveRecord::Base
 
   def get_comments(force = false, recurrent_force = false, vk_client = nil)
     vk = (vk_client || VkontakteApi::Client.new(Settings.vk.user_access_token))
+    owner_id = (community_id.nil? ? member.vk_id : -community.vk_id)
     step_size = 100
     if (raw['comments']['count'] > 0) || force
       if (post_comments.count < raw['comments']['count']) || force
@@ -45,7 +46,7 @@ class Post < ActiveRecord::Base
           step = 0
           while rest > 0
             new_found = false
-            comments_chunk = vk_lock { vk.wall.get_comments(owner_id: -(community.vk_id), post_id: vk_id, count: step_size, offset: step*step_size, need_likes: 1, sort: 'desc') }
+            comments_chunk = vk_lock { vk.wall.get_comments(owner_id: owner_id, post_id: vk_id, count: step_size, offset: step*step_size, need_likes: 1, sort: 'desc') }
             if step == 0
               rest = comments_chunk[:count] - step_size
             else

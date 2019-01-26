@@ -295,4 +295,67 @@ class Member < ActiveRecord::Base
     res + preexisting_members
   end
 
+  def get_wall(force = false)
+    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    step_size = 100
+    begin
+      rest = 1
+      step = 0
+      while rest > 0
+        new_found = false
+        posts_chunk = vk_lock { vk.wall.get(owner_id: vk_id, filter: 'all', count: step_size, offset: step*step_size, extended: 1) }
+        if step == 0
+          rest = posts_chunk[:count] - step_size
+        else
+          rest -= step_size
+        end
+        step += 1
+        items = posts_chunk[:items]
+        item_ids = items.collect{|item| item[:id]}
+        existing_posts = Post.
+          where('posts.vk_id': item_ids).
+          where('posts.member_id': id).
+          joins('left join post_comments on post_comments.post_id = posts.id').
+          select('posts.*, count(post_comments.*) as post_comments_count').
+          group('posts.id').all
+        existing_ids = existing_posts.collect {|post| post.vk_id}
+        existing_posts_hash = Hash[existing_posts.collect{|post| [post.vk_id, post]}]
+        items.each do |post_hash|
+          if !(post_hash[:id].in?(existing_ids))
+            post = Post.create(
+              vk_id: post_hash[:id],
+              community_id: nil,
+              member_id: id,
+              raw: post_hash,
+              created_at: Time.at(post_hash[:date]),
+              )
+            post.get_likes(false, vk)
+            post.get_comments(false, false, vk)
+            new_found = true
+          else
+            post = existing_posts_hash[post_hash[:id]]
+            if post.raw['likes']['count'] < post_hash[:likes][:count]
+              post = existing_posts_hash[post_hash[:id]]
+              post.raw['likes']['count'] = post_hash[:likes][:count]
+              post.save(touch: false)
+              post.get_likes(force, vk)
+            end
+            if post.post_comments_count < post_hash[:comments][:count]
+              post.raw['comments']['count'] = post_hash[:comments][:count]
+              post.save(touch: false)
+              post.get_comments(force, false, vk)
+            end
+          end
+        end
+        if !new_found && !force
+          break
+        end
+      end
+    rescue VkontakteApi::Error => e
+      puts e.message
+      raise 'Something went wrong'
+    end
+  end
+
+
 end

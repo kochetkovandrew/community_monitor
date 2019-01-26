@@ -47,7 +47,11 @@ class CopyMessagesDatatable < ApplicationDatatable
 
   def collect_avatars(raw_message)
     @user_ids ||= []
-    @user_ids.push raw_message['user_id']
+    if !raw_message['from_id'].nil?
+      @user_ids.push raw_message['from_id']
+    else
+      @user_ids.push raw_message['user_id']
+    end
     if raw_message['fwd_messages']
       raw_message['fwd_messages'].each do |child_raw_message|
         @user_ids += collect_avatars(child_raw_message)
@@ -64,7 +68,7 @@ class CopyMessagesDatatable < ApplicationDatatable
     @user_ids ||= []
     objects.map do |copy_message|
       body = copy_message.body
-      collect_avatars copy_message.raw
+      collect_avatars(copy_message.raw)
       {
         created_at: copy_message.created_at,
         body: message_body(copy_message.raw),

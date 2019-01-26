@@ -30,3 +30,13 @@ jQuery ->
           url: '/members/' + member_id + '.json'
           data: { member: { status: status } }
   $('table.friends_info').dataTable()
+  $('.table-member-info .tr-hidable').hide()
+  $('.table-member-info .hide-info').hide()
+  $('.table-member-info .hide-info').click ->
+    $('.table-member-info .tr-hidable').hide()
+    $('.table-member-info .hide-info').hide()
+    $('.table-member-info .show-info').show()
+  $('.table-member-info .show-info').click ->
+    $('.table-member-info .tr-hidable').show()
+    $('.table-member-info .show-info').hide()
+    $('.table-member-info .hide-info').show()

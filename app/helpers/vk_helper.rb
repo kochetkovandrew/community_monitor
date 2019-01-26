@@ -148,11 +148,17 @@ module VkHelper
   end
 
   def message_body(message)
+    if !message['from_id'].nil?
+      user_vk_id = message['from_id']
+    else
+      user_vk_id = message['user_id']
+    end
+
     res = link_to(
-      content_tag(:span, '', :class => 'im-name vk-link', 'data-user-vk-id' => message['user_id']),
-      'https://vk.com/id' + message['user_id'].to_s,
+      content_tag(:span, '', :class => 'im-name vk-link', 'data-user-vk-id' => user_vk_id),
+      'https://vk.com/id' + user_vk_id.to_s,
       { class: 'btn btn-sm btn-outline-primary', role: 'button'})
-    res += link_to fa_icon(:info, class: 'fa-sm fa-fw'), {controller: :members, action: :show, id: message['user_id']}, { class: 'btn btn-sm btn-outline-primary', role: 'button'}
+    res += link_to fa_icon(:info, class: 'fa-sm fa-fw'), {controller: :members, action: :show, id: user_vk_id}, { class: 'btn btn-sm btn-outline-primary', role: 'button'}
 
     # archive_select = 'Архив: '.html_safe +
     #   select_tag('archive_topic', options_for_select( [""] +
@@ -179,7 +185,7 @@ module VkHelper
         res += content_tag(:div, content_tag(:span, message_body(child_message)), class: 'im_fwd_log_wrap')
       end
     end
-    link_to(content_tag(:span, '', :class => 'im-avatar', 'data-user-vk-id' => message['user_id']), 'https://vk.com/id' + message['user_id'].to_s) +
+    link_to(content_tag(:span, '', :class => 'im-avatar', 'data-user-vk-id' => user_vk_id), 'https://vk.com/id' + user_vk_id.to_s) +
       content_tag(:div, res, class: 'im-message')
   end
 

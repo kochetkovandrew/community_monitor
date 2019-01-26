@@ -1,8 +1,8 @@
 <div class="span6">
-<table class="table table-condensed">
+<table class="table table-condensed table-responsive-sm table-member-info">
 
   <tr>
-    <td rowspan="0" style="width: 70px;"><%= content_tag(:div, image_tag(@member.raw['photo_50'] || 'https://vk.com/images/camera_50.png'), class: 'im-avatar') %></td>
+    <td rowspan="0" style="width: 70px;"><%= content_tag(:div, image_tag(@member.raw['photo_200_orig'] || 'https://vk.com/images/camera_50.png')) %></td>
     <td style="width: 200px;">Имя</td>
     <td><%= @member.first_name %></td>
   </tr>
@@ -12,11 +12,19 @@
   </tr>
   <tr>
     <td>Страничка</td>
-    <td><%= link_to @member.screen_name, 'https://vk.com/' + @member.screen_name %></td>
+    <td>
+      <%= link_to @member.screen_name, 'https://vk.com/' + @member.screen_name %><br/>
+      <%= link_to('Упоминания', 'https://vk.com/feed?obj=' + @member.vk_id.to_s + '&q=&section=mentions') %>
+
+    </td>
   </tr>
   <tr>
     <td>Пол</td>
     <td><%= case @member.sex when 1 then 'Женский' when 2 then 'Мужской' end %></td>
+  </tr>
+  <tr>
+    <td>День рождения</td>
+    <td><%= @member.raw['bdate'] %></td>
   </tr>
   <tr>
     <td>Страна</td>
@@ -27,8 +35,63 @@
     <td><%= @member.city_title %></td>
   </tr>
   <tr>
+    <td>Skype</td>
+    <td><%= @member.raw['skype'] %></td>
+  </tr>
+  <tr>
+    <td>Instagram</td>
+    <td><%= @member.raw['instagram'] %></td>
+  </tr>
+  <tr class="tr-hidable">
+    <td>Статус</td>
+    <td><%= @member.raw['status'] %></td>
+  </tr>
+  <tr class="tr-hidable">
+    <td>Никнейм</td>
+    <td><%= @member.raw['nickname'] %></td>
+  </tr>
+  <% if !@member.raw['occupation'].nil? %>
+    <tr class="tr-hidable">
+      <td>Место работы</td>
+      <td><%= @member.raw['occupation']['name'] %></td>
+    </tr>
+  <% end %>
+  <% if !@member.raw['schools'].nil? %>
+    <% @member.raw['schools'].each do |school| %>
+      <tr class="tr-hidable">
+        <td>Школа</td>
+        <td>
+          <%= school['name'] %><br/>
+          <%= school['year_from'] %> – <%= school['year_to'] %><br/>
+          <%= school['speciality'] %>
+        </td>
+      </tr>
+
+    <% end %>
+  <% end %>
+  <% if !@member.raw['universities'].nil? %>
+    <% @member.raw['universities'].each do |university| %>
+      <tr class="tr-hidable">
+        <td>ВУЗ</td>
+        <td>
+          <%= university['name'] %> '<%= university['graduation'] %><br/>
+          <%= university['faculty_name'] %><br/>
+          <%= university['education_form'] %><br/>
+          <%= university['education_status'] %>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+  <tr class="tr-hidable">
+    <td>Фото</td>
+    <td><%= link_to @member.raw['photo_max_orig'], @member.raw['photo_max_orig'] %></td>
+  </tr>
+  <tr>
     <td></td>
-    <td><%= link_to('Упоминания', 'https://vk.com/feed?obj=' + @member.vk_id.to_s + '&q=&section=mentions') %></td>
+    <td>
+      <button type="button" class="btn btn-link show-info">Показать подробную информацию</button>
+      <button type="button" class="btn btn-link hide-info">Скрыть подробную информацию</button>
+    </td>
   </tr>
 </table>
 </div>
