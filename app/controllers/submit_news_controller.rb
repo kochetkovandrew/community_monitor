@@ -5,7 +5,7 @@ class SubmitNewsController < ApplicationController
   layout 'blank', only: [:new, :create]
   skip_before_action :verify_authenticity_token, only: [:create]
   after_action :allow_iframe, only: [:new, :create]
-  before_filter :check_auth_key, only: [:new, :create]
+  before_action :check_auth_key, only: [:new, :create]
   before_action :authenticate_user!, only: [:index]
   before_action :set_submit_news, only: [:show, :edit, :update]
   before_action only: [:index] do |f|
