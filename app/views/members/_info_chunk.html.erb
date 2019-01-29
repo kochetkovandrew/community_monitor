@@ -49,7 +49,7 @@
 </tr>
 <% if !member.raw['occupation'].nil? %>
   <tr class="tr-hidable">
-    <td>Место работы</td>
+    <td>Место <%= (member.raw['occupation']['type'] == 'work') ? 'работы' : 'учёбы' %></td>
     <td><%= member.raw['occupation']['name'] %></td>
   </tr>
 <% end %>

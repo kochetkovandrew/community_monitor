@@ -25,7 +25,7 @@ class Topic < ActiveRecord::Base
             comment = PostComment.create(
               vk_id: comment_hash[:id],
               topic_id: id,
-              raw: comment_hash.to_json,
+              raw: comment_hash,
               user_vk_id: comment_hash[:from_id],
               created_at: Time.at(comment_hash[:date]),
               likes_count: comment_hash[:likes][:count],
