@@ -55,17 +55,12 @@
       </li>
     <% end %>
 
-    <li>
+    <li class="navbar-right">
       <%= link_to('Выйти', destroy_user_session_path, method: :delete) %>
     </li>
-    <% if session[:current_user_name] %>
-    <p style="float: right;">
-      <small>Добро пожаловать, <%= session[:current_user_name] %>!</small>
-    </p>
-    <% end %>
 
 <% else %>
-  <li style="float: right;">
+  <li class="navbar-right">
     <%= link_to('Войти через VK', vk_oauth_signin_path) %>
   </li>
 <% end %>
