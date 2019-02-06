@@ -56,6 +56,13 @@
     <% end %>
 
     <li>
+      <% if session[:current_user_name] %>
+        <small>Добро пожаловать, <%= session[:current_user_name] %>!</small>
+      <% end %>
       <%= link_to('Выйти', destroy_user_session_path, method: :delete) %>
     </li>
+<% else %>
+  <li>
+    <%= link_to('Войти через VK', vk_oauth_signin_path, method: :delete) %>
+  </li>
 <% end %>
