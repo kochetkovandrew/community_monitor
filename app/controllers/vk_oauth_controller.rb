@@ -17,7 +17,11 @@ class VkOauthController < ApplicationController
       '&code=' + params[:code]
     uri = URI(url)
     response = Net::HTTP.get(uri)
-    Rails.logger.debug JSON.parse(response)
+    json = JSON.parse(response)
+    user = User.where(vk_id: json['user_id']).first
+    if user
+      sign_in(user)
+    end
     redirect_to '/'
   end
 

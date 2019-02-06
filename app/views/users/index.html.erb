@@ -3,6 +3,7 @@
 <table id="users" class="table table-striped">
   <thead>
     <th>E-mail</th>
+    <th>VK ID</th>
     <th>Права доступа</th>
     <th></th>
   </thead>
@@ -10,6 +11,7 @@
   <% @users.each do |user| %>
   <tr>
     <td><%= user.email %></td>
+    <td><%= link_to user.vk_id, 'https://vk.com/id' + user.vk_id %></td>
     <td><%= user.permissions.collect{|p| p.name}.join(', ') %></td>
     <td><%= link_to content_tag(:i, '', class: 'fa fa-info fa-lg fa-fw'), user_path(user), { class: 'btn btn-sm btn-outline-primary', role: 'button', title: 'Показать'} %></td>
   </tr>
