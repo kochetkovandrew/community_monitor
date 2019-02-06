@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   post 'copy_messages/archive' => 'copy_messages#archive'
-  get 'vk_oauth/sign_in' => 'vk_oauth#sign_in'
+  get 'vk_oauth/signin' => 'vk_oauth#signin'
   get 'vk_oauth/callback' => 'vk_oauth#callback'
   resources :copy_dialogs, path: 'dialogs' do
     resources :copy_messages, only: [:index], path: 'messages'
