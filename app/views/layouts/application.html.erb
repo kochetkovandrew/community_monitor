@@ -21,11 +21,6 @@
       <ul class="nav navbar-nav">
         <%= render 'layouts/menu' %>
       </ul>
-      <% if session[:current_user_name] %>
-        <p style="float: right;">
-          <small>Добро пожаловать, <%= session[:current_user_name] %>!</small>
-        </p>
-      <% end %>
     </div>
   </div>
 </nav>
