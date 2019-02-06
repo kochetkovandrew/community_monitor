@@ -1,6 +1,6 @@
 class VkOauthController < ApplicationController
 
-  def sign_in
+  def signin
     redirect_to 'https://oauth.vk.com/authorize?client_id=' + Settings.vk.app_id +
       '&redirect_uri=https://vich.live/vk_oauth/callback' +
       '&display=page' +
