@@ -11,6 +11,11 @@ class User < ActiveRecord::Base
   has_many :permission_users
   has_many :permissions, through: :permission_users
 
+  def password_required?
+    return false if !vk_id.nil?
+    super
+  end
+
   def has_permission?(permission_name)
     permission_name.in?(permissions.all.collect{|permission| permission.name})
   end
