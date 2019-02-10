@@ -1,8 +1,9 @@
 class PostsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action { |f| f.require_permission! 'Detective' }
-  before_action :set_post, only: [:show, :vk_view]
+  before_action { |f| f.require_permission! 'Communities' }
+  before_action :set_user_permissions
+  before_action :set_post, only: [:show, :vk_view, :comments]
   layout 'vk', only: :vk_view
 
   def vk_view
@@ -73,8 +74,16 @@ class PostsController < ApplicationController
 
   private
 
+  def set_user_permissions
+    @user_permissions = PermissionUser.where(user_id: current_user.id)
+    @user_permission_ids = @user_permissions.collect{|user_permission| user_permission.permission_id}
+  end
+
   def set_post
     @post = Post.find params[:id]
+    if !(@user_permission_ids.include? @post.community.permission_id)
+      insufficient_permissions
+    end
   end
 
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_06_123443) do
+ActiveRecord::Schema.define(version: 2019_02_10_170553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(version: 2019_02_06_123443) do
     t.boolean "monitor_members", default: false
     t.string "access_token"
     t.jsonb "raw"
+    t.bigint "permission_id"
+    t.index ["permission_id"], name: "index_communities_on_permission_id"
   end
 
   create_table "community_histories", id: :serial, force: :cascade do |t|

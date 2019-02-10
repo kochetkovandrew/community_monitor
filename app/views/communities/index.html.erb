@@ -42,9 +42,11 @@
           <% end %>
         </td>
         <td>
-          <%= link_to content_tag(:i, '', class: 'fa fa-edit fa-lg fa-fw'), edit_community_path(community), { class: 'btn btn-sm btn-outline-primary', role: 'button', title: 'Редактировать'} %>
-          <!--
-          <%= link_to 'Destroy', community, method: :delete, data: { confirm: 'Are you sure?' } %>--></td>
+          <% if current_user.has_permission?('Detective') %>
+            <%= link_to content_tag(:i, '', class: 'fa fa-edit fa-lg fa-fw'), edit_community_path(community), { class: 'btn btn-sm btn-outline-primary', role: 'button', title: 'Редактировать'} %>
+            <!--
+            <%= link_to 'Destroy', community, method: :delete, data: { confirm: 'Are you sure?' } %>--></td>
+          <% end %>
       </tr>
     <% end %>
   </tbody>
@@ -52,4 +54,6 @@
 
 <br>
 
-<%= link_to 'New Community', new_community_path %>
+<% if current_user.has_permission?('Detective') %>
+  <%= link_to 'Новое сообщество', new_community_path %>
+<% end %>

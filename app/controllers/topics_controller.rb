@@ -1,6 +1,8 @@
 class TopicsController < ApplicationController
 
-  before_action :set_topic, only: [:show]
+  before_action { |f| f.require_permission! 'Communities' }
+  before_action :set_user_permissions
+  before_action :set_topic, only: [:show, :comments]
 
   def show
 
@@ -14,8 +16,16 @@ class TopicsController < ApplicationController
 
   private
 
+  def set_user_permissions
+    @user_permissions = PermissionUser.where(user_id: current_user.id)
+    @user_permission_ids = @user_permissions.collect{|user_permission| user_permission.permission_id}
+  end
+
   def set_topic
     @topic = Topic.find params[:id]
+    if !(@user_permission_ids.include? @topic.community.permission_id)
+      insufficient_permissions
+    end
   end
 
 
