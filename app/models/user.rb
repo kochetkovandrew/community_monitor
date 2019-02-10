@@ -16,6 +16,11 @@ class User < ActiveRecord::Base
     super
   end
 
+  def email_required?
+    return false if !vk_id.nil?
+    super
+  end
+
   def has_permission?(permission_name)
     permission_name.in?(permissions.all.collect{|permission| permission.name})
   end
