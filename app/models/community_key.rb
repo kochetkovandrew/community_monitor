@@ -1,0 +1,2 @@
+class CommunityKey < ApplicationRecord
+end
