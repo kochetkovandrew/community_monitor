@@ -26,6 +26,11 @@ class SubmitNewsController < ApplicationController
 
   def new
     @access_token = params[:access_token]
+    if @group_id == 121346991
+      render 'access'
+    else
+      render 'new'
+    end
   end
 
   def create

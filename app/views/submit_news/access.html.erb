@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src='https://code.jquery.com/jquery-1.7.1.js'></script>
+  <script src="https://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
+  <script>
+    VK.init(function() {
+      $('#allow_access').on('click', function(e) {
+        e.preventDefault();
+        console.log(VK.callMethod("showGroupSettingsBox", 4096+8192+65536));
+      });
+    });
+  </script>
+  <style type="text/css">
+    .messagespan {
+      width: 100%;
+      max-width: 570px;
+      font-size: 12.5px;
+      font-family: sans-serif;
+      background-color: #5181b8;
+      color: white;
+      text-align: center;
+      border-radius: 4px;
+      padding: 7px 16px 8px 16px;
+      border: 0;
+      box-sizing: border-box;
+    }
+    .filespan {
+      min-height: 40px;
+      background: url('/doc.png') no-repeat;
+      padding-left: 33px;
+      padding-top: 7px;
+      display: inline-block;
+      font-size: 12.5px;
+      font-family: sans-serif;
+    }
+    .button {
+      font-size: 12.5px;
+      font-family: sans-serif;
+      background-color: #5181b8;
+      color: white;
+      text-align: center;
+      border-radius: 4px;
+      padding: 7px 16px 8px 16px;
+      border: 0;
+      box-sizing: border-box;
+    }
+    .more_files {
+      background: url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%0A%20%20%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%0A%20%20%20%20%3Crect%20width%3D%2224%22%20height%3D%2224%22%2F%3E%0A%20%20%20%20%3Cpath%20stroke%3D%22%23828A99%22%20stroke-width%3D%221.8%22%20d%3D%22M20.0291094%2C15.0279907%20L14.6443834%2C20.2583795%20L14.6443834%2C20.2583795%20C12.0566785%2C22.7719155%207.93029511%2C22.7421861%205.37907548%2C20.1916257%20L5.37907548%2C20.1916257%20L5.37907548%2C20.1916257%20L5.37907548%2C20.1916257%20C2.76745218%2C17.5806772%202.76690514%2C13.3469463%205.37785362%2C10.735323%20C5.38546336%2C10.7277113%205.39309146%2C10.720118%205.40073787%2C10.7125431%20L13.4673115%2C2.72143747%20L13.4673115%2C2.72143747%20C15.2274317%2C0.977784268%2018.0678013%2C0.991133451%2019.8114545%2C2.7512537%20C19.8205797%2C2.76046506%2019.8296649%2C2.76971594%2019.8387099%2C2.77900608%20L19.8387099%2C2.77900608%20L19.8387099%2C2.77900608%20C21.5887922%2C4.57652514%2021.569373%2C7.4467765%2019.7951292%2C9.22045114%20L11.6642625%2C17.3487092%20L11.6642625%2C17.3487092%20C10.8163456%2C18.196354%209.46403082%2C18.26344%208.53638318%2C17.5038779%20L8.40267048%2C17.3943933%20L8.40267048%2C17.3943933%20C7.50791768%2C16.6617656%207.37648933%2C15.342513%208.10911705%2C14.4477602%20C8.14767542%2C14.4006692%208.18826865%2C14.3552816%208.23078109%2C14.311727%20L13.6981137%2C8.71035836%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E') 0 0 no-repeat;
+      width: 28px;
+      height: 28px;
+    }
+    .doc {
+      display: block;
+      float: left;
+      width: 30px;
+      height: 30px;
+      margin-right: 8px;
+      border-radius: 3px;
+      background: url(/images/icons/doc_icons.png) no-repeat;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-sizing: border-box;
+    }
+    div#filenames {
+      margin: 2px;
+      padding-top: 6px;
+    }
+    .button:hover {
+      background: #5b88bd;
+    }
+    .busy_layer {
+      background: #5b88bd;
+      position: fixed;
+      top: 130px;
+      left: 135px;
+      width: 300px;
+    }
+    .overlapped {
+      z-index: -1;
+    }
+  </style>
+</head>
+<body style='text-align:center;'>
+<div style="max-width: 570px;">
+  <%= hidden_field_tag('api_id', @api_id) %>
+  <%= hidden_field_tag('viewer_id', @viewer_id) %>
+  <%= hidden_field_tag('group_id', @group_id) %>
+  <%= hidden_field_tag('auth_key', @auth_key) %>
+  <div id="notification" style="width: 100%; max-width: 570px;"></div>
+  <div align="center" id="div_buttons">
+    <button type="button" id="allow_access" class="button">Разрешить доступ</button>
+  </div>
+</div>
+</body>
+</html>
