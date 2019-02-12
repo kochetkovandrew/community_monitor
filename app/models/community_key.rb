@@ -1,2 +1,2 @@
-class CommunityKey < ApplicationRecord
+class CommunityKey < ActiveRecord::Base
 end
