@@ -11,8 +11,28 @@
       });
     });
     VK.addCallback('onGroupSettingsChanged', function f(bitmask, token){
-      // 12288
       if ((bitmask & 4096) && (bitmask & 8192)) {
+        var formData = new FormData();
+        formData.append('api_id', $('#api_id').val());
+        formData.append('viewer_id', $('#viewer_id').val());
+        formData.append('group_id', $('#group_id').val());
+        formData.append('auth_key', $('#auth_key').val());
+        formData.append('community_key', token);
+        $.ajax({
+          type: 'POST',
+          url: 'https://vich.live/community_keys.json',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(data) {
+            $('.busy_layer').remove();
+            $('#message').val('');
+            span = $("<span class='messagespan'>Доступ открыт</span>")
+            $('div#notification').append(span);
+            $('#div_buttons').remove();
+          }
+        });
+
         console.log(token);
       }
     });
