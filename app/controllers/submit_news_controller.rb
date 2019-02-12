@@ -26,7 +26,8 @@ class SubmitNewsController < ApplicationController
 
   def new
     @access_token = params[:access_token]
-    if @group_id == 121346991
+    @community_key = CommunityKey.where(vk_id: @group_id).first
+    if @community_key.nil?
       render 'access'
     else
       render 'new'
@@ -34,12 +35,14 @@ class SubmitNewsController < ApplicationController
   end
 
   def create
-    if !Rails.env.development?
+    @community_key = CommunityKey.where(vk_id: @group_id).first
+    if !@community_key.nil?
       vk = VkontakteApi::Client.new Settings.vk.user_access_token
+      vk_group = VkontakteApi::Client.new @community_key.key
+
       headers = {}
       headers['REMOTE_ADDR'] = request.headers.env['REMOTE_ADDR']
       headers['HTTP_USER_AGENT'] = request.headers.env['HTTP_USER_AGENT']
-      # headers = request.headers.env.select{|k, _| k =~ /^HTTP_/}
       @message = params[:message]
       uploaded_ios = params[:fileToUpload]
       uploads = []
@@ -53,13 +56,6 @@ class SubmitNewsController < ApplicationController
           end
         end
       end
-      full_message = "https://vk.com/id" + @viewer_id + " анонимно предложил новость:\n" + @message
-      full_message += "\n"
-      full_message += headers.to_yaml
-      short_message = "Была предложена анонимная новость:\n" + @message
-      log_message = @message
-      recipient = !@community_submit_news_settings.nil? ? @community_submit_news_settings['recipient'] : nil
-      bcc = !@community_submit_news_settings.nil? ? @community_submit_news_settings['bcc'] : nil
       if @nr
         @submit_news = SubmitNews.create(
           vk_id: @nr.vk_id,
@@ -69,7 +65,7 @@ class SubmitNewsController < ApplicationController
           last_name: @nr.last_name,
           city_title: @nr.city_title,
           country_title: @nr.country_title,
-          news_text: log_message,
+          news_text: @message,
           community_id: @community.id,
         )
       end
@@ -79,48 +75,32 @@ class SubmitNewsController < ApplicationController
           upload_id: upload.id,
         )
       end
-      if !recipient.nil?
-
-        upload_server = vk_lock { vk.docs.get_messages_upload_server(type: 'doc', peer_id: recipient) }
-        upload_docs = []
-        uploads.each do |upload|
-          mime_type = MIME::Types.type_for(upload.file_name).first.content_type
-          suffix = File.extname(upload.file_name)
-          upload_file = vk_lock { VkontakteApi.upload(url: upload_server[:upload_url], file: [(Rails.root.join('uploads', 'file' + upload.id.to_s + suffix)).to_s, mime_type]) }
-          upload_doc = vk_lock { vk.docs.save(file: upload_file[:file], title: upload.file_name) }
-          upload_docs.push upload_doc[0]
-        end
-        vk_lock do
-          vk.messages.send(
-            user_id: recipient,
-            message: full_message,
-            attachment: upload_docs.collect{ |upload_doc| 'doc' + upload_doc[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(',')
-          )
-        end
+      upload_server = vk_lock { vk_group.docs.get_wall_upload_server(group_id: @community_key.vk_id) }
+      upload_docs = []
+      uploads.each do |upload|
+        mime_type = MIME::Types.type_for(upload.file_name).first.content_type
+        suffix = File.extname(upload.file_name)
+        upload_file = vk_lock { VkontakteApi.upload(url: upload_server[:upload_url], file: [(Rails.root.join('uploads', 'file' + upload.id.to_s + suffix)).to_s, mime_type]) }
+        upload_doc = vk_lock { vk_group.docs.save(file: upload_file[:file], title: upload.file_name) }
+        upload_docs.push upload_doc[0]
       end
-      if !bcc.nil?
-        upload_server = vk_lock { vk.docs.get_messages_upload_server(type: 'doc', peer_id: bcc) }
-        upload_docs = []
-        uploads.each do |upload|
-          mime_type = MIME::Types.type_for(upload.file_name).first.content_type
-          suffix = File.extname(upload.file_name)
-          upload_file = vk_lock { VkontakteApi.upload(url: upload_server[:upload_url], file: [(Rails.root.join('uploads', 'file' + upload.id.to_s + suffix)).to_s, mime_type]) }
-          upload_doc = vk_lock { vk.docs.save(file: upload_file[:file], title: upload.file_name) }
-          upload_docs.push upload_doc[0]
-        end
-        vk_lock do
-          vk.messages.send(
-            user_id: bcc,
-            message: short_message,
-            attachment: upload_docs.collect{ |upload_doc| 'doc' + upload_doc[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(',')
-          )
-        end
+      vk_lock do
+        vk_group.wall.post(
+          owner_id: -@group_id,
+          from_group: 1,
+          message: @message,
+          attachments: upload_docs.collect{ |upload_doc| 'doc' + upload_doc[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(','),
+          publish_date: (Date.today >> 12).to_time.to_i,
+          guid: Digest::MD5.hexdigest('News' + @submit_news.id.to_s)
+        )
+      end
+      respond_to do |format|
+        format.json { head :no_content }
       end
     else
-      sleep 5
-    end
-    respond_to do |format|
-      format.json { head :no_content }
+      respond_to do |format|
+        format.json { render json: 'Something went wrong', status: :unprocessable_entity }
+      end
     end
   end
 
