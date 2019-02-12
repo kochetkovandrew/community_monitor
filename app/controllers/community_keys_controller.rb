@@ -1,6 +1,7 @@
 class CommunityKeysController < ApplicationController
 
   before_action :check_auth_key
+  skip_before_action :verify_authenticity_token, only: [:create]
 
   def create
     if @authorized
