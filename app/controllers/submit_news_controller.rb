@@ -120,6 +120,7 @@ class SubmitNewsController < ApplicationController
 
   def allow_iframe
     response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM https://api.vk.com"
+    response.headers.delete_if{|key| key.upcase=='X-FRAME-OPTIONS'}
   end
 
   def check_auth_key
