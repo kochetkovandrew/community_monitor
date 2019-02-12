@@ -10,6 +10,9 @@
         console.log(VK.callMethod("showGroupSettingsBox", 4096+8192+65536));
       });
     });
+    VK.addCallback('onGroupSettingsChanged', function f(data){
+      console.log(data);
+    });
   </script>
   <style type="text/css">
     .messagespan {
@@ -83,15 +86,15 @@
   </style>
 </head>
 <body style='text-align:center;'>
-<div style="max-width: 570px;">
-  <%= hidden_field_tag('api_id', @api_id) %>
-  <%= hidden_field_tag('viewer_id', @viewer_id) %>
-  <%= hidden_field_tag('group_id', @group_id) %>
-  <%= hidden_field_tag('auth_key', @auth_key) %>
-  <div id="notification" style="width: 100%; max-width: 570px;"></div>
-  <div align="center" id="div_buttons">
-    <button type="button" id="allow_access" class="button">Разрешить доступ</button>
+  <div style="max-width: 570px;">
+    <%= hidden_field_tag('api_id', @api_id) %>
+    <%= hidden_field_tag('viewer_id', @viewer_id) %>
+    <%= hidden_field_tag('group_id', @group_id) %>
+    <%= hidden_field_tag('auth_key', @auth_key) %>
+    <div id="notification" style="width: 100%; max-width: 570px;"></div>
+    <div align="center" id="div_buttons">
+      <button type="button" id="allow_access" class="button">Разрешить доступ</button>
+    </div>
   </div>
-</div>
 </body>
 </html>
