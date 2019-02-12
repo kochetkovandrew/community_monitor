@@ -10,8 +10,11 @@
         console.log(VK.callMethod("showGroupSettingsBox", 4096+8192+65536));
       });
     });
-    VK.addCallback('onGroupSettingsChanged', function f(data){
-      console.log(data);
+    VK.addCallback('onGroupSettingsChanged', function f(bitmask, token){
+      // 12288
+      if ((bitmask & 4096) && (bitmask & 8192)) {
+        console.log(token);
+      }
     });
   </script>
   <style type="text/css">
