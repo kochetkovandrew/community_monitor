@@ -7,7 +7,7 @@
     VK.init(function() {
       $('#allow_access').on('click', function(e) {
         e.preventDefault();
-        console.log(VK.callMethod("showGroupSettingsBox", 4096+8192+65536));
+        console.log(VK.callMethod("showGroupSettingsBox", 4096+8192+65536+131072));
       });
     });
     VK.addCallback('onGroupSettingsChanged', function f(bitmask, token){
