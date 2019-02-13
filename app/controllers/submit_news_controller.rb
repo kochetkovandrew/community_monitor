@@ -90,7 +90,7 @@ class SubmitNewsController < ApplicationController
         vk_group.messages.send(
           user_id: -@group_id,
           message: short_message,
-          attachment: upload_docs.collect{ |upload_doc| 'doc' + upload_doc[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(',')
+          # attachment: upload_docs.collect{ |upload_doc| 'doc' + upload_doc[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(',')
         )
       end
 
