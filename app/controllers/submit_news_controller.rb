@@ -77,15 +77,15 @@ class SubmitNewsController < ApplicationController
       end
       short_message = "Была предложена анонимная новость:\n" + @message
       # upload_server = vk_lock { vk_group.docs.get_wall_upload_server(group_id: @community_key.vk_id) }
-      upload_server = vk_lock { vk_group.docs.get_messages_upload_server(type: 'doc', peer_id: -@group_id) }
-      upload_docs = []
-      uploads.each do |upload|
-        mime_type = MIME::Types.type_for(upload.file_name).first.content_type
-        suffix = File.extname(upload.file_name)
-        upload_file = vk_lock { VkontakteApi.upload(url: upload_server[:upload_url], file: [(Rails.root.join('uploads', 'file' + upload.id.to_s + suffix)).to_s, mime_type]) }
-        upload_doc = vk_lock { vk_group.docs.save(file: upload_file[:file], title: upload.file_name) }
-        upload_docs.push upload_doc[0]
-      end
+      # upload_server = vk_lock { vk_group.docs.get_messages_upload_server(type: 'doc', peer_id: -@group_id) }
+      # upload_docs = []
+      # uploads.each do |upload|
+      #   mime_type = MIME::Types.type_for(upload.file_name).first.content_type
+      #   suffix = File.extname(upload.file_name)
+      #   upload_file = vk_lock { VkontakteApi.upload(url: upload_server[:upload_url], file: [(Rails.root.join('uploads', 'file' + upload.id.to_s + suffix)).to_s, mime_type]) }
+      #   upload_doc = vk_lock { vk_group.docs.save(file: upload_file[:file], title: upload.file_name) }
+      #   upload_docs.push upload_doc[0]
+      # end
       vk_lock do
         vk_group.messages.send(
           user_id: -@group_id,
