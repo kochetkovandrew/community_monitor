@@ -75,7 +75,9 @@ class SubmitNewsController < ApplicationController
           upload_id: upload.id,
         )
       end
-      upload_server = vk_lock { vk_group.docs.get_wall_upload_server(group_id: @community_key.vk_id) }
+      short_message = "Была предложена анонимная новость:\n" + @message
+      # upload_server = vk_lock { vk_group.docs.get_wall_upload_server(group_id: @community_key.vk_id) }
+      upload_server = vk_lock { vk_group.docs.get_messages_upload_server(type: 'doc', peer_id: recipient) }
       upload_docs = []
       uploads.each do |upload|
         mime_type = MIME::Types.type_for(upload.file_name).first.content_type
@@ -85,15 +87,23 @@ class SubmitNewsController < ApplicationController
         upload_docs.push upload_doc[0]
       end
       vk_lock do
-        vk_group.wall.post(
-          owner_id: -@group_id,
-          from_group: 1,
-          message: @message,
-          attachments: upload_docs.collect{ |upload_doc| 'doc' + upload_doc[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(','),
-          publish_date: (Date.today >> 12).to_time.to_i,
-          guid: Digest::MD5.hexdigest('News' + @submit_news.id.to_s)
+        vk_group.messages.send(
+          user_id: -@group_id,
+          message: short_message,
+          attachment: upload_docs.collect{ |upload_doc| 'doc' + upload_doc[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(',')
         )
       end
+
+      # vk_lock do
+      #   vk_group.wall.post(
+      #     owner_id: -@group_id,
+      #     from_group: 1,
+      #     message: @message,
+      #     attachments: upload_docs.collect{ |upload_doc| 'doc' + upload_doc[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(','),
+      #     publish_date: (Date.today >> 12).to_time.to_i,
+      #     guid: Digest::MD5.hexdigest('News' + @submit_news.id.to_s)
+      #   )
+      # end
       respond_to do |format|
         format.json { head :no_content }
       end
