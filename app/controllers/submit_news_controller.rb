@@ -77,7 +77,7 @@ class SubmitNewsController < ApplicationController
       end
       short_message = "Была предложена анонимная новость:\n" + @message
       # upload_server = vk_lock { vk_group.docs.get_wall_upload_server(group_id: @community_key.vk_id) }
-      upload_server = vk_lock { vk_group.docs.get_messages_upload_server(type: 'doc', peer_id: recipient) }
+      upload_server = vk_lock { vk_group.docs.get_messages_upload_server(type: 'doc', peer_id: -@group_id) }
       upload_docs = []
       uploads.each do |upload|
         mime_type = MIME::Types.type_for(upload.file_name).first.content_type
