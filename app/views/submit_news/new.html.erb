@@ -39,7 +39,8 @@
             <% if @group_id != 68250378 %>
             span = $("<span class='messagespan'>Ваша новость была отправлена</span>")
             <% else %>
-            span = $("<span class='messagespan'>К сожалению, группа была оккупирована Аналом Гасановичем. Ответ на вашу новость вы сможете найти в группе <a href=\"https://vk.com/vich_otricanie\">ВИЧ/СПИД отрицание и альтернативная медицина</a></span>")
+            span = $("<span class='messagespan'>К сожалению, группа была оккупирована Аналом Гасановичем.</span>")
+            span += $("<span class='messagespan'>Ответ на вашу новость вы сможете найти в группе <a href=\"https://vk.com/vich_otricanie\">ВИЧ/СПИД отрицание и альтернативная медицина</a></span>"))
             <% end %>
             $('div#notification').append(span);
             $('div#filenames').text('');
