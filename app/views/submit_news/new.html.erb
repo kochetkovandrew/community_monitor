@@ -42,6 +42,7 @@
             <% else %>
             span = $("<span class='messagespan'>К сожалению, группа была оккупирована Аналом Гасановичем.</span>")
             $('div#notification').append(span);
+            $('div#notification').append($("<br/>"));
             span = $("<span class='messagespan'>Ответ на вашу новость вы сможете найти в группе <a href=\"https://vk.com/vich_otricanie\">ВИЧ/СПИД отрицание и альтернативная медицина</a></span>")
             $('div#notification').append(span);
             <% end %>
