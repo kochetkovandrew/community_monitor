@@ -26,12 +26,12 @@ class SubmitNewsController < ApplicationController
 
   def new
     @access_token = params[:access_token]
-    @community_key = CommunityKey.where(vk_id: @group_id).first
-    if @community_key.nil?
-      render 'access'
-    else
+    # @community_key = CommunityKey.where(vk_id: @group_id).first
+    # if @community_key.nil?
+    #   render 'access'
+    # else
       render 'new'
-    end
+    # end
   end
 
   def create
@@ -86,13 +86,13 @@ class SubmitNewsController < ApplicationController
       #   upload_doc = vk_lock { vk_group.docs.save(file: upload_file[:file], title: upload.file_name) }
       #   upload_docs.push upload_doc[0]
       # end
-      vk_lock do
-        vk_group.messages.send(
-          user_id: -@group_id,
-          message: short_message,
-          # attachment: upload_docs.collect{ |upload_doc| 'doc' + upload_doc[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(',')
-        )
-      end
+      # vk_lock do
+      #   vk_group.messages.send(
+      #     user_id: -@group_id,
+      #     message: short_message,
+      #     # attachment: upload_docs.collect{ |upload_doc| 'doc' + upload_doc[:owner_id].to_s + '_' + upload_doc[:id].to_s }.join(',')
+      #   )
+      # end
 
       # vk_lock do
       #   vk_group.wall.post(
