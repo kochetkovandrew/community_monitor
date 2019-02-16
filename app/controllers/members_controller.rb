@@ -4,6 +4,8 @@ class MembersController < ApplicationController
 
   before_action :authenticate_user!
   before_action { |f| f.require_permission! 'Detective' }
+  before_action set_user_permissions, only: [ :comments ]
+
 
   def index
     # @members = Member.all
@@ -148,5 +150,11 @@ class MembersController < ApplicationController
   def member_params
     params.require(:member).permit(:screen_name, :status)
   end
+
+  def set_user_permissions
+    @user_permissions = PermissionUser.where(user_id: current_user.id)
+    @user_permission_ids = @user_permissions.collect{|user_permission| user_permission.permission_id}
+  end
+
 
 end
