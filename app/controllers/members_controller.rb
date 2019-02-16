@@ -4,7 +4,7 @@ class MembersController < ApplicationController
 
   before_action :authenticate_user!
   before_action { |f| f.require_permission! 'Detective' }
-  before_action set_user_permissions, only: [ :comments ]
+  before_action :set_user_permissions, only: [ :comments ]
 
 
   def index
@@ -141,6 +141,7 @@ class MembersController < ApplicationController
   end
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_member
     @member = Member.includes([:member_histories]).find_by_vk_id(params[:id])
