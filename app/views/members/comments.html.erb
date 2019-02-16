@@ -4,7 +4,11 @@
 <div style="max-width: 800px;">
 
 <% @member.post_comments.includes([:topic => [:community], :post => [:community]]).order(:created_at).each do |comment| %>
-  <% if !@user_permission_ids.nil? && ((!comment.topic.nil? && !@user_permission_ids.include?(comment.topic.community_id)) || (!comment.post.nil? && !@user_permission_ids.include?(comment.post.community_id)) ) %>
+    <%#= comment.post.nil? %>
+    <%#= YAML::dump(@user_permission_ids) %>
+    <%#= comment.post.community_id %>
+    <%#= (!comment.post.nil? && !@user_permission_ids.include?(comment.post.community_id)) %>
+  <% if !@user_permission_ids.nil? && ((!comment.topic.nil? && !@user_permission_ids.include?(comment.topic.community.permission_id)) || (!comment.post.nil? && !@user_permission_ids.include?(comment.post.community.permission_id)) ) %>
   <% else %>
     <p>
       <%= comment.created_at.to_s %>
