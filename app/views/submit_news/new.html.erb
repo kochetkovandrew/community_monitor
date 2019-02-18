@@ -40,10 +40,7 @@
             span = $("<span class='messagespan'>Ваша новость была отправлена</span>")
             $('div#notification').append(span);
             <% else %>
-            span = $("<p style='text-align: center;'>К сожалению, группа была оккупирована Аналом Гасановичем.</p>")
-            $('div#notification').append(span);
-            $('div#notification').append($("<br/>"));
-            span = $("<p style='text-align: center;'>Ответ на вашу новость вы сможете найти в группе <a href=\"https://vk.com/vich_otricanie\">ВИЧ/СПИД отрицание и альтернативная медицина</a></p>")
+            span = $("<p style='text-align: center;'>Доступ запрещён</p>")
             $('div#notification').append(span);
             <% end %>
             $('div#filenames').text('');
