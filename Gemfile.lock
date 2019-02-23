@@ -183,6 +183,7 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     rdoc (4.3.0)
+    redcarpet (3.4.0)
     ref (2.0.0)
     responders (2.4.1)
       actionpack (>= 4.2.0, < 6.0)
@@ -275,6 +276,7 @@ DEPENDENCIES
   mime-types
   pg (= 0.20)
   rails (= 5.2.2)
+  redcarpet
   rubyXL
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

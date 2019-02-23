@@ -8,7 +8,11 @@ class Member < ActiveRecord::Base
   validates :vk_id, uniqueness: true
 
   def screen_name=(new_screen_name)
-    super(new_screen_name.gsub(/^.*vk.com\//, ''))
+    if new_screen_name.kind_of?(String)
+      super(new_screen_name.gsub(/^.*vk.com\//, ''))
+    else
+      super(new_screen_name)
+    end
   end
 
   def full_name
