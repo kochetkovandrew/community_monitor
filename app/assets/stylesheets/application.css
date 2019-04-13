@@ -32,7 +32,7 @@ div.main {
 }
 
 div.public {
-    position: fixed;
+    /*position: fixed;*/
     /* center the element */
     right: 0;
     left: 0;
