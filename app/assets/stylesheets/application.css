@@ -31,17 +31,6 @@ div.main {
     margin-right: 10px;
 }
 
-div.public {
-    /*position: fixed;*/
-    /* center the element */
-    right: 0;
-    left: 0;
-    margin-right: auto;
-    margin-left: auto;
-    /* give it dimensions */
-    min-height: 10em;
-    width: 795px;
-}
 
 /* @import 'bootstrap';
 @import 'bootstrap-sprockets'; */
