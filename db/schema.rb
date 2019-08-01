@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_01_145633) do
+ActiveRecord::Schema.define(version: 2019_08_01_191223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,6 +257,15 @@ ActiveRecord::Schema.define(version: 2019_08_01_145633) do
     t.jsonb "likes", default: []
     t.integer "member_id"
     t.index ["likes"], name: "index_posts_on_likes", using: :gin
+  end
+
+  create_table "shortlink_histories", force: :cascade do |t|
+    t.bigint "shortlink_id"
+    t.string "ip_address"
+    t.string "browser"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shortlink_id"], name: "index_shortlink_histories_on_shortlink_id"
   end
 
   create_table "shortlinks", force: :cascade do |t|

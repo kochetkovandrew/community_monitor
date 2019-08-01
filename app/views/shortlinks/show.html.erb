@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Ссылка:</strong>
+  <%= @shortlink.link %>
+</p>
+
+<p>
+  <strong>Короткая ссылка:</strong>
+  <%= @shortlink.short_link %>
+</p>
+
+<p>
+  <table class="table table-striped">
+    <thead>
+      <th>Время</th>
+      <th>IP-адрес</th>
+      <th>Браузер</th>
+    </thead>
+    <tbody>
+      <% @shortlink_histories.each do |shortlink_history| %>
+        <tr>
+          <td><%= shortlink_history.created_at %></td>
+          <td><%= shortlink_history.ip_address %></td>
+          <td><%= shortlink_history.browser %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</p>
+
+<%= link_to 'Edit', edit_shortlink_path(@shortlink) %> |
+<%= link_to 'Back', shortlinks_path %>
