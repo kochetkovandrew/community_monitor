@@ -45,6 +45,10 @@
         <% end %>
         <li role="separator" class="divider"></li>
         <li>
+          <%= link_to "Короткие ссылки", shortlinks_path, 'data-no-turbolink': true %>
+        </li>
+          <li role="separator" class="divider"></li>
+        <li>
           <%= link_to "АРТ", art_drugs_path, 'data-no-turbolink': true %>
         </li>
         <li>
@@ -58,17 +62,19 @@
       </li>
     <% end %>
   </ul>
-  <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
-    <% if session[:current_user_name] %>
-      <span class="navbar-text">
-        <small>Добро пожаловать, <%= session[:current_user_name] %>!</small>
-      </span>
-    <% end %>
+  <div class="navbar-collapse collapse justify-content-end">
+    <ul class="nav navbar-nav w-100">
+      <% if session[:current_user_name] %>
+        <span class="navbar-text">
+          <small>Добро пожаловать, <%= session[:current_user_name] %>!</small>
+        </span>
+      <% end %>
 
-    <li class="navbar-right">
-      <%= link_to('Выйти', destroy_user_session_path, method: :delete) %>
-    </li>
-  </ul>
+      <li class="navbar-right">
+        <%= link_to('Выйти', destroy_user_session_path, method: :delete) %>
+      </li>
+    </ul>
+  </div>
 <% else %>
   <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
     <% if session[:current_user_name] %>

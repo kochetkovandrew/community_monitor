@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+  resources :shortlinks
+  resources :portal_attachments
   post 'copy_messages/archive' => 'copy_messages#archive'
   post 'community_keys' => 'community_keys#create'
   get 'vk_oauth/signin' => 'vk_oauth#signin'
   get 'vk_oauth/callback' => 'vk_oauth#callback'
+  get 'short/:id' => 'shortlinks#short'
   resources :copy_dialogs, path: 'dialogs' do
     resources :copy_messages, only: [:index], path: 'messages'
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_12_222556) do
+ActiveRecord::Schema.define(version: 2019_08_01_145633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -217,6 +217,13 @@ ActiveRecord::Schema.define(version: 2019_02_12_222556) do
     t.datetime "updated_at"
   end
 
+  create_table "portal_attachments", force: :cascade do |t|
+    t.string "filename"
+    t.string "guid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "post_comments", id: :serial, force: :cascade do |t|
     t.integer "post_id"
     t.jsonb "raw", default: {}
@@ -250,6 +257,13 @@ ActiveRecord::Schema.define(version: 2019_02_12_222556) do
     t.jsonb "likes", default: []
     t.integer "member_id"
     t.index ["likes"], name: "index_posts_on_likes", using: :gin
+  end
+
+  create_table "shortlinks", force: :cascade do |t|
+    t.text "link"
+    t.string "short_link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "submit_news", id: :serial, force: :cascade do |t|
