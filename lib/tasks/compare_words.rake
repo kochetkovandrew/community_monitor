@@ -16,16 +16,19 @@ task compare_words: :environment do
     end
   end
   decls = {}
+  words_m = user_words[246924206].collect{|word, freq| word}
   user_words.each do |id, words|
-    decl = 0.0
     if id != 246924206
+      decl = 0.0
       # compare words
-      user_words[246924206].each do |word, freq|
+      words_both = words_m + words.collect{|word, freq| word}
+      words_both.each do |word|
+        freq1 = user_words[246924206][word] || 0.0
         freq2 = words[word] || 0.0
-        decl += (freq - freq2)**2
+        decl += (freq1 - freq2)**2
       end
+      decls[id] = decl
     end
-    decls[id] = decl
   end
   decls_array = decls.collect{|a,b| [a,b]}.sort{|a,b| b[1]<=>a[1]}
   fjson = File.open(Rails.root.join('applog', 'compare_words.json'), 'w')
