@@ -27,5 +27,10 @@ task compare_words: :environment do
     end
     decls[id] = decl
   end
-  p decls.collect{|a,b| [a,b]}.sort{|a,b| b[1]<=>a[1]}
+  decls_array = decls.collect{|a,b| [a,b]}.sort{|a,b| b[1]<=>a[1]}
+  fjson = File.open(Rails.root.join('applog', 'compare_words.json'), 'w')
+  fyaml = File.open(Rails.root.join('applog', 'compare_words.yaml'), 'w')
+  fjson.puts decls_array.to_json
+  fyaml.puts decls_array.to_yaml
+
 end
