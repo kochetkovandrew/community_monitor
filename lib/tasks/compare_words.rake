@@ -9,9 +9,11 @@ task compare_words: :environment do
   user_words = {}
   user_vk_ids.each do |user_vk_id|
     user = Member.find_by_vk_id user_vk_id
-    words = user.post_comments.all.collect{|comment| comment.raw['text'].gsub(/\[.+\]/, '').scan(/[А-Яа-я]+/)}.flatten.collect{|word| word.downcase}.group_by(&:itself).transform_values(&:count).map{|key, value| [key, value]}.sort{|a, b| a[1] <=> b[1]}
-    count = words.inject(0){|sum, word| sum + word[1] }
-    user_words[user_vk_id] = Hash[words.collect{|word| [word[0], word[1]*1.0/count]}]
+    if user
+      words = user.post_comments.all.collect{|comment| comment.raw['text'].gsub(/\[.+\]/, '').scan(/[А-Яа-я]+/)}.flatten.collect{|word| word.downcase}.group_by(&:itself).transform_values(&:count).map{|key, value| [key, value]}.sort{|a, b| a[1] <=> b[1]}
+      count = words.inject(0){|sum, word| sum + word[1] }
+      user_words[user_vk_id] = Hash[words.collect{|word| [word[0], word[1]*1.0/count]}]
+    end
   end
   decls = {}
   user_words.each do |id, words|
