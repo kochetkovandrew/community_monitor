@@ -5,6 +5,7 @@ task compare_words: :environment do
       post.post_comments.collect {|comment| comment.user_vk_id}
     end
   end
+  user_vk_ids.push 4048980
   user_vk_ids.flatten!.sort!.uniq!
   user_words = {}
   user_vk_ids.each do |user_vk_id|
