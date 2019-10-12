@@ -1,0 +1,28 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: 'Статистика сообщества') do |sheet|
+  title = sheet.styles.add_style(:sz=>12, :b => true, :alignment => {:horizontal => :left})
+  sheet.add_row ['Статистика сообщества', @community.name], style: title
+  sheet.add_row ['Дата', 'Участников', 'Прирост (человек в сутки)']
+  prev_time = nil
+  prev_count = nil
+  @community.community_member_histories.order(:created_at).each do |history|
+    if prev_time.nil?
+      sheet.add_row(
+        [
+          history.created_at,
+          history.members_count,
+        ]
+      )
+    else
+      sheet.add_row(
+        [
+          history.created_at,
+          history.members_count,
+          ((history.members_count - prev_count) * 86400.0) / (history.created_at - prev_time),
+        ]
+      )
+    end
+    prev_time = history.created_at
+    prev_count = history.members_count
+  end
+end

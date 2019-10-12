@@ -2,6 +2,8 @@ class CommunityMemberHistoriesController < ApplicationController
 
   before_action :set_community_member_history, only: [:show, :diff]
 
+  before_action :set_community, only: [:report]
+
   before_action :authenticate_user!
   before_action { |f| f.require_permission! 'Detective' }
 
@@ -14,11 +16,19 @@ class CommunityMemberHistoriesController < ApplicationController
     Rails.logger.debug @diff
   end
 
+  def report
+
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_community_member_history
     @community_member_history = CommunityMemberHistory.find(params[:id])
 
+  end
+
+  def set_community
+    @community = Community.find params[:id]
   end
 
 end

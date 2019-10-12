@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :topics
   resources :wall, only: [:index]
 
+  get 'communities/:id/member_histories/report' => 'community_member_histories#report'
   get 'communities/:id/wall' => 'communities#wall'
   get 'communities/:id/topics' => 'communities#topics'
   get 'posts/:id/comments' => 'posts#comments'

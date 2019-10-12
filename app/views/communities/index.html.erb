@@ -44,6 +44,7 @@
         <td>
           <% if current_user.has_permission?('Detective') %>
             <%= link_to content_tag(:i, '', class: 'fa fa-edit fa-lg fa-fw'), edit_community_path(community), { class: 'btn btn-sm btn-outline-primary', role: 'button', title: 'Редактировать'} %>
+            <%= link_to content_tag(:i, '', class: 'fa fa-bar-chart fa-lg fa-fw'), '/communities/' + community.id.to_s + '/member_histories/report.xlsx', { class: 'btn btn-sm btn-outline-primary', role: 'button', title: 'Отчёт'} %>
           <% end %>
       </tr>
     <% end %>
