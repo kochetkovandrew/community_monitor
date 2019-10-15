@@ -26,19 +26,19 @@ class SubmitNewsController < ApplicationController
 
   def new
     @access_token = params[:access_token]
-    # @community_key = CommunityKey.where(vk_id: @group_id).first
-    # if @community_key.nil?
-    #   render 'access'
-    # else
+    @community_key = CommunityKey.where(vk_id: @group_id).first
+    if @community_key.nil?
+      render 'access'
+    else
       render 'new'
-    # end
+    end
   end
 
   def create
-    # @community_key = CommunityKey.where(vk_id: @group_id).first
-    # if !@community_key.nil?
-      vk = VkontakteApi::Client.new Settings.vk.user_access_token
-      # vk_group = VkontakteApi::Client.new @community_key.key
+    @community_key = CommunityKey.where(vk_id: @group_id).first
+    if !@community_key.nil?
+      # vk = VkontakteApi::Client.new Settings.vk.user_access_token
+      vk_group = VkontakteApi::Client.new @community_key.key
 
       headers = {}
       headers['REMOTE_ADDR'] = request.headers.env['REMOTE_ADDR']
