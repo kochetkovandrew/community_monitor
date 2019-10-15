@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_131719) do
+ActiveRecord::Schema.define(version: 2019_10_15_134853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 2019_10_15_131719) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "admins"
+    t.text "name"
   end
 
   create_table "community_member_histories", id: :integer, default: -> { "nextval('community_members_history_id_seq'::regclass)" }, force: :cascade do |t|
@@ -290,6 +291,7 @@ ActiveRecord::Schema.define(version: 2019_10_15_131719) do
     t.string "status", default: "not_handled"
     t.text "answer"
     t.integer "community_id"
+    t.integer "community_vk_id"
   end
 
   create_table "submit_news_uploads", id: :serial, force: :cascade do |t|

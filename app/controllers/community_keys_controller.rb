@@ -6,11 +6,10 @@ class CommunityKeysController < ApplicationController
   def create
     if @authorized
       community_key = CommunityKey.where(vk_id: @group_id).first
-      if !community_key
-        community_key = CommunityKey.create(
-          vk_id: @group_id,
-          key: params[:community_key]
-        )
+      if !community_key || community_key.key.nil?
+        community_key = CommunityKey.where(vk_id: @group_id).first_or_create
+        community_key.key = params[:community_key]
+        community_key.save
         community_key.update_admins
       end
       respond_to do |format|

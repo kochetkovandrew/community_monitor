@@ -30,7 +30,8 @@ class User < ActiveRecord::Base
   end
 
   def admin_of
-
+    return [] if vk_id.nil?
+    CommunityKey.where("admins::jsonb @> '?'::jsonb", vk_id)
   end
 
 end
