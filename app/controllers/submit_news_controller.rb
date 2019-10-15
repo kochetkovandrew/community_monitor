@@ -72,7 +72,7 @@ class SubmitNewsController < ApplicationController
           city_title: @nr.city_title,
           country_title: @nr.country_title,
           news_text: @message,
-          community_id: @community.id,
+          community_vk_id: @community_key.vk_id,
         )
       end
       uploads.each do |upload|
