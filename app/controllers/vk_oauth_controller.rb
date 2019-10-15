@@ -29,7 +29,7 @@ class VkOauthController < ApplicationController
         member.save
       end
       session[:current_user_name] = member.full_name
-      user = User.where(vk_id: json['user_id']).first
+      user = User.where(vk_id: json['user_id']).first_or_create
       if user
         sign_in(user)
       end
