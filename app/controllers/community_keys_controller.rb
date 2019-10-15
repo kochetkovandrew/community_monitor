@@ -11,6 +11,7 @@ class CommunityKeysController < ApplicationController
           vk_id: @group_id,
           key: params[:community_key]
         )
+        community_key.update_admins
       end
       respond_to do |format|
         format.json { head :no_content }
