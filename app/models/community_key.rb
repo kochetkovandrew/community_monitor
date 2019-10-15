@@ -4,7 +4,7 @@ class CommunityKey < ActiveRecord::Base
     vk_group = VkontakteApi::Client.new key
     raw_admins = vk_lock { vk_group.groups.get_members(group_id: vk_id, filter: 'managers') }
     raw_group = vk_lock {
-      vk.groups.get_by_id(
+      vk_group.groups.get_by_id(
         group_id: vk_id,
         fields: [:id, :name]
       )
