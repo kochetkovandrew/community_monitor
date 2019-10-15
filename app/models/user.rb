@@ -29,4 +29,8 @@ class User < ActiveRecord::Base
     permission_id.in?(permission_users.all.collect{|permission_user| permission_user.permission_id})
   end
 
+  def admin_of
+
+  end
+
 end
