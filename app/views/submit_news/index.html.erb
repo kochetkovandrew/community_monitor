@@ -8,7 +8,7 @@
     <th></th>
   </thead>
   <tbody>
-  <% @submit_news_all.each do |submit_news| %>
+  <% (@submit_news_all || []).each do |submit_news| %>
   <tr data-id="<%= submit_news.id %>">
     <td><%= submit_news.created_at %></td>
     <td><%= submit_news.community.screen_name %></td>
