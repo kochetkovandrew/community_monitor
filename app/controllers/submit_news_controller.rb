@@ -8,9 +8,9 @@ class SubmitNewsController < ApplicationController
   before_action :check_auth_key, only: [:new, :create]
   before_action :authenticate_user!, only: [:index]
   before_action :set_submit_news, only: [:show, :edit, :update]
-  before_action only: [:index] do |f|
-    f.require_permission! 'DetivichAdmin'
-  end
+  # before_action only: [:index] do |f|
+  #   f.require_permission! 'DetivichAdmin'
+  # end
 
   def index
     @community_key = CommunityKey.where(vk_id: params[:community_vk_id])
