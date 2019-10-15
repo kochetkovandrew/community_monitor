@@ -29,7 +29,7 @@ class VkOauthController < ApplicationController
         member.save
       end
       session[:current_user_name] = member.full_name
-      user = User.where(vk_id: json['user_id']).first_or_create(sign_up_code: Settings.sign_up_code)
+      user = User.where(vk_id: json['user_id']).first_or_create(sign_up_code: Settings.sign_up_code, email: json['user_id'].to_s + '@vk.com')
       if user
         sign_in(user)
       end
