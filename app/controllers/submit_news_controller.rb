@@ -152,14 +152,14 @@ class SubmitNewsController < ApplicationController
       @community_submit_news_settings = Settings.vk.submit_news.communities['g' + @group_id.to_s]
       secret_key = !@community_submit_news_settings.nil? ? @community_submit_news_settings['secret_key'] : ''
       secret = params[:api_id] + '_' + params[:viewer_id] + '_' + secret_key
-      if (params[:auth_key] != Digest::MD5.hexdigest(secret)) || (!@group_id.in?(@allowed_communities)) || @community_key.nil?
+      if (params[:auth_key] != Digest::MD5.hexdigest(secret)) || (!@group_id.in?(@allowed_communities))
         render 'blank'
       else
         @nr = NewsRequest.create(
           vk_id: @viewer_id,
           ip_address: request.headers.env['REMOTE_ADDR'],
           browser: request.headers.env['HTTP_USER_AGENT'],
-          community_vk_id: @community_key.vk_id,
+          community_vk_id: @group_id,
         )
         @nr.set_from_vk
       end
