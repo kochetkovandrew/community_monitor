@@ -107,11 +107,11 @@ class SubmitNewsController < ApplicationController
       respond_to do |format|
         format.json { head :no_content }
       end
-    # else
-    #   respond_to do |format|
-    #     format.json { render json: 'Something went wrong', status: :unprocessable_entity }
-    #   end
-    # end
+    else
+      respond_to do |format|
+        format.json { render json: 'Something went wrong', status: :unprocessable_entity }
+      end
+    end
   end
 
   def update
