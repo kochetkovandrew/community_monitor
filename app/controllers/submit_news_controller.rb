@@ -13,7 +13,7 @@ class SubmitNewsController < ApplicationController
   # end
 
   def index
-    @community_key = CommunityKey.where(vk_id: params[:community_vk_id])
+    @community_key = CommunityKey.where(vk_id: params[:community_vk_id]).first
     if !@community_key.nil?
       if current_user.admin_of.include? @community_key.vk_id
         @submit_news_all = SubmitNews.order('created_at desc').
