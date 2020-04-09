@@ -4,6 +4,7 @@ class Calendar2020sController < ApplicationController
 
   before_action :set_calendar2020, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:vk_index]
+  after_action :allow_iframe, only: [:vk_index]
 
   # GET /calendar2020s
   # GET /calendar2020s.json
@@ -70,13 +71,20 @@ class Calendar2020sController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_calendar2020
-      @calendar2020 = Calendar2020.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def calendar2020_params
-      params.require(:calendar2020).permit(:day, :description)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_calendar2020
+    @calendar2020 = Calendar2020.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def calendar2020_params
+    params.require(:calendar2020).permit(:day, :description)
+  end
+
+  def allow_iframe
+    response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM https://api.vk.com"
+    response.headers.delete_if{|key| key.upcase=='X-FRAME-OPTIONS'}
+  end
+
 end
