@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :calendar2020s
   resources :shortlinks
   resources :portal_attachments
   post 'copy_messages/archive' => 'copy_messages#archive'
@@ -38,6 +39,8 @@ Rails.application.routes.draw do
   get 'attachments/:id' => 'attachments#show'
   get 'frontpage' => 'frontpage#index'
   get 'druginteractions' => 'druginteractions#index'
+
+  get 'apocalypse' => 'calendar2020s#vk_index'
 
   resources :members
   get 'wall-69659144_113021' => 'test#test'

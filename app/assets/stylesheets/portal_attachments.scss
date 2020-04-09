@@ -1,0 +1,18 @@
+.file_label:before {
+  font-family: FontAwesome;
+  font-size: 3rem;
+  color: #4b5781;
+  display: inline-block;
+  position: relative;
+  content: "\f15b";
+  padding-right: 10px;
+  //content: url(/images/svg_icons/upload.svg);
+  //width: 30px;
+  //display: inline-block;
+  //position: relative;
+}
+
+input[name="portal_attachment[file_upload][]"] {
+  //visibility: hidden;
+  display: none;
+}

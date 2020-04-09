@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/css/jquery-ui.min.css">
+  <script src="https://code.jquery.com/jquery-1.7.1.js"></script>
+  <script src="/js/jquery-ui.min.js" type="text/javascript"></script>
+  <script src="https://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
+  <script>
+
+    /* Russian (UTF-8) initialisation for the jQuery UI date picker plugin. */
+    /* Written by Andrew Stromnov (stromnov@gmail.com). */
+    ( function( factory ) {
+      if ( typeof define === "function" && define.amd ) {
+
+        // AMD. Register as an anonymous module.
+        define( [ "../widgets/datepicker" ], factory );
+      } else {
+
+        // Browser globals
+        factory( jQuery.datepicker );
+      }
+    }( function( datepicker ) {
+
+      datepicker.regional.ru = {
+        closeText: "Закрыть",
+        prevText: "&#x3C;Пред",
+        nextText: "След&#x3E;",
+        currentText: "Сегодня",
+        monthNames: [ "Январь","Февраль","Март","Апрель","Май","Июнь",
+          "Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь" ],
+        monthNamesShort: [ "Янв","Фев","Мар","Апр","Май","Июн",
+          "Июл","Авг","Сен","Окт","Ноя","Дек" ],
+        dayNames: [ "воскресенье","понедельник","вторник","среда","четверг","пятница","суббота" ],
+        dayNamesShort: [ "вск","пнд","втр","срд","чтв","птн","сбт" ],
+        dayNamesMin: [ "Вс","Пн","Вт","Ср","Чт","Пт","Сб" ],
+        weekHeader: "Нед",
+        dateFormat: "dd.mm.yy",
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: "" };
+      datepicker.setDefaults( datepicker.regional.ru );
+
+      return datepicker.regional.ru;
+
+    } ) );
+
+    var selectCalendar2020;
+
+    selectCalendar2020 = function(date) {
+      var links, win;
+      console.log(date);
+      links = JSON.parse($('#links').val());
+      if (links[date]) {
+        console.log(links[date]);
+        // win = window.open(links[date], '_blank');
+        // return win.focus();
+        $('#calendar2020_text').text('');
+        $('#calendar2020_text').append(links[date]['text']);
+      } else {
+        $('#calendar2020_text').text('В этот день ничего не случилось');
+        // return console.log('xxx');
+      }
+    };
+
+    initCalendar = function() {
+      dd = new Date();
+      dd.setDate(dd.getDate() - 1);
+      $('#calendar2020_day').datepicker({
+        minDate: new Date('2020-01-01'),
+        yearRange: '2020:2020',
+        defaultDate: dd,
+        onSelect: function(date, datepicker) {
+          return selectCalendar2020(date);
+        },
+        dateFormat: 'yy-mm-dd'
+      }, $.datepicker.regional["ru"]);
+      selectCalendar2020(dd.toISOString().slice(0, 10));
+    };
+
+    <% if !Rails.env.development? %>
+    VK.init(function() {
+      initCalendar();
+    });
+    <% else %>
+    jQuery(function() {
+      initCalendar();
+    });
+    <% end %>
+  </script>
+  <style type="text/css">
+  </style>
+</head>
+<body style="text-align:center;">
+  <%= hidden_field_tag(
+        :links,
+        Hash[*Calendar2020.all.collect{|day| [day.day, {text: day.description, pic: ''}]}.flatten].to_json
+      ) %>
+  <div id="calendar2020_day" style="float: left;"></div>
+  <div id="calendar2020_text" style="float: left; background-color: lightblue; width: 300px; height: 213px;"></div>
+  <div id="calendar2020_pic" style="clear: both; background-color: lightgray; width: 580px; height: 250px;"></div>
+</body>
+</html>

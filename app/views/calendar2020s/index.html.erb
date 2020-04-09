@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<% p Hash[*Calendar2020.all.collect{|day| [day.day, day.description]}] %>
+<%= hidden_field_tag :links, Hash[*Calendar2020.all.collect{|day| [day.day, day.description]}.flatten].to_json %>
+
+<h1>Calendar2020s</h1>
+
+<div id="calendar2020_day" style="float: left;"></div>
+<div>Blahblah</div>
+
+<table  style="clear: both;">
+  <thead>
+    <tr>
+      <th>Day</th>
+      <th>Description</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+
+  <tbody>
+    <% @calendar2020s.each do |calendar2020| %>
+      <tr>
+        <td><%= calendar2020.day %></td>
+        <td><%= calendar2020.description %></td>
+        <td><%= link_to 'Show', calendar2020 %></td>
+        <td><%= link_to 'Edit', edit_calendar2020_path(calendar2020) %></td>
+        <td><%= link_to 'Destroy', calendar2020, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Calendar2020', new_calendar2020_path %>

@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<h2>Portal Attachments</h2>
+
+<%= form_with(model: @portal_attachment, local: true) do |form| %>
+
+  <div class="field">
+    <%= form.label 'Выберите файл', class: :file_label, for: :file_upload %>
+    <%= form.file_field :file_upload, id: :file_upload, multiple: true %>
+    <%= form.submit 'Загрузить', class: 'btn btn-success' %>
+  </div>
+
+  <div id="file_list">
+
+  </div>
+<% end %>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Filename</th>
+      <th>Guid</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @portal_attachments.each do |portal_attachment| %>
+      <tr>
+        <td><%= portal_attachment.filename %></td>
+        <td><%= portal_attachment.guid %></td>
+        <td><%= link_to 'Show', portal_attachment %></td>
+        <td><%= link_to 'Edit', edit_portal_attachment_path(portal_attachment) %></td>
+        <td><%= link_to 'Destroy', portal_attachment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Portal Attachment', new_portal_attachment_path %>

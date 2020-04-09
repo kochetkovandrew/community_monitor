@@ -1,0 +1,27 @@
+<%= form_with(model: calendar2020, local: true) do |form| %>
+  <% if calendar2020.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(calendar2020.errors.count, "error") %> prohibited this calendar2020 from being saved:</h2>
+
+      <ul>
+      <% calendar2020.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :day %>
+    <%= form.text_field :day %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

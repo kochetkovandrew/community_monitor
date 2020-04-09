@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  shortlink_id: 
+  ip_address: MyString
+  browser: MyString
+
+two:
+  shortlink_id: 
+  ip_address: MyString
+  browser: MyString

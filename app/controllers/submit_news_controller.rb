@@ -33,7 +33,7 @@ class SubmitNewsController < ApplicationController
   def new
     @access_token = params[:access_token]
     @community_key = CommunityKey.where(vk_id: @group_id).first
-    if @community_key.nil? || @community_key.key.nil?
+    if (@community_key.nil? || @community_key.key.nil?) && !Rails.env.development?
       render 'access'
     else
       render 'new'

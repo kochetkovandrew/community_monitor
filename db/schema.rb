@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_134853) do
+ActiveRecord::Schema.define(version: 2020_04_06_204154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,13 @@ ActiveRecord::Schema.define(version: 2019_10_15_134853) do
     t.string "title"
     t.string "kind"
     t.index ["uri"], name: "index_attachments_on_uri"
+  end
+
+  create_table "calendar2020s", force: :cascade do |t|
+    t.date "day"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "communities", id: :serial, force: :cascade do |t|
@@ -195,6 +202,7 @@ ActiveRecord::Schema.define(version: 2019_10_15_134853) do
     t.string "city_title"
     t.string "country_title"
     t.integer "community_id"
+    t.integer "community_vk_id"
   end
 
   create_table "other_drugs", id: :serial, force: :cascade do |t|

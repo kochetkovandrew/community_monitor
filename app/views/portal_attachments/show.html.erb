@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Filename:</strong>
+  <%= @portal_attachment.filename %>
+</p>
+
+<p>
+  <strong>Guid:</strong>
+  <%= @portal_attachment.guid %>
+</p>
+
+<%= link_to 'Edit', edit_portal_attachment_path(@portal_attachment) %> |
+<%= link_to 'Back', portal_attachments_path %>
