@@ -26,6 +26,9 @@ selectCalendar2020 = (date) ->
       $('#calendar2020_pic').append(img)
   else
     $('#calendar2020_text').text('')
+    $('#calendar2020_pic').text('')
+    h4 = $('<h4></h4>').text('–')
+    $('#calendar2020_text').append(h4)
     div_main = $('<div class="main_text"></div>')
     div_main.append('В этот день ничего не случилось')
     $('#calendar2020_text').append(div_main)

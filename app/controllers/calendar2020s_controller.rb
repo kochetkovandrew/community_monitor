@@ -39,6 +39,15 @@ class Calendar2020sController < ApplicationController
 
     respond_to do |format|
       if @calendar2020.save
+        uploaded_io = params[:calendar2020][:picture]
+        if !uploaded_io.nil?
+          suffix = File.extname(uploaded_io.original_filename)
+          File.open(Rails.root.join('public', 'images', 'calendar', @calendar2020.day.to_s + suffix), 'wb') do |file|
+            file.write(uploaded_io.read)
+          end
+          @calendar2020.has_picture = true
+          @calendar2020.save
+        end
         format.html { redirect_to calendar2020s_path, notice: 'Calendar2020 was successfully created.' }
         format.json { render :show, status: :created, location: @calendar2020 }
       else
@@ -51,7 +60,6 @@ class Calendar2020sController < ApplicationController
   # PATCH/PUT /calendar2020s/1
   # PATCH/PUT /calendar2020s/1.json
   def update
-    p params
     respond_to do |format|
       if @calendar2020.update(calendar2020_params)
 
@@ -61,9 +69,9 @@ class Calendar2020sController < ApplicationController
           File.open(Rails.root.join('public', 'images', 'calendar', @calendar2020.day.to_s + suffix), 'wb') do |file|
             file.write(uploaded_io.read)
           end
+          @calendar2020.has_picture = true
+          @calendar2020.save
         end
-        @calendar2020.has_picture = true
-        @calendar2020.save
 
 
         format.html { redirect_to calendar2020s_path, notice: 'Calendar2020 was successfully updated.' }

@@ -1,6 +1,5 @@
 <p id="notice"><%= notice %></p>
 
-<% p Hash[*Calendar2020.all.collect{|day| [day.day, day.description]}] %>
 <%= hidden_field_tag :links, Hash[*Calendar2020.all.collect{|day|
   [day.day, {text: day.description, has_picture: day.has_picture, header: day.header, footer: day.footer}]
 }.flatten].to_json %>
