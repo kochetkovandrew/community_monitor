@@ -51,8 +51,8 @@
         $('#calendar2020_text').text('');
         if (links[date]['header'] != '') {
           h4 = $('<h4></h4>').text(links[date]['header']);
+          $('#calendar2020_text').append(h4);
         }
-        $('#calendar2020_text').append(h4);
         div_main = $('<div class="main_text"></div>');
         div_main.append(links[date]['text']);
         div_outer = $('<div class="text_outer"></div>');
