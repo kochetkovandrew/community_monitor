@@ -58,7 +58,7 @@ class Calendar2020sController < ApplicationController
         uploaded_io = params[:calendar2020][:picture]
         if !uploaded_io.nil?
           suffix = File.extname(uploaded_io.original_filename)
-          File.open(Rails.root.join('public', 'calendar', @calendar2020.day.to_s + suffix), 'wb') do |file|
+          File.open(Rails.root.join('public', 'images', 'calendar', @calendar2020.day.to_s + suffix), 'wb') do |file|
             file.write(uploaded_io.read)
           end
         end
