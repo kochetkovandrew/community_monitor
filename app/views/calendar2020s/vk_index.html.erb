@@ -60,7 +60,7 @@
         $('#calendar2020_text').append(div_outer);
         $('#calendar2020_pic').text('');
         if (links[date]['has_picture']) {
-          img = $('<img src="/images/calendar/' + date + '.jpg">"');
+          img = $('<img src="<%= Settings.root_path %>/images/calendar/' + date + '.jpg">"');
           $('#calendar2020_pic').append(img);
         }
       } else {
