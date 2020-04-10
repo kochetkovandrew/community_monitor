@@ -70,7 +70,9 @@
         $('#calendar2020_text').append(h4);
         div_main = $('<div class="main_text"></div>');
         div_main.append('В этот день ничего не случилось');
-        $('#calendar2020_text').append(div_main);
+        div_outer = $('<div class="text_outer"></div>');
+        div_outer.append(div_main);
+        $('#calendar2020_text').append(div_outer);
       }
     };
 
