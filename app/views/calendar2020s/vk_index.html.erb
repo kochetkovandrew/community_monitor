@@ -6,9 +6,6 @@
   <script src="/js/jquery-ui.min.js" type="text/javascript"></script>
   <script src="https://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
   <script>
-
-    /* Russian (UTF-8) initialisation for the jQuery UI date picker plugin. */
-    /* Written by Andrew Stromnov (stromnov@gmail.com). */
     ( function( factory ) {
       if ( typeof define === "function" && define.amd ) {
 
@@ -48,18 +45,32 @@
     var selectCalendar2020;
 
     selectCalendar2020 = function(date) {
-      var links, win;
-      console.log(date);
+      var links;
       links = JSON.parse($('#links').val());
       if (links[date]) {
-        console.log(links[date]);
-        // win = window.open(links[date], '_blank');
-        // return win.focus();
         $('#calendar2020_text').text('');
-        $('#calendar2020_text').append(links[date]['text']);
+        if (links[date]['header'] != '') {
+          h4 = $('<h4></h4>').text(links[date]['header']);
+        }
+        $('#calendar2020_text').append(h4);
+        div_main = $('<div class="main_text"></div>');
+        div_main.append(links[date]['text']);
+        div_outer = $('<div class="text_outer"></div>');
+        div_outer.append(div_main);
+        $('#calendar2020_text').append(div_outer);
+        $('#calendar2020_pic').text('');
+        if (links[date]['has_picture']) {
+          img = $('<img src="/images/calendar/' + date + '.jpg">"');
+          $('#calendar2020_pic').append(img);
+        }
       } else {
-        $('#calendar2020_text').text('В этот день ничего не случилось');
-        // return console.log('xxx');
+        $('#calendar2020_text').text('');
+        $('#calendar2020_pic').text('');
+        h4 = $('<h4></h4>').text('–');
+        $('#calendar2020_text').append(h4);
+        div_main = $('<div class="main_text"></div>');
+        div_main.append('В этот день ничего не случилось');
+        $('#calendar2020_text').append(div_main);
       }
     };
 
@@ -89,15 +100,65 @@
     <% end %>
   </script>
   <style type="text/css">
+    #calendar2020_day {
+      float: left;
+    }
+    #calendar2020_text {
+      float: left;
+      width: 300px;
+      height: 213px;
+      display: inline-block;
+    }
+    #calendar2020_text h4 {
+      font-weight: bold;
+      display: inline-block;
+      width: 294px;
+      text-align: center;
+      background-color: #e4e4e4;
+      border-radius: 4px;
+      margin: 3px 3px 10px 3px;
+      padding-bottom: 8px;
+      padding-top: 8px;
+      border: 1px solid #cccccc;
+      font-family: Arial,Helvetica,sans-serif;
+      font-size: 1em;
+    }
+    #calendar2020_text div.text_outer{
+      padding-left: 3px;
+    }
+    #calendar2020_text div.main_text{
+      vertical-align: middle;
+      background-color: #e4e4e4;
+      border-radius: 4px;
+      border: 1px solid #cccccc;
+      width: 294px;
+      height: 162px;
+      margin-left: 3px;
+      text-align: center;
+      vertical-align: middle;
+      display:table-cell;
+      font-family: Arial,Helvetica,sans-serif;
+      font-size: 1em;
+    }
+    #calendar2020_pic {
+      clear: both;
+      width: 581px;
+      height: 250px;
+      text-align: center;
+      padding-top: 3px;
+    }
+    #calendar2020_pic img {
+      max-width: 100%;
+      max-height: 100%;
+    }
   </style>
 </head>
 <body style="text-align:center;">
-  <%= hidden_field_tag(
-        :links,
-        Hash[*Calendar2020.all.collect{|day| [day.day, {text: day.description, pic: ''}]}.flatten].to_json
-      ) %>
-  <div id="calendar2020_day" style="float: left;"></div>
-  <div id="calendar2020_text" style="float: left; background-color: lightblue; width: 300px; height: 213px;"></div>
-  <div id="calendar2020_pic" style="clear: both; background-color: lightgray; width: 580px; height: 250px;"></div>
+  <%= hidden_field_tag :links, Hash[*Calendar2020.all.collect{|day|
+    [day.day, {text: day.description, has_picture: day.has_picture, header: day.header, footer: day.footer}]
+  }.flatten].to_json %>
+  <div id="calendar2020_day"></div>
+  <div id="calendar2020_text"></div>
+  <div id="calendar2020_pic"></div>
 </body>
 </html>

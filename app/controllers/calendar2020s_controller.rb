@@ -2,7 +2,7 @@ class Calendar2020sController < ApplicationController
 
   layout 'blank', only: [:vk_index]
 
-  before_action :set_calendar2020, only: [:show, :edit, :update, :destroy]
+  before_action :set_calendar2020, only: [:show, :update, :destroy]
   before_action :authenticate_user!, except: [:vk_index]
   after_action :allow_iframe, only: [:vk_index]
 
@@ -28,6 +28,8 @@ class Calendar2020sController < ApplicationController
 
   # GET /calendar2020s/1/edit
   def edit
+    @calendar2020 = Calendar2020.where(day: params[:day]).first
+    @calendar2020 ||= Calendar2020.new(day: params[:day])
   end
 
   # POST /calendar2020s
@@ -37,7 +39,7 @@ class Calendar2020sController < ApplicationController
 
     respond_to do |format|
       if @calendar2020.save
-        format.html { redirect_to @calendar2020, notice: 'Calendar2020 was successfully created.' }
+        format.html { redirect_to calendar2020s_path, notice: 'Calendar2020 was successfully created.' }
         format.json { render :show, status: :created, location: @calendar2020 }
       else
         format.html { render :new }
@@ -49,9 +51,22 @@ class Calendar2020sController < ApplicationController
   # PATCH/PUT /calendar2020s/1
   # PATCH/PUT /calendar2020s/1.json
   def update
+    p params
     respond_to do |format|
       if @calendar2020.update(calendar2020_params)
-        format.html { redirect_to @calendar2020, notice: 'Calendar2020 was successfully updated.' }
+
+        uploaded_io = params[:calendar2020][:picture]
+        if !uploaded_io.nil?
+          suffix = File.extname(uploaded_io.original_filename)
+          File.open(Rails.root.join('public', 'calendar', @calendar2020.day.to_s + suffix), 'wb') do |file|
+            file.write(uploaded_io.read)
+          end
+        end
+        @calendar2020.has_picture = true
+        @calendar2020.save
+
+
+        format.html { redirect_to calendar2020s_path, notice: 'Calendar2020 was successfully updated.' }
         format.json { render :show, status: :ok, location: @calendar2020 }
       else
         format.html { render :edit }
@@ -79,7 +94,7 @@ class Calendar2020sController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def calendar2020_params
-    params.require(:calendar2020).permit(:day, :description)
+    params.require(:calendar2020).permit(:day, :description, :header, :footer)
   end
 
   def allow_iframe

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :calendar2020s
+  resources :calendar2020s, except: [:edit]
   resources :shortlinks
   resources :portal_attachments
   post 'copy_messages/archive' => 'copy_messages#archive'
@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   get 'druginteractions' => 'druginteractions#index'
 
   get 'apocalypse' => 'calendar2020s#vk_index'
+  get 'calendar2020s/:day/edit' => 'calendar2020s#edit'
 
   resources :members
   get 'wall-69659144_113021' => 'test#test'
