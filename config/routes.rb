@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   get 'druginteractions' => 'druginteractions#index'
 
   get 'apocalypse' => 'calendar2020s#vk_index'
+  get 'mapocalypse' => 'calendar2020s#vk_index_mobile'
   get 'calendar2020s/:day/edit' => 'calendar2020s#edit'
 
   resources :members

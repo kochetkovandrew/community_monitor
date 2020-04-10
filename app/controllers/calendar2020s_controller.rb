@@ -3,8 +3,8 @@ class Calendar2020sController < ApplicationController
   layout 'blank', only: [:vk_index]
 
   before_action :set_calendar2020, only: [:show, :update, :destroy]
-  before_action :authenticate_user!, except: [:vk_index]
-  after_action :allow_iframe, only: [:vk_index]
+  before_action :authenticate_user!, except: [:vk_index, :vk_index_mobile]
+  after_action :allow_iframe, only: [:vk_index, :vk_index_mobile]
 
   # GET /calendar2020s
   # GET /calendar2020s.json
@@ -18,6 +18,10 @@ class Calendar2020sController < ApplicationController
   end
 
   def vk_index
+    @calendar2020s = Calendar2020.all
+  end
+
+  def vk_index_mobile
     @calendar2020s = Calendar2020.all
   end
 
