@@ -1,6 +1,6 @@
 class Calendar2020sController < ApplicationController
 
-  layout 'blank', only: [:vk_index]
+  layout 'blank', only: [:vk_index, :vk_index_mobile]
 
   before_action :set_calendar2020, only: [:show, :update, :destroy]
   before_action :authenticate_user!, except: [:vk_index, :vk_index_mobile]
