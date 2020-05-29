@@ -13,7 +13,7 @@ class WallController < ApplicationController
   private
 
   def set_community
-    @community = Community.find_by_screen_name Settings.vk.public_community
+    @community = Community.find_by_screen_name Rails.application.credentials.vk[:public_community]
   end
 
 end

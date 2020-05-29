@@ -2,7 +2,7 @@ task memory_dates: :environment do
   next_date = Date.today + 1
   memory_dates = MemoryDate.where(month: next_date.month).where(day: next_date.day).order('year asc').all
   if !memory_dates.empty?
-    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    vk = VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
     message  = "===================\n"
     message += "НАПОМИНАНИЕ\n"
     message += "===================\n"

@@ -3,7 +3,7 @@ class PostComment < ActiveRecord::Base
   belongs_to :topic
 
   def get_likes(force = false, vk_client = nil)
-    vk = (vk_client || VkontakteApi::Client.new(Settings.vk.user_access_token))
+    vk = (vk_client || VkontakteApi::Client.new(Rails.application.credentials.vk[:user_access_token]))
     step_size = 1000
     if raw['likes']['count'] > 0
       if likes.nil? || (likes.count < raw['likes']['count']) || force

@@ -76,8 +76,8 @@ class CopyMessagesController < ApplicationController
   end
 
   def archive
-    community = Community.find_by_screen_name(Settings.vk.archive_community)
-    vk = VkontakteApi::Client.new (community.access_token || Settings.vk.user_access_token)
+    community = Community.find_by_screen_name(Rails.application.credentials.vk[:archive_community])
+    vk = VkontakteApi::Client.new (community.access_token || Rails.application.credentials.vk[:user_access_token])
     topic = Topic.find params[:topic_id]
     copy_messages = CopyMessage.where(id: params[:ids]).all
     text = ''

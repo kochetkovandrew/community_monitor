@@ -43,7 +43,6 @@ class SubmitNewsController < ApplicationController
   def create
     @community_key = CommunityKey.where(vk_id: @group_id).first
     if !@community_key.nil?
-      # vk = VkontakteApi::Client.new Settings.vk.user_access_token
       vk_group = VkontakteApi::Client.new @community_key.key
 
       headers = {}
@@ -141,7 +140,7 @@ class SubmitNewsController < ApplicationController
 
   def check_auth_key
     if !Rails.env.development?
-      @allowed_communities = Settings.vk.submit_news.communities.collect {|k,v| k.gsub(/^g/, '').to_i}
+      @allowed_communities = Rails.application.credentials.vk[:submit_news][:communities].collect {|k,v| k.to_s.gsub(/^g/, '').to_i}
       # api_id, viewer_id, group_id, auth_key
       @api_id = params[:api_id]
       @viewer_id = params[:viewer_id]
@@ -149,8 +148,8 @@ class SubmitNewsController < ApplicationController
       @group_id = params[:group_id].to_i
       # @community = Community.where(vk_id: @group_id).first
       @community_key = CommunityKey.where(vk_id: @group_id).first
-      @community_submit_news_settings = Settings.vk.submit_news.communities['g' + @group_id.to_s]
-      secret_key = !@community_submit_news_settings.nil? ? @community_submit_news_settings['secret_key'] : ''
+      @community_submit_news_settings = Rails.application.credentials.vk[:submit_news][:communities][('g' + 133980650.to_s).to_sym]
+      secret_key = !@community_submit_news_settings.nil? ? @community_submit_news_settings[:secret_key] : ''
       secret = params[:api_id] + '_' + params[:viewer_id] + '_' + secret_key
       if (params[:auth_key] != Digest::MD5.hexdigest(secret)) || (!@group_id.in?(@allowed_communities))
         render 'blank'

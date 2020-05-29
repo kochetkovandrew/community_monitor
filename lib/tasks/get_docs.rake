@@ -8,7 +8,7 @@ task :get_docs => :environment do
     did += 1
   end
   # p arr
-  vk = VkontakteApi::Client.new Settings.vk.user_access_token
+  vk = VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
   res = vk.docs.getById(docs: arr.join(','))
   p res
   # res = vk.users.search(country: 1, city: 75, age_from: 30, sex: 1, q: 'Мария', fields: [:first_name, :last_name, :last_seen, :screen_name], count: 1000, sort: 1)

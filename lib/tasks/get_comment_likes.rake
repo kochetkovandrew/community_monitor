@@ -7,7 +7,7 @@ task :get_comment_likes, [:screen_name] => :environment do |t, args|
       where('post_comments.likes_count > 0').
       where('not post_comments.likes_handled').
       order('created_at asc').all
-  vk = VkontakteApi::Client.new Settings.vk.user_access_token
+  vk = VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
   step_size = 1000
   comments.each_show_progress do |comment|
     begin

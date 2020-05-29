@@ -1,7 +1,9 @@
 <% if !@topic.community.nil? %>
     <h4>«<%= @topic.community.name %>»</h4>
     <% @community = @topic.community %>
-    <%= render partial: 'communities/views' %>
+  <%= link_to fa_icon('recycle') + ' Сохранённый пост (вид VK)', {controller: :topics, action: :vk_view, id: @topic.id}, target: '_blank' %>
+
+  <%= render partial: 'communities/views' %>
 <% end %>
 
 <div style="width: 800px; max-width: 800px;">

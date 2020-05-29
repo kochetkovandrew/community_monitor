@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   validates :sign_up_code,
             on: :create,
             presence: true,
-            inclusion: { in: [Settings.sign_up_code] }
+            inclusion: { in: [Rails.application.credentials.sign_up_code] }
   has_many :permission_users
   has_many :permissions, through: :permission_users
   validates_uniqueness_of :ccsi_number, allow_blank: true, allow_nil: true

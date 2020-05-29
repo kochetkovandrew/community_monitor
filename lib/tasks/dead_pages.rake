@@ -1,5 +1,5 @@
 task dead_pages: :environment do
-  vk = VkontakteApi::Client.new Settings.vk.dead_pages_token
+  vk = VkontakteApi::Client.new Rails.application.credentials.vk[:dead_pages_token]
   step_size = 1000
   owner_id = -97611353
   album_ids = [252401499, 251020128, 249476036, 248272545, 246984490, 245837335,

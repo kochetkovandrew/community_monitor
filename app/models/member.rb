@@ -20,7 +20,7 @@ class Member < ActiveRecord::Base
   end
 
   def get_from_vk
-    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    vk = VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
     raw_user = vk_lock { vk.users.get(user_ids: [self.screen_name], fields: [ :photo_id, :verified, :sex, :bdate, :city, :country, :home_town, :has_photo, :photo_50, :photo_100, :photo_200_orig, :photo_200, :photo_400_orig, :photo_max, :photo_max_orig, :online, :domain, :has_mobile, :contacts, :site, :education, :universities, :schools, :status, :last_seen, :followers_count, :common_count, :occupation, :nickname, :relatives, :relation, :personal, :connections, :exports, :wall_comments, :activities, :interests, :music, :movies, :tv, :books, :games, :about, :quotes, :timezone, :screen_name, :maiden_name, :crop_photo, :friend_status, :career, :military, :first_name_dat ])[0] }
   end
 
@@ -46,7 +46,7 @@ class Member < ActiveRecord::Base
   end
 
   def friends_from_vk(vk = nil)
-    vk ||= VkontakteApi::Client.new Settings.vk.user_access_token
+    vk ||= VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
     all_friends = []
     success = true
     step_size = 5000
@@ -70,7 +70,7 @@ class Member < ActiveRecord::Base
   end
 
   def followers_from_vk(vk = nil)
-    vk ||= VkontakteApi::Client.new Settings.vk.user_access_token
+    vk ||= VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
     all_friends = []
     success = true
     begin
@@ -262,7 +262,7 @@ class Member < ActiveRecord::Base
       preexisting_members = Member.where(vk_id: vk_ids).all
       vk_ids -= preexisting_members.collect{|member| member.vk_id}
     end
-    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    vk = VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
     while !(vk_ids_slice = vk_ids.shift(1000)).empty?
       if l_settings[:update_existing]
         existing_members = Hash[Member.where(vk_id: vk_ids_slice).all.collect{|member| [member.vk_id, member]}]
@@ -304,7 +304,7 @@ class Member < ActiveRecord::Base
   end
 
   def get_wall(force = false)
-    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    vk = VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
     step_size = 100
     begin
       rest = 1

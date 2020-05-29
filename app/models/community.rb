@@ -10,7 +10,7 @@ class Community < ActiveRecord::Base
   has_many :community_histories
 
   def get_from_vk
-    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    vk = VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
     raw_group = vk_lock {
       vk.groups.get_by_id(
         group_id: self.screen_name,
@@ -30,7 +30,7 @@ class Community < ActiveRecord::Base
 
   def set_vk_data
     self.vk_id = nil
-    vk = VkontakteApi::Client.new (self.access_token || Settings.vk.user_access_token)
+    vk = VkontakteApi::Client.new (self.access_token || Rails.application.credentials.vk[:user_access_token])
     groups = vk_lock {
       vk.groups.get_by_id(
         group_id: self.screen_name,
@@ -59,7 +59,7 @@ class Community < ActiveRecord::Base
       preexisting_communities = Community.where(vk_id: vk_ids).all
       vk_ids -= preexisting_communities.collect{|community| community.vk_id}
     end
-    vk = VkontakteApi::Client.new Settings.vk.user_access_token
+    vk = VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
     while !(vk_ids_slice = vk_ids.shift(500)).empty?
       if l_settings[:update_existing]
         existing_groups = Hash[Community.where(vk_id: vk_ids_slice).all.collect{|community| [community.vk_id, community]}]
@@ -125,7 +125,7 @@ class Community < ActiveRecord::Base
   end
 
   def get_wall(force = false)
-    vk = VkontakteApi::Client.new (self.access_token || Settings.vk.user_access_token)
+    vk = VkontakteApi::Client.new (self.access_token || Rails.application.credentials.vk[:user_access_token])
     step_size = 100
     begin
       rest = 1
@@ -187,7 +187,7 @@ class Community < ActiveRecord::Base
   end
 
   def get_topics(force = false)
-    vk = VkontakteApi::Client.new (self.access_token || Settings.vk.user_access_token)
+    vk = VkontakteApi::Client.new (self.access_token || Rails.application.credentials.vk[:user_access_token])
     step_size = 100
     rest = 1
     step = 0

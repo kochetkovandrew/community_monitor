@@ -7,7 +7,7 @@ task :get_posts, [:screen_name] => :environment do |t, args|
     puts 'Couldn\'t find any community or person'
     exit 0
   end
-  vk = VkontakteApi::Client.new Settings.vk.user_access_token
+  vk = VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
   step_size = 100
   rest = 1
   step = 0

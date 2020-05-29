@@ -1,5 +1,5 @@
 task ivan: :environment do
-  vk = VkontakteApi::Client.new Settings.vk.user_access_token
+  vk = VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
   ids = [241347183, 280997434, 51928437, 160263363]
   times = [[], [], [], []]
   raw_users = vk_lock { vk.users.get(user_ids: ids, fields: [:last_seen ]) }

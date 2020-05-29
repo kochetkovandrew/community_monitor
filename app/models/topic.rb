@@ -3,7 +3,7 @@ class Topic < ActiveRecord::Base
   has_many :post_comments
 
   def get_comments(vk_client = nil)
-    vk = (vk_client || VkontakteApi::Client.new(Settings.vk.user_access_token))
+    vk = (vk_client || VkontakteApi::Client.new(Rails.application.credentials.vk[:user_access_token]))
     step_size = 100
     begin
       rest = 1

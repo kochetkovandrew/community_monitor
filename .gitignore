@@ -14,6 +14,6 @@
 /tmp
 /config/initializers/vkontakte.rb
 /config/database.yml
-/config/settings.yml
+/config/master.key
 /.idea
 /attachments/*.jpg

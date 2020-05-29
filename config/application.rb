@@ -22,5 +22,13 @@ module CommunityMonitor
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     # config.active_record.raise_in_transactional_callbacks = true
+
+    # def credentials
+    #   encrypted(
+    #     "config/credentials/#{Rails.env.downcase}.yml.enc",
+    #     key_path: "config/credentials/#{Rails.env.downcase}.key"
+    #   )
+    # end
+
   end
 end

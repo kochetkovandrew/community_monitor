@@ -1,7 +1,7 @@
 task :get_likes, [:screen_name] => :environment do |t, args|
   community = Community.find_by_screen_name args[:screen_name]
   posts = Post.where(community_id: community.id).where('not likes_handled').all
-  vk = VkontakteApi::Client.new Settings.vk.user_access_token
+  vk = VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
   step_size = 1000
   posts.each_show_progress do |post|
     begin

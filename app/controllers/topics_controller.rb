@@ -2,7 +2,12 @@ class TopicsController < ApplicationController
 
   before_action { |f| f.require_permission! 'Communities' }
   before_action :set_user_permissions
-  before_action :set_topic, only: [:show, :comments]
+  before_action :set_topic, only: [:show, :comments, :vk_view]
+  layout 'vk', only: :vk_view
+
+  def vk_view
+
+  end
 
   def show
 

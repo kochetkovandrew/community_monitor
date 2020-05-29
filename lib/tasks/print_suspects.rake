@@ -1,6 +1,6 @@
 task :print_suspects, [:screen_name] => :environment do |t, args|
   community = Community.find_by_screen_name args[:screen_name]
-  vk = VkontakteApi::Client.new Settings.vk.user_access_token
+  vk = VkontakteApi::Client.new Rails.application.credentials.vk[:user_access_token]
   puts community.screen_name
   puts ''
   added = []

@@ -1,7 +1,7 @@
 class VkOauthController < ApplicationController
 
   def signin
-    redirect_to 'https://oauth.vk.com/authorize?client_id=' + Settings.vk.app_id +
+    redirect_to 'https://oauth.vk.com/authorize?client_id=' + Rails.application.credentials.vk[:app_id] +
       '&redirect_uri=https://vich.live/vk_oauth/callback' +
       '&display=page' +
       '&v=5.92' +
@@ -11,8 +11,8 @@ class VkOauthController < ApplicationController
 
   def callback
     url = 'https://oauth.vk.com/access_token' +
-      '?client_id=' + Settings.vk.app_id +
-      '&client_secret=' + Settings.vk.app_secret +
+      '?client_id=' + Rails.application.credentials.vk[:app_id] +
+      '&client_secret=' + Rails.application.credentials.vk[:app_secret] +
       '&redirect_uri=https://vich.live/vk_oauth/callback' +
       '&code=' + params[:code]
     uri = URI(url)
@@ -29,7 +29,7 @@ class VkOauthController < ApplicationController
         member.save
       end
       session[:current_user_name] = member.full_name
-      user = User.where(vk_id: json['user_id']).first_or_create(sign_up_code: Settings.sign_up_code, email: json['user_id'].to_s + '@vk.com')
+      user = User.where(vk_id: json['user_id']).first_or_create(sign_up_code: Rails.application.credentials.sign_up_code, email: json['user_id'].to_s + '@vk.com')
       if user
         sign_in(user)
       end

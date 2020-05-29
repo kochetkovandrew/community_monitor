@@ -1,5 +1,5 @@
 task :get_dialogs => :environment do |t, args|
-  vk = VkontakteApi::Client.new Settings.vk.dead_pages_token
+  vk = VkontakteApi::Client.new Rails.application.credentials.vk[:dead_pages_token]
   rest = 1
   step = 0
   step_size = 200

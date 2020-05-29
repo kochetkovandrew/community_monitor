@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby '2.6.6'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.2.2'
@@ -72,5 +73,9 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  gem 'capistrano', require: false
+  gem "capistrano-rails", require: false
+  gem 'rvm1-capistrano3', require: false
 end
 

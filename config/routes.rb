@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
+
   resources :calendar2020s, except: [:edit]
+  get 'calendar2020s/:day/edit' => 'calendar2020s#edit'
+
   resources :shortlinks
   resources :portal_attachments
   post 'copy_messages/archive' => 'copy_messages#archive'
@@ -22,6 +25,7 @@ Rails.application.routes.draw do
   resources :submit_news
   get '/posts/vk/:id' => 'posts#vk_view'
   resources :posts
+  get '/topics/vk/:id' => 'topics#vk_view'
   resources :topics
   resources :wall, only: [:index]
 
@@ -42,17 +46,8 @@ Rails.application.routes.draw do
 
   get 'apocalypse' => 'calendar2020s#vk_index'
   get 'mapocalypse' => 'calendar2020s#vk_index_mobile'
-  get 'calendar2020s/:day/edit' => 'calendar2020s#edit'
 
   resources :members
-  get 'wall-69659144_113021' => 'test#test'
-  get 'nonprogressors' => 'test#test'
-  get 'slow' => 'test#test2'
-  get 'clinic' => 'test#test3'
-  get '29zVZbLSERI' => 'test#test4'
-  get 'toksichnost' => 'test#test5'
-  get 'social-networks-73875' => 'test#test6'
-  get 'prigovor' => 'test#test7'
 
   get 'users/profile' => 'users#profile'
   put 'users/:id/assign_permission' => 'users#assign_permission'
@@ -63,10 +58,6 @@ Rails.application.routes.draw do
 
   get 'community_member_histories/:id/diff' => 'community_member_histories#diff'
   get 'community_member_histories/:id' => 'community_member_histories#show'
-  # get 'submit_news' => 'submit_news#index'
-  # get 'submit_news/new' => 'submit_news#new'
-  # post 'submit_news' => 'submit_news#create'
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -74,52 +65,4 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'frontpage#index'
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end

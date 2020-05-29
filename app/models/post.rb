@@ -5,7 +5,7 @@ class Post < ActiveRecord::Base
   has_many :post_comments
 
   def get_likes(force = false, vk_client = nil)
-    vk = (vk_client || VkontakteApi::Client.new(Settings.vk.user_access_token))
+    vk = (vk_client || VkontakteApi::Client.new(Rails.application.credentials.vk[:user_access_token]))
     owner_id = (community_id.nil? ? member.vk_id : -community.vk_id)
     step_size = 1000
     if (raw['likes']['count'] > 0) || force
@@ -36,7 +36,7 @@ class Post < ActiveRecord::Base
   end
 
   def get_comments(force = false, recurrent_force = false, vk_client = nil)
-    vk = (vk_client || VkontakteApi::Client.new(Settings.vk.user_access_token))
+    vk = (vk_client || VkontakteApi::Client.new(Rails.application.credentials.vk[:user_access_token]))
     owner_id = (community_id.nil? ? member.vk_id : -community.vk_id)
     step_size = 100
     if (raw['comments']['count'] > 0) || force
