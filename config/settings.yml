@@ -1,0 +1,12 @@
+defaults: &defaults
+  base_address: 'https://vich.live'
+  root_path: ''
+  vk:
+    redirect_uri:      'https://api.vkontakte.ru/blank.html'
+
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  root_path: 'https://vich.live'
