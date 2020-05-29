@@ -6,7 +6,7 @@ set :repository,  "set your repository location here"
 set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # set :pty, true
 
-set :repo_url, "git@github.com:kochetkovandrew/community_monitor.git"
+set :repo_url, "https://github.com/kochetkovandrew/community_monitor.git"
 
 namespace :deploy do
 
