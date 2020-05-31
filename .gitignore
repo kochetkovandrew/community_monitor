@@ -12,7 +12,6 @@
 /uploads/*
 !/log/.keep
 /tmp
-/config/initializers/vkontakte.rb
 /config/database.yml
 /config/master.key
 /.idea
