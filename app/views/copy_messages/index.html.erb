@@ -23,7 +23,7 @@
     Архив:
     <%= select_tag('archive_topic', options_for_select( [""] +
           Community.
-            where(screen_name: Settings.vk.archive_community).
+            where(screen_name: Rails.application.credentials.vk[:archive_community]).
             first.
             topics.
             order('updated_at desc').
