@@ -1,4 +1,4 @@
-class CreateArtDrugs < ActiveRecord::Migration
+class CreateArtDrugs < ActiveRecord::Migration[5.0]
   def change
     create_table :art_drugs do |t|
       t.string :abbreviation

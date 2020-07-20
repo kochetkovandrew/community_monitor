@@ -1,4 +1,4 @@
-class AddNameToNewsRequests < ActiveRecord::Migration
+class AddNameToNewsRequests < ActiveRecord::Migration[5.0]
   def change
     change_table :news_requests do |t|
       t.string :first_name

@@ -1,4 +1,4 @@
-class CreateCopyMessages < ActiveRecord::Migration
+class CreateCopyMessages < ActiveRecord::Migration[5.0]
   def change
     create_table :copy_messages do |t|
       t.references :copy_dialog

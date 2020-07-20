@@ -1,4 +1,4 @@
-class CreateSubmitNewsUploads < ActiveRecord::Migration
+class CreateSubmitNewsUploads < ActiveRecord::Migration[5.0]
   def change
     create_table :submit_news_uploads do |t|
       t.references :submit_news

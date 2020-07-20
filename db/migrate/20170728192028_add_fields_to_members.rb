@@ -1,4 +1,4 @@
-class AddFieldsToMembers < ActiveRecord::Migration
+class AddFieldsToMembers < ActiveRecord::Migration[5.0]
   def change
     change_table :members do |t|
       t.integer :sex

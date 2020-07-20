@@ -1,4 +1,4 @@
-class CreateMemoryDates < ActiveRecord::Migration
+class CreateMemoryDates < ActiveRecord::Migration[5.0]
   def change
     create_table :memory_dates do |t|
       t.integer :day

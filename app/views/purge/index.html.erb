@@ -1,0 +1,47 @@
+<h4>Последние комментарии</h4>
+
+<p>
+  Ключ доступа можно получить по
+  <a href="https://oauth.vk.com/authorize?client_id=5739770&display=page&redirect_uri=https://api.vkontakte.ru/blank.html&scope=wall,groups,offline&response_type=token&v=5.68&state=123456" target="_blank">ссылке</a>
+</p>
+<p>
+  Адрес открывшейся вкладки будет https://api.vkontakte.ru/blank.html#access_token=[ключ доступа]&expires_in=0&user_id=4048980&state=123456
+</p>
+<p>
+  Скопируйте ключ доступа, вставьте его в поле ниже и нажмите «Обновить». Сайт не будет хранить ваш ключ доступа.
+</p>
+
+<form action="/purge">
+  <input type="text" name="access_key" size="84" value="<%= @access_key %>">
+  <button class="btn-primary">Обновить</button>
+</form>
+
+<button type="button" class="btn-default" id="purge_mark_all">Отметить все</button>
+<button type="button" class="btn-default" id="purge_unmark_all">Убрать отметки</button>
+<button type="button" class="btn-danger" id="purge_delete_comments">Удалить комменты в выделенных постах</button>
+<% if !@access_key.nil? %>
+<table class="table table-condensed">
+  <thead >
+    <th></th>
+    <th>Тип</th>
+    <th>Текст</th>
+    <th>Где</th>
+  </thead>
+  <% @response.items.each do |item| %>
+  <tr data-type="<%= item.type %>" data-source-id="<%= item.source_id %>" data-post-id="<%= item.post_id %>">
+    <th><input type="checkbox"></th>
+    <td><%= item.type %></td>
+    <td><%= item.text.slice(0, 120) %></td>
+    <td>
+      <% if item.source_id > 0 %>
+        <% profile = @response.profiles.find{|prof| prof.id == item.source_id} %>
+        <%= profile.first_name %> <%= profile.last_name %>
+      <% else %>
+        <% community = @response.groups.find{|gr| gr.id == -item.source_id} %>
+        <%= community.name %>
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+<% end %>

@@ -1,4 +1,4 @@
-class CreatePermissionUsers < ActiveRecord::Migration
+class CreatePermissionUsers < ActiveRecord::Migration[5.0]
   def change
     create_table :permission_users do |t|
       t.references :permission

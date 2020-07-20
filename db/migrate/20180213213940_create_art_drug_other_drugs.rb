@@ -1,4 +1,4 @@
-class CreateArtDrugOtherDrugs < ActiveRecord::Migration
+class CreateArtDrugOtherDrugs < ActiveRecord::Migration[5.0]
   def change
     create_table :art_drug_other_drugs do |t|
       t.references :art_drug

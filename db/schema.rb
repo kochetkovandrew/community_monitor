@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
     t.string "interaction"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["art_drug_id"], name: "index_art_drug_other_drugs_on_art_drug_id"
+    t.index ["other_drug_id"], name: "index_art_drug_other_drugs_on_other_drug_id"
   end
 
   create_table "art_drugs", id: :serial, force: :cascade do |t|
@@ -31,6 +33,7 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
     t.datetime "updated_at", null: false
     t.integer "drug_group_id"
     t.string "translation"
+    t.index ["drug_group_id"], name: "index_art_drugs_on_drug_group_id"
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -73,6 +76,7 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
     t.jsonb "raw"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["community_id"], name: "index_community_histories_on_community_id"
   end
 
   create_table "community_keys", force: :cascade do |t|
@@ -84,20 +88,23 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
     t.text "name"
   end
 
-  create_table "community_member_histories", id: :integer, default: -> { "nextval('community_members_history_id_seq'::regclass)" }, force: :cascade do |t|
+  create_table "community_member_histories", id: :serial, force: :cascade do |t|
     t.integer "community_id"
     t.text "members"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "members_count"
     t.text "diff"
+    t.index ["community_id"], name: "index_community_member_histories_on_community_id"
   end
 
   create_table "community_members", id: :serial, force: :cascade do |t|
     t.integer "community_id"
     t.integer "member_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["community_id"], name: "index_community_members_on_community_id"
+    t.index ["member_id"], name: "index_community_members_on_member_id"
   end
 
   create_table "copy_dialogs", id: :serial, force: :cascade do |t|
@@ -111,17 +118,20 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
     t.string "title"
     t.string "access_token"
     t.integer "permission_id"
+    t.index ["permission_id"], name: "index_copy_dialogs_on_permission_id"
   end
 
   create_table "copy_messages", id: :serial, force: :cascade do |t|
     t.integer "copy_dialog_id"
     t.integer "user_vk_id"
     t.text "body"
-    t.jsonb "raw", default: {}
+    t.jsonb "raw", default: "{}"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "vk_id", default: 0, null: false
     t.integer "topic_id"
+    t.index ["copy_dialog_id"], name: "index_copy_messages_on_copy_dialog_id"
+    t.index ["topic_id"], name: "index_copy_messages_on_topic_id"
   end
 
   create_table "drug_groups", id: :serial, force: :cascade do |t|
@@ -138,6 +148,7 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
     t.jsonb "raw"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_member_histories_on_member_id"
   end
 
   create_table "member_last_seens", id: :serial, force: :cascade do |t|
@@ -146,11 +157,12 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
     t.integer "last_seen_platform"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_member_last_seens_on_member_id"
   end
 
   create_table "members", id: :serial, force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "sex"
     t.datetime "last_seen_at"
     t.integer "last_seen_platform"
@@ -165,10 +177,10 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
     t.string "maiden_name"
     t.string "nickname"
     t.string "screen_name"
-    t.jsonb "raw", default: {}
-    t.jsonb "raw_friends", default: []
+    t.jsonb "raw", default: "{}"
+    t.jsonb "raw_friends", default: "[]"
     t.integer "vk_id"
-    t.jsonb "raw_followers", default: []
+    t.jsonb "raw_followers", default: "[]"
     t.boolean "manually_added", default: true
     t.string "status", default: "not_viewed"
     t.boolean "is_friend", default: false, null: false
@@ -206,6 +218,7 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
     t.string "country_title"
     t.integer "community_id"
     t.integer "community_vk_id"
+    t.index ["community_id"], name: "index_news_requests_on_community_id"
   end
 
   create_table "other_drugs", id: :serial, force: :cascade do |t|
@@ -215,19 +228,22 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
     t.datetime "updated_at", null: false
     t.integer "drug_group_id"
     t.string "translation"
+    t.index ["drug_group_id"], name: "index_other_drugs_on_drug_group_id"
   end
 
   create_table "permission_users", id: :serial, force: :cascade do |t|
     t.integer "permission_id"
     t.integer "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["permission_id"], name: "index_permission_users_on_permission_id"
+    t.index ["user_id"], name: "index_permission_users_on_user_id"
   end
 
   create_table "permissions", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "portal_attachments", force: :cascade do |t|
@@ -239,18 +255,20 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
 
   create_table "post_comments", id: :serial, force: :cascade do |t|
     t.integer "post_id"
-    t.jsonb "raw", default: {}
+    t.jsonb "raw", default: "{}"
     t.integer "vk_id"
     t.boolean "likes_handled", default: false
-    t.jsonb "likes", default: []
+    t.jsonb "likes", default: "[]"
     t.integer "user_vk_id"
     t.integer "likes_count"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "topic_id"
     t.index ["likes"], name: "index_post_comments_on_likes", using: :gin
     t.index ["post_id", "created_at"], name: "index_post_comments_on_post_id_and_created_at"
+    t.index ["post_id"], name: "index_post_comments_on_post_id"
     t.index ["topic_id", "created_at"], name: "index_post_comments_on_topic_id_and_created_at"
+    t.index ["topic_id"], name: "index_post_comments_on_topic_id"
     t.index ["user_vk_id"], name: "index_post_comments_on_user_vk_id"
   end
 
@@ -263,13 +281,15 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "copy_history"
-    t.jsonb "raw", default: {}
+    t.jsonb "raw", default: "{}"
     t.integer "vk_id"
     t.boolean "handled", default: false
     t.boolean "likes_handled", default: false
-    t.jsonb "likes", default: []
+    t.jsonb "likes", default: "[]"
     t.integer "member_id"
+    t.index ["community_id"], name: "index_posts_on_community_id"
     t.index ["likes"], name: "index_posts_on_likes", using: :gin
+    t.index ["member_id"], name: "index_posts_on_member_id"
   end
 
   create_table "shortlink_histories", force: :cascade do |t|
@@ -303,6 +323,7 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
     t.text "answer"
     t.integer "community_id"
     t.integer "community_vk_id"
+    t.index ["community_id"], name: "index_submit_news_on_community_id"
   end
 
   create_table "submit_news_uploads", id: :serial, force: :cascade do |t|
@@ -310,17 +331,20 @@ ActiveRecord::Schema.define(version: 2020_04_09_205301) do
     t.integer "upload_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["submit_news_id"], name: "index_submit_news_uploads_on_submit_news_id"
+    t.index ["upload_id"], name: "index_submit_news_uploads_on_upload_id"
   end
 
   create_table "topics", id: :serial, force: :cascade do |t|
     t.text "title"
     t.integer "created_by_vk_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "community_id"
     t.bigint "vk_id", default: 0, null: false
-    t.jsonb "raw", default: {}
+    t.jsonb "raw", default: "{}"
     t.boolean "handled", default: false, null: false
+    t.index ["community_id"], name: "index_topics_on_community_id"
   end
 
   create_table "uploads", id: :serial, force: :cascade do |t|

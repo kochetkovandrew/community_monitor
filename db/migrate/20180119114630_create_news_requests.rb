@@ -1,4 +1,4 @@
-class CreateNewsRequests < ActiveRecord::Migration
+class CreateNewsRequests < ActiveRecord::Migration[5.0]
   def change
     create_table :news_requests do |t|
       t.column :vk_id, :bigint

@@ -1,4 +1,4 @@
-class CreateMemberLastSeens < ActiveRecord::Migration
+class CreateMemberLastSeens < ActiveRecord::Migration[5.0]
   def change
     create_table :member_last_seens do |t|
       t.references :member

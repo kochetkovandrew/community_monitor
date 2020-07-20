@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   get '/topics/vk/:id' => 'topics#vk_view'
   resources :topics
   resources :wall, only: [:index]
+  patch '/purge' => 'purge#update'
+  resources :purge, only: [:index]
 
   get 'communities/:id/member_histories/report' => 'community_member_histories#report'
   get 'communities/:id/wall' => 'communities#wall'

@@ -1,4 +1,4 @@
-class CreateMemberHistories < ActiveRecord::Migration
+class CreateMemberHistories < ActiveRecord::Migration[5.0]
   def change
     create_table :member_histories do |t|
       t.references :member
