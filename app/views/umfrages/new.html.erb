@@ -1,0 +1,138 @@
+<p id="notice"><%= notice %></p>
+
+<h4>Umfrage</h4>
+
+<%= form_for @umfrage, url: '/umfrage', method: :post do |f| %>
+<ol>
+
+  <li id="li1">
+    <p>
+      In welchem Bereich sind Sie tätig?
+    </p>
+    <p>
+      <label>
+        <input type="radio" name="umfrage[frage1]" value="Stationäre Versorgung">
+        Stationäre Versorgung
+      </label>
+      <label>
+        <input type="radio" name="umfrage[frage1]" value="Ambulante Versorgung">
+        Ambulante Versorgung
+      </label>
+    </p>
+  </li>
+
+  <li id="li2">
+    <p>
+      Wählen Sie bitte Ihre Funktion aus:
+    </p>
+    <p>
+      <label>
+        <input type="radio" name="umfrage[frage2]" value="Pflegefachkraft">
+        Pflegefachkraft
+      </label>
+      <label>
+        <input type="radio" name="umfrage[frage2]" value="Pflegehilfskraft">
+        Pflegehilfskraft
+      </label>
+      <label>
+        <input type="radio" name="umfrage[frage2]" value="Arzthelfer*in/MFA">
+        Arzthelfer*in/MFA
+      </label>
+      <label>
+        <input type="radio" name="umfrage[frage2]" value="Auszubildende*r">
+        Auszubildende*r
+      </label>
+      <label>
+        <input type="radio" name="umfrage[frage2]" value="Student*in">
+        Student*in
+      </label>
+      <label>
+        <input type="radio" name="umfrage[frage2]" value="Sonstiges">
+        Sonstiges
+      </label>
+    </p>
+  </li>
+
+  <li id="li3">
+    <p>
+      Haben Sie schon Erfahrungen damit gemacht, dass Patient*innen mit bekannten psychiatrischen Vorerkrankungen benachteiligt wurden? (Umgangssprachlich, dass die bestehenden Symptome „auf Psycho geschoben“ wurden, ohne ausreichende Diagnostik)
+    </p>
+    <p>
+      <label>
+        <input type="radio" name="umfrage[frage3]" value="Ja">
+        Ja
+      </label>
+      <label>
+        <input type="radio" name="umfrage[frage3]" value="Nein">
+        Nein
+      </label>
+    </p>
+  </li>
+
+  <li id="li4">
+    <p>
+      Wurden Patient*innen dadurch gefährdet? (Eigene Einschätzung)
+    </p>
+    <p>
+      <label>
+        <input type="radio" name="umfrage[frage4]" value="Ja, leicht">
+        Ja, leicht
+      </label>
+      <label>
+        <input type="radio" name="umfrage[frage4]" value="Ja, schwer (bis zur Invalidität)">
+        Ja, schwer (bis zur Invalidität)
+      </label>
+      <label>
+        <input type="radio" name="umfrage[frage4]" value="Ja, das Ereignis hat bis zum Tode geführt (auch nicht offiziell)">
+        Ja, das Ereignis hat bis zum Tode geführt (auch nicht offiziell)
+      </label>
+      <label>
+        <input type="radio" name="umfrage[frage4]" value="Nein">
+        Nein
+      </label>
+    </p>
+  </li>
+
+  <li id="li5">
+    <p>
+      Können Sie ein Beispiel anführen, wie Patient*innen mit psychischer Erkrankung benachteiligt wurden? (Aus eigener Erfahrung, Teambesprechung, etc.)
+    </p>
+    <p>
+      <textarea name="umfrage[frage5]" cols="80" rows="10">
+      </textarea>
+    </p>
+    Frage fakultativ
+  </li>
+
+  <li id="li6">
+    <p>
+      Wurden in Ihrer Einrichtung Maßnahmen ergriffen, um die Versorgung der Menschen mit psychischen Erkrankungen sicher zu stellen?
+    </p>
+    <p>
+      <label>
+        <input type="radio" name="umfrage[frage6]" value="Ja">
+        Ja
+      </label>
+      <label>
+        <input type="radio" name="umfrage[frage6]" value="Nein">
+        Nein
+      </label>
+    </p>
+  </li>
+
+  <li id="li7">
+    <p>
+      Wenn ja, welche Maßnahmen sind das?
+    </p>
+    <p>
+      <textarea name="umfrage[frage7]" cols="80" rows="10">
+      </textarea>
+    </p>
+    Frage fakultativ
+  </li>
+
+</ol>
+
+  <input type="submit" value="Datei senden"/>
+
+<% end %>

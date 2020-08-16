@@ -1,0 +1,2 @@
+module UmfragesHelper
+end

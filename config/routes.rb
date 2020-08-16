@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  # resources :umfrages
+  get 'umfrage' => 'umfrages#new'
+  post 'umfrage' => 'umfrages#create'
+  get 'umfrage/vielen_dank' => 'umfrages#vielen_dank'
+  get 'umfrage_ergebnis' => 'umfrages#index'
+  resources :vk_accounts
   resources :calendar2020s, except: [:edit]
   get 'calendar2020s/:day/edit' => 'calendar2020s#edit'
 
