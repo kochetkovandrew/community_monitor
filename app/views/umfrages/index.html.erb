@@ -3,7 +3,6 @@
 <ol>
   <% @umfrages.each do |umfrage| %>
   <li>
-    <p>Um: <%= umfrage.created_at %></p>
     <% result = JSON.parse umfrage.result %>
     <% result.each do |k, val| %>
       <p>
