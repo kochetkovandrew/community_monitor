@@ -213,11 +213,11 @@ class Community < ActiveRecord::Base
           topic.created_at = Time.at(topic_hash[:created])
           topic.updated_at = Time.at(topic_hash[:updated])
           topic.save(touch: false)
-          topic.get_comments(vk)
+          topic.get_comments(vk, force)
           new_found = true
         else
           if Time.at(topic_hash[:updated]) != topic.updated_at
-            topic.get_comments(vk)
+            topic.get_comments(vk, force)
             topic.update_attributes(updated_at: Time.at(topic_hash[:updated]))
           end
         end

@@ -1,6 +1,6 @@
 task :get_new_posts => :environment do |t, args|
   vk_renew_lock do
-    Community.all.each do |community|
+    Community.where('not disabled').all.each do |community|
       begin
         community.get_wall
       rescue => e

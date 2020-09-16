@@ -11,3 +11,4 @@ jQuery ->
       method: 'PATCH'
       url: '/purge'
       data: { posts: arr, access_key: $('input[name=access_key]').val() }
+#      complete()

@@ -1,5 +1,5 @@
 task get_topics: :environment do
-  Community.all.each do |community|
+  Community.where('not disabled').all.each do |community|
     begin
       community.get_topics
     rescue => e
