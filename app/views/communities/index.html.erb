@@ -19,7 +19,7 @@
     <% @communities.each do |community| %>
       <tr>
         <td width="8px;">
-          <% if community.monitor_members %>
+          <% if !community.disabled %>
               <i class="fa fa-cherry fa-star fa-lg"></i>
           <% end %>
         </td>
