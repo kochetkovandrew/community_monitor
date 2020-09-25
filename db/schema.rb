@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_16_165226) do
+ActiveRecord::Schema.define(version: 2020_09_25_062242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 2020_09_16_165226) do
     t.string "access_token"
     t.jsonb "raw"
     t.bigint "permission_id"
-    t.boolean "disabled"
+    t.boolean "disabled", null: false
     t.index ["permission_id"], name: "index_communities_on_permission_id"
   end
 
