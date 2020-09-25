@@ -2,7 +2,7 @@ def vk_lock
   File.open(Rails.root.join('tmp', 'vk.lock'), File::RDWR|File::CREAT, 0644) do |f|
     f.flock(File::LOCK_EX)
     res = yield
-    sleep 0.35
+    sleep 0.5
     f.flock(File::LOCK_UN)
     return res
   end
