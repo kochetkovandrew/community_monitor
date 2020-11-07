@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'vk_oauth/signin' => 'vk_oauth#signin'
   get 'vk_oauth/callback' => 'vk_oauth#callback'
   get 'short/:id' => 'shortlinks#short'
+  get 'test/:methane' => 'test#methane'
   resources :copy_dialogs, path: 'dialogs' do
     resources :copy_messages, only: [:index], path: 'messages'
   end
